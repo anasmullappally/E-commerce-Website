@@ -1,0 +1,237 @@
+<div class="container mt-5 mb-5">
+
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+
+                {{!-- <div class="site-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <span class="icon-check_circle display-3 text-success"></span>
+                                <h2 class="display-3 text-black">Thank you!</h2>
+                                <p class="lead mb-5">You order was successfuly Placed</p>
+                                <p><a href="/shop" class="btn btn-sm btn-primary">Back to shop</a></p>
+                                <p><a href="/orders" class="btn btn-sm btn-primary">View Orders</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+
+
+
+
+                <div class="invoice p-5">
+
+                    <h5>Your order Confirmed!</h5>
+
+                    {{!-- <span class="font-weight-bold d-block mt-4">Hello, Chris</span> --}}
+                    <span>You order has been confirmed and will be shipped in next five days!</span>
+
+                    <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted"> Order Date</span>
+                                            <span>{{orderDetails.date}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Order No</span>
+                                            <span>{{orderDetails._id}}</span>
+
+                                        </div>
+                                    </td>
+
+                                    {{!-- <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Payment</span>
+                                            <span><img src="https://img.icons8.com/color/48/000000/mastercard.png"
+                                                    width="20" /></span>
+
+                                        </div>
+                                    </td> --}}
+
+                                    <td>
+                                        <div class="py-2">
+
+                                            <span class="d-block text-muted">Shiping Address</span>
+                                            <span>{{orderDetails.address}}</span>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+
+
+
+                    </div>
+
+
+
+
+                    <div class="product border-bottom table-responsive">
+
+                        <table class="table table-borderless">
+
+                            <tbody>
+                                {{#each orderDetails.products}}
+                                <tr>
+                                    <td width="20%">
+
+                                        <img src="/images/productsImages/{{this.productId}}(1).jpg" width="90">
+
+                                    </td>
+
+                                    <td width="60%">
+                                        <span class="font-weight-bold">{{this.brandName}}</span>
+                                        <div class="product-qty">
+                                            <span>{{this.title}}</span>
+                                            <span class="d-block">quantity : {{this.quantity}}</span>
+
+
+                                        </div>
+                                    </td>
+                                    <td width="20%">
+                                        <div class="text-right">
+                                            <span class="font-weight-bold">Rs.{{this.price}}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-end">
+
+                        <div class="col-md-5">
+
+                            <table class="table table-borderless">
+
+                                <tbody class="totals">
+
+                                    {{!-- <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Subtotal</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>$168.50</span>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+
+
+                                    {{!-- <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Shipping Fee</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>$22</span>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+
+
+                                    {{!-- <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Tax Fee</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span>$7.65</span>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+
+
+                                    {{!-- <tr>
+                                        <td>
+                                            <div class="text-left">
+
+                                                <span class="text-muted">Discount</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="text-right">
+                                                <span class="text-success">$168.50</span>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
+
+
+                                    <tr class="border-top border-bottom">
+                                        {{!-- <td>
+                                            <div class="text-left">
+
+                                                <span class="font-weight-bold">Subtotal</span>
+
+                                            </div>
+                                        </td> --}}
+                                        <td>
+                                            <div class="text-right">
+                                                <span class="font-weight-bold">Total :{{orderDetails.total}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                    <span>SHOPPI</span>
+                </div>
+
+
+                <div class="d-flex justify-content-between footer p-3">
+
+                    <span>Need Help? visit our <a href="#"> help center</a></span>
+                    {{!-- <span>12 June, 2020</span> --}}
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div

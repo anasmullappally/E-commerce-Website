@@ -1,0 +1,432 @@
+<div class="container">
+
+
+    <div class="row">
+        <div class=" col-md-6 col-lg-4 mx-auto " onload="display()">
+            <h1 class="  mb-5 mt-5 ms-5">Add New Product </h1>
+            <form action="/vendor/addproduct" method="post" enctype="multipart/form-data">
+
+                <table class="table table-borderless">
+                    <tr>
+                        <td>
+                            <p class="opacity-75">Category</p>
+                        </td>
+                        <td>
+                            <select id="category" onchange="show()" class="form-select opacity-75 "
+                                aria-label="Default select example" name="category">
+                                <option value="selected">Select </option>
+                                <option value="mobile">Mobile</option>
+                                <option value="laptops">Laptops</option>
+
+                            </select>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="opacity-75 ">Title</p>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="title" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75">Brand</p>
+                        </td>
+                        <td class="mobile">
+                            <select class="form-select opacity-75 " name="phonebrand"
+                                aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="samsung">SAMSUNG</option>
+                                <option value="LG">LG</option>
+                                <option value="oppo">OPPO</option>
+                                <option value="vivo">VIVO</option>
+                                <option value="mi">Mi</option>
+                                <option value="realme">REALME</option>
+                                <option value="apple">APPLE</option>
+                                <option value="google">GOOGLE</option>
+                                <option value="onePlus">ONE PLUS</option>
+                                <option value="nokia">NOKIA</option>
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p class="opacity-75">Price</p>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="price" min="0">
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75">RAM</p>
+                        </td>
+                        <td class="mobile">
+                            <select class="form-select opacity-75 " name="ram" aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="2 GB">2 GB</option>
+                                <option value="3 GB">3 GB</option>
+                                <option value="4 GB">4 GB</option>
+                                <option value="6 GB">6 GB</option>
+                                <option value="8 GB">8 GB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75">ROM</p>
+                        </td>
+                        <td class="mobile">
+                            <select class="form-select opacity-75 " name="rom" aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="32 GB">32 GB</option>
+                                <option value="64 GB">64 GB</option>
+                                <option value="128 GB">128 GB</option>
+                                <option value="256 GB">256 GB</option>
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75">DISPLAY</p>
+                        </td>
+                        <td class="mobile">
+                            <select class="form-select opacity-75 " name="mobiledisplay"
+                                aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="LCD">LCD</option>
+                                <option value="IPS LCD">IPS LCD</option>
+                                <option value="OLED">O LED</option>
+                                <option value="Amoled">AMOLED </option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75 ">PROCESSOR</p>
+                        </td>
+                        <td class="mobile">
+                            <input type="text" class="form-control" name="mobileprocessor">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="opacity-75">SCREEN SIZE</p>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="screenSize" min="0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="opacity-75"> QUANTITY</p>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="quantity" min="0">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="mobile">
+                            <p class="opacity-75">OPERATING SYSTEM</p>
+                        </td>
+                        <td class="mobile">
+                            <select class="form-select opacity-75 " name="mobileOs" aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="Android">ANDROID</option>
+                                <option value="IOS">IOS</option>
+
+
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75">Brand</p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="lapBrand" aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="lenovo">LENOVA</option>
+                                <option value="hp">HP</option>
+                                <option value="dell">DELL</option>
+                                <option value="acer">ACER</option>
+                                <option value="mi">Mi</option>
+                                <option value="realme">REALME</option>
+                                <option value="apple">APPLE</option>
+                                <option value="google">GOOGLE</option>
+                                <option value="asus">ASUS</option>
+                                <option value="vaio">VAIO</option>
+                                <option value="msi">MSI</option>
+
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75">PROCESSOR BRAND</p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="processorBrand"
+                                aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="AMD RAYZEN">AMD</option>
+                                <option value="INTEL">Intel</option>
+                                <option value="QUALCOMM">Qualcomm</option>
+                                <option value="MEDIATEK">Media Tek</option>
+                                <option value="APPLE">APPLE</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75">RAM CAPACITY</p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="lapRam" aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="4GB">4 GB</option>
+                                <option value="8GB">8 GB</option>
+                                <option value="16GB">16 GB</option>
+                                <option value="32GB">32 GB</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75 ">Occassion</p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="occassion"
+                                aria-label="Default select example">
+                                <option selected value="">Select </option>
+                                <option value="Gaming">Gaming</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Proffesional">Proffesional</option>
+
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75">OPERATIN SYSTEM</p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="lapOs" aria-label="Default select example">
+                                <option selected value=""> Select </option>
+                                <option value="WINDOWS">WINDOWS</option>
+                                <option value="LINUX">LINUX</option>
+                                <option value="MAC">MAC</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75">SSD CAPACITY </p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="ssdCapacity"
+                                aria-label="Default select example">
+                                <option selected value=""> Select </option>
+                                <option value="128 GB">128 GB</option>
+                                <option value="256 GB">256 GB</option>
+                                <option value="512 GB">512 GB</option>
+                                <option value="1 TB">1 TB</option>
+                                <option value="2 TB">2 TB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="laptop">
+                            <p class="opacity-75 ">HDD CAPACITY </p>
+                        </td>
+                        <td class="laptop">
+                            <select class="form-select opacity-75 " name="hddCapacity"
+                                aria-label="Default select example">
+                                <option selected value=""> Select </option>
+                                <option value="none">NONE</option>
+                                <option value="128gb">128 GB</option>
+                                <option value="256gb">256 GB</option>
+                                <option value="512gb">512 GB</option>
+                                <option value="1tb">1 TB</option>
+                                <option value="2tb">2 TB</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+
+
+        </div>
+
+    </div>
+    </td>
+    </tr>
+
+
+    </table>
+
+
+
+</div>
+<div class="col-md-6 mt-5 ">
+    {{!-- <h1 style="padding-left: 0.8em;" class="fs-2 text-warning mb-5 mt-5 ms-5">Add Images </h1> --}}
+    <div class="ms-5">
+        <h1 class="fs-2 text-warning mb-5 ms-5">Choose Images </h1>
+    </div>
+    <div class="row">
+
+        <div class="col-md-6 col-12">
+
+
+            <input type="file" accept="image/*" name="image1" id="imgfile" onchange="loadFile1(event)">
+
+            <p><img id="img1" width="200" height="200" /></p>
+
+
+        </div>
+        <div class="col-md-6 col-12">
+
+
+            <input type="file" accept="image/*" name="image2" id="imgfile" onchange="loadFile2(event)">
+
+            <p><img id="img2" width="200" height="200"></p>
+        </div>
+
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-6 col-12">
+
+
+            <input type="file" accept="image/*" name="image3" id="imgfile" onchange="loadFile3(event)">
+
+            <p><img id="img3" width="200" height="200" /></p>
+
+
+        </div>
+        <div class="col-md-6 col-12">
+
+
+            <input type="file" accept="image/*" name="image4" id="imgfile" onchange="loadFile4(event)">
+
+            <p><img id="img4" width="200" height="200"></p>
+        </div>
+
+
+    </div>
+
+    {{!-- <tr>
+        <td>
+            <p class="opacity-75">Select file:</p>
+        </td>
+        <td>
+            <input type="file" accept="image/*" name="image3" id="imgfile" onchange="loadFile3(event)">
+
+            <p><img id="img3" width="200" height="200" /></p>
+
+
+        </td>
+
+    </tr>
+    <tr>
+        <td>
+            <p class="opacity-75">Select file:</p>
+        </td>
+        <td>
+            <input type="file" accept="image/*" name="image4" id="imgfile" onchange="loadFile4(event)">
+
+            <p><img id="img4" width="200" height="200" /></p>
+
+
+        </td>
+
+    </tr>
+    </table> --}}
+
+</div>
+</div>
+<div class="row">
+    <div class="d-flex justify-content-center mt-5 mb-5 ">
+        <input class="btn btn-success " type="submit" value="submit">
+
+    </div>
+
+</div>
+</form>
+</div>
+{{!-- </div> --}}
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+        </div>
+    </div>
+</footer>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+
+<script>
+
+
+    function show() {
+        let x = document.getElementById('category').value
+
+        const laptopsTags = document.getElementsByClassName('laptop')
+        const mobileTags = document.getElementsByClassName('mobile')
+
+        if (x == "mobile") {
+            Array.from(mobileTags).forEach((element) => {
+                element.style.visibility = 'visible'
+
+            })
+
+        } else {
+            Array.from(mobileTags).forEach((element) => {
+                element.style.visibility = 'hidden'
+            })
+        }
+        if (x == "laptops") {
+            Array.from(laptopsTags).forEach((element) => {
+                element.style.visibility = 'visible'
+            })
+
+        } else {
+            Array.from(laptopsTags).forEach((element) => {
+                element.style.visibility = 'hidden'
+            })
+        }
+    }
+
+    var loadFile1 = function (event) {
+        const img = document.getElementById('img1')
+        img.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+    var loadFile2 = function (event) {
+        const img = document.getElementById('img2')
+        img.src = URL.createObjectURL(event.target.files[0]);
+    };
+    var loadFile3 = function (event) {
+        const img = document.getElementById('img3')
+        img.src = URL.createObjectURL(event.target.files[0]);
+    };
+    var loadFile4 = function (event) {
+        const img = document.getElementById('img4')
+        img.src = URL.createObjectURL(event.target.files[0]);
+    };
+
+
+</script>

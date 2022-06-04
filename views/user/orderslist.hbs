@@ -1,0 +1,64 @@
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">Order List</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+        <div class="row mb-5">
+            <form class="col-md-12" method="post">
+                <div class="site-blocks-table">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="product-thumbnail">Order ID</th>
+                                <th class="product-date">Date</th>
+                                <th class="product-name">Status</th>
+                                {{!-- <th class="product-image">Image</th> --}}
+                                <th class="product-price">Payment Methode</th>
+                                <th class="product-total">price</th>
+                                <th class="product-payment">Address</th>
+                                <th>View Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                <td class="product-name">
+                                    <h2 class="h5 text-black">{{orders._id}}</h2>
+                                </td>
+                                <td>{{orders.date}}</td>
+                                <td class="h5 text-black">{{orders.status}}</td>
+                                {{!-- <td class="product-thumbnail">
+                                    <img src="images/cloth_2.jpg" alt="Image" class="img-fluid">
+                                </td> --}}
+                               <td> {{orders.paymentmethod}}</td>
+                               <td>{{orders.total}}</td>
+                               <td>{{orders.address1}}</td>
+                               <td><a href="/vieworder/{{orders._id}}"> View</a></td>
+                            </tr>
+                             {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row mb-5">
+
+                    <div class="col-md-6">
+                        <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
+                    </div>
+                </div>
+
+            </div>
+           
+        </div>
+    </div>
+</div>

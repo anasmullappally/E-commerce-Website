@@ -1,0 +1,116 @@
+{{!-- <div class="wrapper">
+    <div class="logo">
+        <img src="https://cdn-icons.flaticon.com/png/512/2104/premium/2104141.png?token=exp=1653020277~hmac=cd2532370c2a558da065dc36d6b06177"
+            alt="">
+    </div>
+    <div class="text-center mt-4 name">
+        VENDOR REGISTRATION
+    </div>
+    <form class="p-3 mt-3" action="vendor/signup" method="post">
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user icon-person"></span>
+            <input type="text" name="email" id="userName" placeholder="Username">
+        </div>
+        <div class="form-field d-flex align-items-center ">
+            <span class="fas fa-key icon-lock2"></span>
+            <input type="password" name="password" id="pwd" placeholder="Password">
+        </div>
+        <button class="btn mt-3" type="submit">Login</button>
+    </form>
+    <div class="text-center fs-6">
+        <a>Already Have Account</a> <a href="">Sign-In</a>
+    </div>
+
+</div> --}}
+<section class="vh-100 ">
+    <div class="container py-5 h-100 ">
+        <div class="row justify-content-center align-items-center h-100 ">
+            <div class="col-12 col-lg-9 col-xl-7 ">
+                <div class="card shadow-2-strong card-registration bg-dark" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Vendor Registration Form</h3>
+                        <form action="/vendor/signup" method="post" id="vendorSignup">
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="firstName">First Name</label>
+                                        <input type="text" name="firstName" id="firstName"
+                                            class="form-control form-control-lg" />
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 mb-4">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" name="lastName"
+                                            class="form-control form-control-lg" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                    <div class="form-outline datepicker w-100">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control form-control-lg" id="" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                    <div class="form-outline datepicker w-100">
+                                        <label for="phone Number" class="form-label">Phone Number</label>
+                                        <input type="phoneNumber" name="phoneNumber"
+                                            class="form-control form-control-lg" id="" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="">Password</label>
+                                        <input type="password" id="" name="password"
+                                            class="form-control form-control-lg" />
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="password">Repeat Password</label>
+                                        <input type="password" id="" name="cPassword"
+                                            class="form-control form-control-lg" />
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="text-center fs-6">
+                                <a>Already Have an account</a> <a href="/vendor/login">Sign-In</a>
+                            </div>
+                            <div class="mt-4 pt-2">
+                                <button class="btn btn-primary btn-sm" type="submit"> SUBMIT</button>
+                                
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

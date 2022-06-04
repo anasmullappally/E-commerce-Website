@@ -1,0 +1,48 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" class="img-fluid"
+          alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <form action="/login" method="post" id="userLogin">
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form1Example13">Email address</label>
+            <input type="email" id="form1Example13" name="email" class="form-control form-control-lg" />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form1Example23">Password</label>
+            <input type="password" id="form1Example23" name="password" class="form-control form-control-lg" />
+          </div>
+
+          <div class="d-flex justify-content-around align-items-center mb-4">
+
+            {{#if loginErr}}
+            <p class="error form-check-label font-weight-bold text-danger">Invalid Credential</p>
+            {{/if}}
+            {{#if  blockedUser}}
+            <p class="error form-check-label font-weight-bold text-danger">User Blocked</p>
+            {{/if}}
+            <p class="mb-0">Don't have an account? <a href="/signup" class=" fw-bold">Sign Up</a>
+            </p>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{!-- <script type="text/javascript">
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+</script --}}

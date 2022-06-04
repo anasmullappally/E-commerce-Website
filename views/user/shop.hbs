@@ -1,0 +1,489 @@
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">Shop</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-md-9 order-2">
+
+                <div class="row">
+                    <div class="col-md-12 mb-5">
+                        <div class="float-md-left mb-4">
+                            <h2 class="text-black h5">Shop All</h2>
+                        </div>
+                        <div class="d-flex">
+                            <div class="dropdown mr-1 ml-md-auto">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
+                                    id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Latest
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                                    <a class="dropdown-item" href="#">Mobiles</a>
+                                    <a class="dropdown-item" href="#">Laptop</a>
+
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle"
+                                    id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                    <a class="dropdown-item" href="#">Relevance</a>
+                                    <a class="dropdown-item" href="#">Name, A to Z</a>
+                                    <a class="dropdown-item" href="#">Name, Z to A</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Price, low to high</a>
+                                    <a class="dropdown-item" href="#">Price, high to low</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row mb-5">
+                        {{#each products}}
+
+                        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                            <div class="block-4 text-center border pt-3 h-100">
+                                <figure class="block-4-image ">
+                                    <a href="/shop/{{products._id}}"><img
+                                            src="images/productsImages/{{products._id}}(1).jpg" alt="Image placeholder"
+                                            style=" height: 200px !important;object-fit: cover;object-position: center;"></a>
+                                </figure>
+                                <div class="block-4-text p-4">
+
+                                    <h3><a>{{products.title}}</a></h3>
+                                    {{#if products.mobile}}
+                                    <p class="mb-0">{{products.ram}}/{{products.rom}} </span> </p>
+                                    {{else}}
+                                    <p class="mb-0">{{products.occassion}} </span> </p>
+                                    {{/if}}
+                                    <p class="text-primary font-weight-bold">${{products.price}}</p>
+                                </div>
+                                {{!-- <div class="block-4-text p-4">
+                                    {{#if products.deleted}}
+
+                                    <p class="d-flex mb-0 d-block"><a href=""
+                                            class="btn btn-danger btn-sm py-2  ml-1">OUT Of Stock</a></p>
+                                    {{else}}
+                                    <p class="d-flex mb-0 d-block"><a href="/shop/addtocart/{{products._id}}"
+                                            class="btn btn-secondary btn-sm py-2  ml-1">add to
+                                            cart</a></p>
+
+                                    {{/if}}
+                                </div> --}}
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+
+ <section class="product_section layout_padding">
+         <div class="container">
+            <div class="heading_container heading_center">
+               <h2>
+                  Our <span>products</span>
+               </h2>
+            </div>
+            <div class="row">
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Men's Shirt
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p1.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $75
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p2.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $80
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p3.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $68
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p4.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $70
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p5.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $75
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p6.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $58
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p7.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $80
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p8.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $65
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p9.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $65
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p10.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $65
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p11.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Men's Shirt
+                        </h5>
+                        <h6>
+                           $65
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-6 col-md-4 col-lg-3">
+                  <div class="box">
+                     <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Add To Cart
+                           </a>
+                           <a href="" class="option2">
+                           Buy Now
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="images/p12.png" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           Women's Dress
+                        </h5>
+                        <h6>
+                           $65
+                        </h6>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="btn-box">
+               <a href="">
+               View All products
+               </a>
+            </div>
+         </div>
+      </section>
+
+
+
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-12 text-center">
+                        <div class="site-block-27">
+                            <ul>
+                                <li><a href="#">&lt;</a></li>
+                                <li class="active"><span>1</span></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">&gt;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 order-1 mb-5 mb-md-0">
+                <div class="border p-4 rounded mb-4">
+                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1"><a href="#" class="d-flex"><span>Mobile</span> <span
+                                    class="text-black ml-auto">(2,220)</span></a></li>
+                        <li class="mb-1"><a href="#" class="d-flex"><span>Laptop</span> <span
+                                    class="text-black ml-auto">(2,550)</span></a></li>
+
+                    </ul>
+                </div>
+
+                <div class="border p-4 rounded mb-4">
+                    <div class="mb-4">
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                        <div id="slider-range" class="border-primary"></div>
+                        <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white"
+                            disabled="" />
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
+                        <label for="s_sm" class="d-flex">
+                            <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">Samsung
+                                (2,319)</span>
+                        </label>
+                        <label for="s_md" class="d-flex">
+                            <input type="checkbox" id="s_md" class="mr-2 mt-1"> <span class="text-black">Apple
+                                (1,282)</span>
+                        </label>
+                        <label for="s_lg" class="d-flex">
+                            <input type="checkbox" id="s_lg" class="mr-2 mt-1"> <span class="text-black">Realme
+                                (1,392)</span>
+                        </label>
+                        <label for="s_lg" class="d-flex">
+                            <input type="checkbox" id="s_lg" class="mr-2 mt-1"> <span class="text-black">Mi
+                                (1,526)</span>
+                        </label>
+                    </div>
+
+                    {{!-- <div class="mb-4">
+                        <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
+                        <a href="#" class="d-flex color-item align-items-center">
+                            <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span
+                                class="text-black">Red (2,429)</span>
+                        </a>
+                        <a href="#" class="d-flex color-item align-items-center">
+                            <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span
+                                class="text-black">Green (2,298)</span>
+                        </a>
+                        <a href="#" class="d-flex color-item align-items-center">
+                            <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span
+                                class="text-black">Blue (1,075)</span>
+                        </a>
+                        <a href="#" class="d-flex color-item align-items-center">
+                            <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span
+                                class="text-black">Purple (1,075)</span>
+                        </a>
+                    </div> --}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

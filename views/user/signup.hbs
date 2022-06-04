@@ -1,0 +1,109 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" class="img-fluid"
+          alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <form action="/signup" method="post" id="userSignup">
+
+          <div class="row">
+            <div class="col-md-6 mb-4">
+
+              <div class="form-outline">
+                <label class="form-label" for="firstName">First Name</label>
+                <input type="text" id="firstName" name="fName" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+            <div class="col-md-6 mb-4">
+
+              <div class="form-outline">
+                <label class="form-label" for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lName" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-6 mb-4">
+
+              <div class="form-outline">
+                <label class="form-label" for="">Phone Number</label>
+                <input type="text" id="PhoneNumber" name="pNumber" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+
+
+            <div class="col-md-6 mb-4">
+
+              <h6 class="mb-2 pb-1">Gender: </h6>
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="female" checked />
+                <label class="form-check-label" for="femaleGender">Female</label>
+              </div>
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="maleGender" value="male" />
+                <label class="form-check-label" for="maleGender">Male</label>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <label class="form-label" for="emailAddress">Email</label>
+                <input type="email" id="emailAddress" name="email" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <label class="form-label" for="Cpassword">Confirm Password</label>
+                <input type="password" id="Cpassword" name="cPassword" class="form-control form-control-lg" />
+
+              </div>
+
+            </div>
+          </div>
+          {{#if alreadyexist}}
+          <p>User already exists</p>
+          {{/if}}
+
+          <div class="mt-4 pt-2">
+
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section

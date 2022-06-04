@@ -1,0 +1,41 @@
+<div class=" container">
+    <div class="text-center">
+        <h2>USER MANAGEMENT </h2>
+        <table id="userTable" class="display  table table-striped table-dark">
+            <thead>
+                <tr class="table-warning  ">
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>View </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{this._id}}</td>
+                    <td>{{this.fName}}</td>
+                    <td>{{this.email}}</td>
+
+                    {{#if this.isActive}}
+                    <td><a href="/admin/block/{{this._id}}" class="btn btn-danger  btn-sm">Block</a></td>
+                    {{else}}
+                    <td><a href="/admin/unblock/{{this._id}}" class="btn btn-success btn-sm">Unblock</a></td>
+                    {{/if}}
+                    <td><a href="/admin/delete-user/{{this._id}}" class="btn btn-primary">Veiw</a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let table = new DataTable('#userTable');
+    });
+</script>

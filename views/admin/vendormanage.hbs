@@ -1,0 +1,40 @@
+<div class=" container">
+
+
+    <table id="vendorTable" class="display  table ">
+        <thead>
+            <tr class="table-warning ">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>View </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each vendors}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.email}}</td>
+
+                {{#if this.isActive}}
+                <td><a href="/admin/vblock/{{this._id}}" class="btn btn-danger  btn-sm">Block</a></td>
+                {{else}}
+                <td><a href="/admin/vunblock/{{this._id}}" class="btn btn-success btn-sm">Unblock</a></td>
+                {{/if}}
+                <td><a href="" class="btn btn-primary">Veiw</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let table = new DataTable('#VendorTable');
+    });
+</script>

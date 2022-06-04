@@ -1,0 +1,35 @@
+<div class="wrapper">
+	<div class="logo">
+		<img src="https://cdn-icons-png.flaticon.com/512/2345/2345338.png"
+			alt="">
+	</div>
+	<div class="text-center mt-4 name">
+		VENDOR
+	</div>
+	<form class="p-3 mt-3" action="/vendor/login" method="post" id="vendorLogin">
+		<div class="form-field d-flex align-items-center">
+			<span class="far fa-user icon-person"></span>
+			<input type="text" name="email" id="userName" placeholder="Username">
+		</div>
+		
+		<div class="form-field d-flex align-items-center ">
+			<span class="fas fa-key icon-lock2"></span>
+			<input type="password" name="password" id="pwd" placeholder="Password">
+		</div>
+		 <div class="d-flex justify-content-around align-items-center mb-4">
+
+            {{#if loginError}}
+            <p class="error form-check-label font-weight-bold text-danger">Invalid Credential</p>
+            {{/if}}
+            {{#if  blockedVendor}}
+            <p class="error form-check-label font-weight-bold text-danger">User Blocked</p>
+            {{/if}}
+            
+          </div>
+		<button class="btn mt-3" type="submit">Login</button>
+	</form>
+	<div class="text-center fs-6">
+		<a>New to Here</a> <a href="vendor/signup">Sign up</a>
+	</div>
+
+</div>
