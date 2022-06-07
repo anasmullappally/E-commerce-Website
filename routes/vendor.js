@@ -94,7 +94,7 @@ router.post('/addproduct', (req, res) => {
         addImage(req.files.image4, 4, id)
       }
     }
-    res.render('vendor/product-added',{vendor :req.session.vendor})
+    res.render('vendor/product-added', { vendor: req.session.vendor })
   })
 })
 

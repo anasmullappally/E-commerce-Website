@@ -59,7 +59,7 @@ module.exports = {
                 { $match: { 'products._id': ObjectId(productId) } },
                 { $project: { products: 1, _id: 0 } }
             ]).toArray()
-            resolve(product)
+            resolve(product[0])
         })
     },
     profileDetails: (userId) => {
@@ -119,18 +119,35 @@ module.exports = {
         ]).toArray()
         resolve(wishlist)
     }),
-    deleteProductWishlist : (product) => new Promise(async (resolve) => {
-        console.log(product.wishlist);
+    deleteProductWishlist: (product) => new Promise(async (resolve) => {
         await db.get().collection(collection.USER_COLLECTION).updateOne(
             {
                 'wishlist.wishlist_id': ObjectId(product.wishlist),
             },
             { $pull: { wishlist: { wishlist_id: ObjectId(product.wishlist) } } },
         ).then((response) => {
-            console.log(response);
             resolve(response)
         })
     }),
+    updateProfile: (data, userId) => {
+        return new Promise(async (resolve) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne(
+                { _id: ObjectId(userId) },
+                {
+                    $set: {
+                        fName: data.firstName,
+                        lName: data.lastName,
+                        pNumber: data.phoneNum,
+                        email: data.email
+
+                    }
+                }
+            ).then((response)=>{
+                console.log(response);
+            })
+
+        })
+    }
 
 
 }

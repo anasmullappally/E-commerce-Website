@@ -32,7 +32,8 @@
 
               <tr>
                 <td class="product-thumbnail">
-                  <img src="/images/productsImages/{{cart.productId}}(1).jpg" alt="Image" class="img-fluid " style="width:5rem ; height:6rem ;">
+                  <img src="/images/productsImages/{{cart.productId}}(1).jpg" alt="Image" class="img-fluid "
+                    style="width:5rem ; height:6rem ;">
                 </td>
                 <td class="product-name">
                   <h2 class="h5 text-black">{{cart.title}}</h2>
@@ -42,15 +43,15 @@
                   <div class="input-group mb-3" style="max-width: 120px;">
                     <div class="input-group-prepend">
 
-                      <button onclick="changeQuantity('{{cart.cart_id}}','{{user._id}}',-1)"
+                      <button onclick="changeQuantity('{{cart.cart_id}}',-1)"
                         class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
 
                     </div>
                     <input type="text" class="form-control text-center" value="{{cart.quantity}}" placeholder=""
                       aria-label="Example text with button addon" aria-describedby="button-addon1">
                     <div class="input-group-append">
-                      <button onclick="changeQuantity('{{cart.cart_id}}','{{user._id}}',1)"
-                        class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                      <button onclick="changeQuantity('{{cart.cart_id}}',1)" class="btn btn-outline-primary js-btn-plus"
+                        type="button">&plus;</button>
                     </div>
                   </div>
 

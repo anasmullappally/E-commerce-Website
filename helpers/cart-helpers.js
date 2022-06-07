@@ -22,6 +22,8 @@ module.exports = {
     } else {
         await vendorHelpers.getProductDetails(productId).then(async (response) => {
           const productDetails = response.products
+          console.log(5854458);
+          console.log(productDetails);
           const cart_id = new ObjectId()
           await db.get().collection(collection.USER_COLLECTION).updateOne(
             { _id: ObjectId(userId) },

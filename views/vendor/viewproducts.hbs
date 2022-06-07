@@ -9,6 +9,7 @@
                 <th>Brand</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Image</th>
                 <th>Option</th>
             </tr>
         </thead>
@@ -16,6 +17,8 @@
         <tbody>
             {{#each products}}
             {{#each this}}
+            {{#if this.deleted}}
+            {{else}}
             <tr>
                 <td>{{this._id}}</td>
                 {{#if this.mobile}}
@@ -26,6 +29,7 @@
                 <td>{{this.brand}}</td>
                 <td>{{this.price}}</td>
                 <td>{{this.quantity}}</td>
+               <td> <img src="/images/productsImages/{{this._id}}(1).jpg" alt="" style="height: 5rem; width:4rem;"></td>
 
 
                 <td><a href="/vendor/deleteProduct/{{this._id}}" class="icon-delete mr-3"
@@ -33,7 +37,9 @@
                     <a href="/vendor/editProduct/{{this._id}}" class="icon-mode_edit mr-3"></a>
                     <a href="/vendor/viewProduct/{{this._id}}" class="icon-pageview"></a>
                 </td>
+                 
             </tr>
+            {{/if}}
             {{/each}}
             {{/each}}
         </tbody>

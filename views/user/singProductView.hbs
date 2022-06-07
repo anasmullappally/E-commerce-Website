@@ -1,11 +1,11 @@
-{{#each product}}
+
 
 <div class="site-wrap">
   <div class="bg-light py-3">
     <div class="container">
       <div class="row">
         <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
-            class="text-black">{{this.products.title}}</strong></div>
+            class="text-black">{{product.products.title}}</strong></div>
       </div>
     </div>
   </div>
@@ -14,48 +14,139 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="/images/productsImages/{{this.products._id}}(1).jpg" alt="Image" class="img-fluid">
+          <img src="/images/productsImages/{{product.products._id}}(1).jpg" alt="Image" class="img-fluid">
         </div>
         <div class="col-md-6">
-          <h2 class="text-black">{{this.products.title}}</h2>
-          {{#if this.products.mobile}}
-          <p>RAM :{{this.products.ram}} / ROM :{{this.products.rom}}</p>
-          <p>PROCESSOR : {{this.products.processor}}</p>
+          <h2 class="text-black">{{product.products.title}}</h2>
+          {{#if product.products.mobile}}
+          <p>RAM :{{product.products.ram}} / ROM :{{product.products.rom}}</p>
+          <p>PROCESSOR : {{product.products.processor}}</p>
           <p>OPERATING SYSTEM : {{this.products.os}}</p>
-          <p>Display : {{this.products.display}} </p>
-          <p>Screen Size : {{this.products.screenSize}}</p>
+          <p>Display : {{product.products.display}} </p>
+          <p>Screen Size : {{product.products.screenSize}}</p>
 
           {{else}}
-          <p>OCCASSION :{{this.products.occassion}} </p>
-          <p>S S D :{{this.products.ssd}} </p>
-          <p>H D D :{{this.products.hdd}} </p>
-          <p>RAM :{{this.products.ram}} </p>
-          <p>PROCESSOR : {{this.products.processorBrand}}</p>
-          <p>Screen Size : {{this.products.screenSize}} Inch</p>
+          <p>OCCASSION :{{product.products.occassion}} </p>
+          <p>S S D :{{product.products.ssd}} </p>
+          <p>H D D :{{product.products.hdd}} </p>
+          <p>RAM :{{product.products.ram}} </p>
+          <p>PROCESSOR : {{product.products.processorBrand}}</p>
+          <p>Screen Size : {{product.products.screenSize}} Inch</p>
 
 
           {{/if}}
-          <p><strong class="text-primary h4">${{this.products.price}}</strong></p>
+          <p><strong class="text-primary h4">${{product.products.price}}</strong></p>
 
-          {{!-- <div class="mb-5">
-            <div class="input-group mb-3" style="max-width: 120px;">
-              <div class="input-group-prepend">
-                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-              </div>
-              <input type="text" class="form-control text-center" value="1" placeholder=""
-                aria-label="Example text with button addon" aria-describedby="button-addon1">
-              <div class="input-group-append">
-                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-              </div>
-            </div>
-
-          </div> --}}
-          <p><a href="/shop/{{this.products._id}}/addtocart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+          
+          <p><a href="/shop/{{product.products._id}}/addtocart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
 
         </div>
-      </div>
-    </div>
-  </div>
 
-  {{/each}}
+
+      </div>
+
+    
+      {{#if user}}
+      <form action="/review/" method="post">
+        
+        <div class="container">
+          <h4>Enter Your Name</h4>
+          <div class="form-group">
+            <input style=" width: 25rem;" type="name" class="form-control" name="name" placeholder="Enter your name">
+          </div>
+          <h4>Enter Your Review</h4>
+          <div class="form-group">
+            <textarea style=" width: 25rem; height: 10rem;" class="form-control" name="review" rows="5"></textarea>
+          </div>
+
+          <h4>Rate Your Star</h4>
+          <fieldset class="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" class="full"
+              title="Awesome"></label>
+            <input type="radio" id="star4.5" name="rating" value="4.5" /><label for="star4.5" class="half"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" class="full"></label>
+            <input type="radio" id="star3.5" name="rating" value="3.5" /><label for="star3.5" class="half"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" class="full"></label>
+            <input type="radio" id="star2.5" name="rating" value="2.5" /><label for="star2.5" class="half"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" class="full"></label>
+            <input type="radio" id="star1.5" name="rating" value="1.5" /><label for="star1.5" class="half"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" class="full"></label>
+            <input type="radio" id="star0.5" name="rating" value="0.5" /><label for="star0.5" class="half"></label>
+          </fieldset>
+        </div>
+        <div class="mt-5 me-5">
+          <button type="submit" class="btn btn-success mt-5 ">submit</button>
+        </div>
+      </form>
+      {{/if}}
+    </div>
+
+
+
+  </div>
 </div>
+
+
+</div>
+
+<style>
+  @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css);
+
+
+  /*styling star rating*/
+  .rating {
+    border: none;
+    float: left;
+  }
+
+  .rating>input {
+    display: none;
+  }
+
+  .rating>label:before {
+    content: '\f005';
+    font-family: FontAwesome;
+    margin: 5px;
+    font-size: 1.5rem;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .rating>.half:before {
+    content: '\f089';
+    position: absolute;
+    cursor: pointer;
+  }
+
+
+  .rating>label {
+    color: #ddd;
+    float: right;
+    cursor: pointer;
+  }
+
+  .rating>input:checked~label,
+  .rating:not(:checked)>label:hover,
+  .rating:not(:checked)>label:hover~label {
+    color: #e6be2c;
+  }
+
+  .rating>input:checked+label:hover,
+  .rating>input:checked~label:hover,
+  .rating>label:hover~input:checked~label,
+  .rating>input:checked~label:hover~label {
+    color: #e6be2c;
+  }
+</style>
+<script>
+  let star = document.querySelectorAll('input');
+  let showValue = document.querySelector('#rating-value');
+
+  for (let i = 0; i < star.length; i++) {
+    star[i].addEventListener('click', function () {
+      i = this.value;
+
+      showValue.innerHTML = i + " out of 5";
+    });
+  }
+</script>

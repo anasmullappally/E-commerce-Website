@@ -4,7 +4,7 @@ const session = require('express-session')
 const async = require('hbs/lib/async')
 const userHelpers = require('../helpers/user-helpers')
 const cartHelpers = require('../helpers/cart-helpers')
-const orderhelpers = require('../helpers/order--helpers')
+const orderhelpers = require('../helpers/order-helpers')
 const { redirect } = require('express/lib/response')
 const router = express.Router()
 let cartTotal, orderid
@@ -176,6 +176,7 @@ router.get('/cart', (req, res) => {
   }
 })
 router.post('/changeProductQuantity', (req, res) => {
+  console.log(req.body);
   cartHelpers.ChangeQuantity(req.body, req.session.user._id).then(() => {
     res.json({ status: true })
   })
@@ -219,7 +220,6 @@ router.post('/place-order', (req, res) => {
 router.get('/cart/orderplaced', (req, res) => {
   if (req.session.user) {
     orderhelpers.viewSingleOrder(orderid).then((orderDetails) => {
-      console.log(orderDetails);
       res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user })
     })
   } else {
@@ -277,7 +277,7 @@ router.get('/contact', (req, res) => {
   }
 })
 
-router.get ('/about',(req,res)=>{
+router.get('/about', (req, res) => {
   if (req.session.user) {
     user = req.session.user
     res.render('user/about', { user })
@@ -286,6 +286,21 @@ router.get ('/about',(req,res)=>{
   }
 })
 
+router.post('/updateUser',(req,res)=>{
+  data = {
+    firstName: req.body.firstName,
+    lastName :req.body.lastName,
+    email: req.body.email,
+    phoneNum : req.body.phoneNum,
+  }
+  userId = req.session.user._id
+  userHelpers.updateProfile(data,userId)
+})
+
+router.post('/review/:id',(req,res)=>{
+  console.log(req.params.id);
+  console.log(req.body);
+})
 
 router.get('/logout', (req, res) => {
   req.session.user = false
