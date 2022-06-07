@@ -38,7 +38,6 @@ module.exports = {
             },
           ).then((response) => {
             resolve(response)
-            console.log(response);
           })
         })
     }

@@ -97,16 +97,64 @@ router.get('/shop/:id', (req, res) => {
   }
 })
 
+router.post('/addtowishlist', (req, res) => {
+  if (req.session.user) {
+    let user = req.session.user
+    userHelpers.addTowishlist(req.body, user._id).then(() => {
+      res.json({ status: true })
+    })
+  } else {
+    // res.json({status:false})
+  }
+})
+
+router.get('/wishlist', (req, res) => {
+  if (req.session.user) {
+    user = req.session.user
+    userHelpers.viewWishlist(user).then((wishlist) => {
+      res.render('user/wishlist',  {user,wishlist} )
+    })
+  }else{
+    
+  }
+
+})
+
+router.post ('/removeWishlist', (req,res)=>{
+  if (req.session.user){
+    console.log(req.body);
+    userHelpers.deleteProductWishlist(req.body).then(()=>{
+      res.json({status:true})
+    })
+
+  }
+})
+
+router.get('/addtocart/:id', (req, res) => {
+  if (req.session.user) {
+    const { user } = req.session
+    cartHelpers.addToCart(req.params.id, user._id).then((response) => {
+      cartHelpers.getCartCount(user._id).then((count) => {
+        req.session.user.cartCount = count
+        res.redirect('/shop')
+      })
+    })
+  } else {
+    res.redirect('/login')
+  }
+})
+
 router.get('/shop/:id/addtoCart', (req, res) => {
   if (req.session.user) {
     const { user } = req.session
     cartHelpers.addToCart(req.params.id, user._id).then((response) => {
-      console.log(8547700);
-      console.log(response);
-      res.redirect(`/shop/${req.params.id}`)
+      cartHelpers.getCartCount(user._id).then((count) => {
+        req.session.user.cartCount = count
+        res.redirect(`/shop/${req.params.id}`)
+      })
     })
   } else {
-
+    res.redirect('/login')
   }
 })
 
@@ -133,9 +181,16 @@ router.post('/changeProductQuantity', (req, res) => {
   })
 })
 router.post('/deleteproduct', (req, res) => {
-  cartHelpers.deleteProduct(req.body).then((response) => {
-    res.json({ status: true })
-  })
+  if (req.session.user) {
+    let user = req.session.user
+    console.log(req.body);
+    cartHelpers.deleteProduct(req.body).then((response) => {
+      cartHelpers.getCartCount(user._id).then((count) => {
+        req.session.user.cartCount = count
+        res.json({ status: true })
+      })
+    })
+  }
 })
 
 router.get('/cart/checkout', (req, res) => {
@@ -155,21 +210,18 @@ router.post('/place-order', (req, res) => {
       res.json({ codSuccess: true })
     } else {
       orderhelpers.generateRazorpay(orderId, cartTotal).then((response) => {
-
         res.json(response)
       })
-
     }
   })
 })
+
 router.get('/cart/orderplaced', (req, res) => {
   if (req.session.user) {
     orderhelpers.viewSingleOrder(orderid).then((orderDetails) => {
       console.log(orderDetails);
       res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user })
     })
-
-
   } else {
     redirect('/')
   }
@@ -203,6 +255,19 @@ router.get('/vieworder/:id', (req, res) => {
     res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user })
   })
 })
+
+router.get('/profile', (req, res) => {
+  if (req.session.user) {
+    user = req.session.user
+    userHelpers.profileDetails(user._id).then((profile) => {
+      res.render('user/profile', { profile, user })
+    })
+
+  } else {
+    res.redirect('/login')
+  }
+})
+
 
 router.get('/logout', (req, res) => {
   req.session.user = false

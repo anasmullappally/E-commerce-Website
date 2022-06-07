@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const { promise, reject } = require('bcrypt/promises')
 const async = require('hbs/lib/async')
 const { ObjectId } = require('mongodb')
+const vendorHelpers = require('../helpers/vendor-helpers')
 
 
 module.exports = {
@@ -60,6 +61,76 @@ module.exports = {
             ]).toArray()
             resolve(product)
         })
-    }
+    },
+    profileDetails: (userId) => {
+        return new Promise(async (resolve) => {
+            let profile = await db.get().collection(collection.USER_COLLECTION).find(
+                { _id: ObjectId(userId) },
+                { _id: 1, orders: 0 }
+            ).toArray()
+            console.log(profile);
+            resolve(profile)
+        })
+    },
+    addTowishlist: (product, userId) => {
+        productid = product.productId
+        return new Promise(async (resolve) => {
+
+            let check = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                { $unwind: '$cart' },
+                {
+                    $match: {
+                        $and: [{ _id: ObjectId(userId) },
+                        { 'wishlist.productId': ObjectId(productid) }]
+                    }
+                },
+            ]).toArray()
+
+            if (check[0]) {
+                resolve()
+            } else {
+                await vendorHelpers.getProductDetails(productid).then(async (response) => {
+                    const productDetails = response.products
+                    const wishlist_id = new ObjectId()
+                    await db.get().collection(collection.USER_COLLECTION).updateOne(
+                        { _id: ObjectId(userId) },
+                        {
+                            $push: {
+                                wishlist: {
+                                    wishlist_id: ObjectId(wishlist_id),
+                                    productId: ObjectId(productid),
+                                    title: productDetails.title,
+                                    price: productDetails.price,
+                                },
+                            },
+                        },
+                    ).then((response) => {
+                        resolve(response)
+                    })
+                })
+            }
+        })
+    },
+    viewWishlist: (userData) => new Promise(async (resolve) => {
+        const wishlist = await db.get().collection(collection.USER_COLLECTION).aggregate([
+            { $match: { _id: ObjectId(userData._id) } },
+            { $unwind: '$wishlist' },
+            { $project: { wishlist: 1, _id: 0 } },
+        ]).toArray()
+        resolve(wishlist)
+    }),
+    deleteProductWishlist : (product) => new Promise(async (resolve) => {
+        console.log(product.wishlist);
+        await db.get().collection(collection.USER_COLLECTION).updateOne(
+            {
+                'wishlist.wishlist_id': ObjectId(product.wishlist),
+            },
+            { $pull: { wishlist: { wishlist_id: ObjectId(product.wishlist) } } },
+        ).then((response) => {
+            console.log(response);
+            resolve(response)
+        })
+    }),
+
 
 }

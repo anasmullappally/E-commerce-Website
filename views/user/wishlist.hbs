@@ -1,0 +1,82 @@
+<div class="site-wrap">
+
+    <div class="bg-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                        class="text-black">wishlist</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="site-section">
+        <div class="container">
+            <div class="row mb-5">
+                <form class="col-md-12" method="post">
+                    <div class="site-blocks-table">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">Image</th>
+                                    <th class="product-name">Product</th>
+                                    <th class="product-price">Price</th>
+
+                                    <th class="product-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each wishlist}}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <img src="/images/productsImages/{{wishlist.productId}}(1).jpg"
+                                            class="img-fluid" style="width:6rem ; height:7rem ;">
+                                    </td>
+                                    <td class="product-name">
+                                        <h2 class="h5 text-black">{{wishlist.title}}</h2>
+                                    </td>
+                                    <td>{{wishlist.price}}</td>
+                                    <td><button onclick="deletewishlistitem('{{wishlist.wishlist_id}}')"
+                                            class="btn btn-primary btn-sm">X</button></td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-5">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <button class="btn btn-primary btn-sm btn-block">Update Wishlist</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    function deletewishlistitem(wishlistId) {
+        $.ajax({
+            url: '/removeWishlist',
+            data: {
+                wishlist: wishlistId
+            },
+            method: 'post',
+            success: (response) => {
+                alert('deleted')
+                window.location.reload()
+            }
+        })
+    }
+</script>

@@ -1,0 +1,115 @@
+<body>
+    {{#each profile}}
+    {{!--
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    --}}
+    <section style="background-color: #eee;">
+        <div class="container pt-5 pb-2">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://cdn-icons.flaticon.com/png/512/3899/premium/3899618.png?token=exp=1654498127~hmac=fa61064fc341180fc3050223961e4679"
+                                alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h5 class="my-3">{{this.fName}} {{this.lName}} </h5>
+                            <p class="text-muted mb-1">{{this.email}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-12">
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{this.fName}} {{this.lName}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{this.email}} </p>
+                                </div>
+                            </div>
+
+
+
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0"> Mobile <i class="fa-solid fa-phone"> </i></p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{this.pNumber}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0"> State</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">Kerala</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">Peruvayal, Calicut, Kerala</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </section>
+    <section style="background-color: #eee;">
+        <div class="container ">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12 ">
+                    <div class="card mb-4 ">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="mb-0 ml-5  pl-5 "><b>Mine </b></p>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <div class="col-sm-12">
+                                <a href="/orders" class="mb-0 ml-4  ">Orders <b><i
+                                            class=" icon-list-alt  ps-2"></i></b></a>
+                            </div>
+                            <hr>
+                            <div class="col-sm-12">
+                                <a class="mb-0 ml-4 ">Wishlist <b><i class=" icon-heart-o  ps-2"></i></b></a>
+                            </div>
+                            <hr>
+                            <div class="col-sm-12">
+                                <a href="/cart" class="mb-0 ml-4 "> Cart <b><i
+                                            class=" icon-shopping_cart  ps-2"></i></b></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+    {{/each}}
+    {{!--
+    <script src="https://kit.fontawesome.com/d46ab11f99.js" crossorigin="anonymous"></script> --}}
+</body>
