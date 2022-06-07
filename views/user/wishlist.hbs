@@ -14,6 +14,7 @@
             <div class="row mb-5">
                 <form class="col-md-12" method="post">
                     <div class="site-blocks-table">
+                        {{#if wishlist}}
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -41,6 +42,7 @@
                                 {{/each}}
                             </tbody>
                         </table>
+                        {{/if}}
                     </div>
                 </form>
             </div>

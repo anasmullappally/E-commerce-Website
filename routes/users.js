@@ -112,19 +112,19 @@ router.get('/wishlist', (req, res) => {
   if (req.session.user) {
     user = req.session.user
     userHelpers.viewWishlist(user).then((wishlist) => {
-      res.render('user/wishlist',  {user,wishlist} )
+      res.render('user/wishlist', { user, wishlist })
     })
-  }else{
-    
+  } else {
+
   }
 
 })
 
-router.post ('/removeWishlist', (req,res)=>{
-  if (req.session.user){
+router.post('/removeWishlist', (req, res) => {
+  if (req.session.user) {
     console.log(req.body);
-    userHelpers.deleteProductWishlist(req.body).then(()=>{
-      res.json({status:true})
+    userHelpers.deleteProductWishlist(req.body).then(() => {
+      res.json({ status: true })
     })
 
   }
@@ -265,6 +265,24 @@ router.get('/profile', (req, res) => {
 
   } else {
     res.redirect('/login')
+  }
+})
+
+router.get('/contact', (req, res) => {
+  if (req.session.user) {
+    user = req.session.user
+    res.render('user/contact', { user })
+  } else {
+    res.render('user/contact')
+  }
+})
+
+router.get ('/about',(req,res)=>{
+  if (req.session.user) {
+    user = req.session.user
+    res.render('user/about', { user })
+  } else {
+    res.render('user/about')
   }
 })
 
