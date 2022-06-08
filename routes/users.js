@@ -1,311 +1,307 @@
-const { response } = require('express')
-const express = require('express')
-const session = require('express-session')
-const async = require('hbs/lib/async')
-const userHelpers = require('../helpers/user-helpers')
-const cartHelpers = require('../helpers/cart-helpers')
-const orderhelpers = require('../helpers/order-helpers')
-const { redirect } = require('express/lib/response')
-const router = express.Router()
-let cartTotal, orderid
+const express = require('express');
+const { redirect } = require('express/lib/response');
+const userHelpers = require('../helpers/user-helpers');
+const cartHelpers = require('../helpers/cart-helpers');
+const orderhelpers = require('../helpers/order-helpers');
+
+const router = express.Router();
+let cartTotal; let
+  orderid;
 
 /* GET users listing. */
 router.get('/', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
+    const { user } = req.session;
     cartHelpers.getCartCount(user._id).then((count) => {
-      req.session.user.cartCount = count
-    })
-    res.render('user/home', { user })
+      req.session.user.cartCount = count;
+    });
+    res.render('user/home', { user });
   } else {
-    res.render('user/home')
+    res.render('user/home');
   }
-})
+});
 
 router.get('/login', (req, res) => {
   if (req.session.user) {
     if (req.session.user.isActive) {
-      res.redirect('/')
+      res.redirect('/');
     } else {
-      res.render('user/login', { blockedUser: req.session.blocked })
-      req.session.blocked = false
+      res.render('user/login', { blockedUser: req.session.blocked });
+      req.session.blocked = false;
     }
   } else {
-    res.render('user/login', { loginErr: req.session.loginErr })
-    req.session.loginErr = false
+    res.render('user/login', { loginErr: req.session.loginErr });
+    req.session.loginErr = false;
   }
-})
+});
 
 router.post('/login', (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.user = true
-      req.session.user = response.user
+      req.session.user = true;
+      req.session.user = response.user;
       if (req.session.user.isActive == true) {
-        res.redirect('/')
+        res.redirect('/');
       } else {
-        req.session.blocked = true
-        res.redirect('/login')
+        req.session.blocked = true;
+        res.redirect('/login');
       }
     } else {
-      req.session.loginErr = true
-      res.redirect('/login')
+      req.session.loginErr = true;
+      res.redirect('/login');
     }
-  })
-})
+  });
+});
 
 router.get('/signup', (req, res) => {
   if (req.session.user) {
-    res.redirect('/')
+    res.redirect('/');
   } else {
-    res.render('user/signup', { alreadyexist: req.session.alreadyexist })
+    res.render('user/signup', { alreadyexist: req.session.alreadyexist });
   }
-})
+});
 
 router.post('/signup', (req, res) => {
-  userHelpers.doSignup(req.body).then((response) => {
-    res.render('user/login')
+  userHelpers.doSignup(req.body).then(() => {
+    res.render('user/login');
   }).catch(() => {
-    req.session.alreadyexist = true
-    res.redirect('/signup')
-  })
-})
+    req.session.alreadyexist = true;
+    res.redirect('/signup');
+  });
+});
 
 router.get('/shop', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
+    const { user } = req.session;
     userHelpers.viewAllProducts().then((products) => {
-      res.render('user/shop', { products, user })
-    })
+      res.render('user/shop', { products, user });
+    });
   } else {
     userHelpers.viewAllProducts().then((products) => {
-      res.render('user/shop', { products })
-    })
+      res.render('user/shop', { products });
+    });
   }
-})
+});
 
 router.get('/shop/:id', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
+    const { user } = req.session;
     userHelpers.viewSingleProduct(req.params.id).then((product) => {
-      res.render('user/singProductView', { product, user })
-    })
+      res.render('user/singProductView', { product, user });
+    });
   } else {
     userHelpers.viewSingleProduct(req.params.id).then((product) => {
-      res.render('user/singProductView', { product })
-    })
+      res.render('user/singProductView', { product });
+    });
   }
-})
+});
 
 router.post('/addtowishlist', (req, res) => {
   if (req.session.user) {
-    let user = req.session.user
-    userHelpers.addTowishlist(req.body, user._id).then(() => {
-      res.json({ status: true })
-    })
-  } else {
-    // res.json({status:false})
+    const { user } = req.session;
+    userHelpers.addTowishlist(req.body, user._id).then((status) => {
+      if(status){
+        res.json({ status:true });
+      }else{
+        res.json({status:false})
+      }
+      
+    });
   }
-})
+});
 
 router.get('/wishlist', (req, res) => {
   if (req.session.user) {
-    user = req.session.user
+    const { user } = req.session;
     userHelpers.viewWishlist(user).then((wishlist) => {
-      res.render('user/wishlist', { user, wishlist })
-    })
+      res.render('user/wishlist', { user, wishlist });
+    });
   } else {
 
   }
-
-})
+});
 
 router.post('/removeWishlist', (req, res) => {
   if (req.session.user) {
-    console.log(req.body);
     userHelpers.deleteProductWishlist(req.body).then(() => {
-      res.json({ status: true })
-    })
-
+      res.json({ status: true });
+    });
   }
-})
+});
 
 router.get('/addtocart/:id', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
-    cartHelpers.addToCart(req.params.id, user._id).then((response) => {
+    const { user } = req.session;
+    cartHelpers.addToCart(req.params.id, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
-        req.session.user.cartCount = count
-        res.redirect('/shop')
-      })
-    })
+        req.session.user.cartCount = count;
+        res.redirect('/shop');
+      });
+    });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-})
+});
 
 router.get('/shop/:id/addtoCart', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
-    cartHelpers.addToCart(req.params.id, user._id).then((response) => {
+    const { user } = req.session;
+    cartHelpers.addToCart(req.params.id, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
-        req.session.user.cartCount = count
-        res.redirect(`/shop/${req.params.id}`)
-      })
-    })
+        req.session.user.cartCount = count;
+        res.redirect(`/shop/${req.params.id}`);
+      });
+    });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-})
+});
 
 router.get('/cart', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
+    const { user } = req.session;
     cartHelpers.viewCarts(user).then((cart) => {
       if (cart.length != 0) {
         cartHelpers.getTotal(user._id).then((cartAll) => {
-          cartTotal = cartAll
-          res.render('user/cart', { cart, cartTotal, user })
-        })
+          cartTotal = cartAll;
+          res.render('user/cart', { cart, cartTotal, user });
+        });
       } else {
-        res.render('user/cart', { user })
+        res.render('user/cart', { user });
       }
-    })
+    });
   } else {
-    res.redirect('/')
+    res.redirect('/');
   }
-})
+});
 router.post('/changeProductQuantity', (req, res) => {
-  console.log(req.body);
   cartHelpers.ChangeQuantity(req.body, req.session.user._id).then(() => {
-    res.json({ status: true })
-  })
-})
+    res.json({ status: true });
+  });
+});
 router.post('/deleteproduct', (req, res) => {
   if (req.session.user) {
-    let user = req.session.user
-    console.log(req.body);
-    cartHelpers.deleteProduct(req.body).then((response) => {
+    const { user } = req.session;
+    cartHelpers.deleteProduct(req.body).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
-        req.session.user.cartCount = count
-        res.json({ status: true })
-      })
-    })
+        req.session.user.cartCount = count;
+        res.json({ status: true });
+      });
+    });
   }
-})
+});
 
 router.get('/cart/checkout', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
-    res.render('user/checkout', { user, cartTotal })
+    const { user } = req.session;
+    res.render('user/checkout', { user, cartTotal });
   } else {
-    redirect('/')
+    redirect('/');
   }
-})
+});
 router.post('/place-order', (req, res) => {
-  let orderdetails = req.body
-  user = req.session.user
+  const orderdetails = req.body;
+  const { user } = req.session;
   orderhelpers.placeOder(orderdetails, cartTotal, user).then((orderId) => {
-    orderid = orderId
+    orderid = orderId;
     if (orderdetails.paymentmethod == 'COD') {
-      res.json({ codSuccess: true })
+      res.json({ codSuccess: true });
     } else {
       orderhelpers.generateRazorpay(orderId, cartTotal).then((response) => {
-        res.json(response)
-      })
+        res.json(response);
+      });
     }
-  })
-})
+  });
+});
 
 router.get('/cart/orderplaced', (req, res) => {
   if (req.session.user) {
     orderhelpers.viewSingleOrder(orderid).then((orderDetails) => {
-      res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user })
-    })
+      res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user });
+    });
   } else {
-    redirect('/')
+    redirect('/');
   }
-})
+});
 
 router.get('/orders', (req, res) => {
   if (req.session.user) {
-    let userId = req.session.user._id
+    const userId = req.session.user._id;
     orderhelpers.viewOrders(userId).then((orders) => {
-      console.log(orders);
-      res.render('user/orderslist', { user: req.session.user, orders })
-    })
+      res.render('user/orderslist', { user: req.session.user, orders });
+    });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-})
+});
 
 router.post('/varifyPayment', (req, res) => {
   orderhelpers.varifyPayment(req.body).then(() => {
     orderhelpers.changeOrderstatus(req.body['order[receipt]']).then(() => {
-      res.json({ status: true })
-    })
-  }).catch((err) => {
-    res.json({ status: 'payment failed' })
-  })
-})
+      res.json({ status: true });
+    });
+  }).catch(() => {
+    res.json({ status: 'payment failed' });
+  });
+});
 
 router.get('/vieworder/:id', (req, res) => {
-  let orderId = req.params.id
+  const orderId = req.params.id;
   orderhelpers.viewSingleOrder(orderId).then((orderDetails) => {
-    res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user })
-  })
-})
+    res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user });
+  });
+});
 
 router.get('/profile', (req, res) => {
   if (req.session.user) {
-    user = req.session.user
+    const { user } = req.session;
     userHelpers.profileDetails(user._id).then((profile) => {
-      res.render('user/profile', { profile, user })
-    })
-
+      res.render('user/profile', { profile, user });
+    });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-})
+});
 
 router.get('/contact', (req, res) => {
   if (req.session.user) {
-    user = req.session.user
-    res.render('user/contact', { user })
+    const { user } = req.session;
+    res.render('user/contact', { user });
   } else {
-    res.render('user/contact')
+    res.render('user/contact');
   }
-})
+});
 
 router.get('/about', (req, res) => {
   if (req.session.user) {
-    user = req.session.user
-    res.render('user/about', { user })
+    const { user } = req.session;
+    res.render('user/about', { user });
   } else {
-    res.render('user/about')
+    res.render('user/about');
   }
-})
+});
 
-router.post('/updateUser',(req,res)=>{
-  data = {
+router.post('/updateUser', (req, res) => {
+  const data = {
     firstName: req.body.firstName,
-    lastName :req.body.lastName,
+    lastName: req.body.lastName,
     email: req.body.email,
-    phoneNum : req.body.phoneNum,
-  }
-  userId = req.session.user._id
-  userHelpers.updateProfile(data,userId)
-})
+    phoneNum: req.body.phoneNum,
+  };
+  const userId = req.session.user._id;
+  userHelpers.updateProfile(data, userId).then(()=>{
+    res.json({status:true})
+  })
+});
 
-router.post('/review/:id',(req,res)=>{
-  console.log(req.params.id);
-  console.log(req.body);
-})
+router.post('/review/:id', (req, res) => {
+  // console.log(req.params.id);
+  // console.log(req.body);
+});
 
 router.get('/logout', (req, res) => {
-  req.session.user = false
-  res.redirect('/')
-})
+  req.session.user = false;
+  res.redirect('/');
+});
 
-
-module.exports = router 
+module.exports = router;

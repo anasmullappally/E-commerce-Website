@@ -182,5 +182,32 @@ module.exports = {
                 resolve()
             }
         })
+    },
+    VendorProfileDetails: (vendorId) => new Promise(async (resolve) => {
+        const profile = await db.get().collection(collection.VENDOR_COLLECTION).find(
+            { _id: ObjectId(vendorId) },
+            { _id: 1, products: 0 },
+        ).toArray();
+        resolve(profile);
     }
+    ),
+    updateVendorProfile: (data, vendorId) => new Promise(async (resolve) => {
+        await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
+            { _id: ObjectId(vendorId) },
+            {
+                $set: {
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    phoneNumber: data.phoneNum,
+                    email: data.email,
+                    country :data.country,
+                    state :data.state
+                },
+            },
+        ).then((response) => {
+            console.log(response);
+            resolve(response);
+        });
+    }),
+
 }

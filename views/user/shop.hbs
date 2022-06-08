@@ -54,8 +54,9 @@
 
                      <div class="block-4 text-center border pt-3 h-100 ">
 
-                        <h6 class="text-end"><button onclick="addtowishlist('{{products._id}}','{{user._id}}')"
-                              class="btn icon-heart-o pe-3" type="button"></button></h6>
+                        <h6 class="text-end"><button id="wishlist"
+                              onclick="addtowishlist('{{products._id}}','{{user._id}}')" class="btn icon-heart-o pe-3"
+                              type="button"></button></h6>
                         <figure class="block-4-image ">
                            <a href="/shop/{{products._id}}"><img src="images/productsImages/{{products._id}}(1).jpg"
                                  alt="Image placeholder"
@@ -175,7 +176,12 @@
          },
          method: 'post',
          success: (response) => {
-            alert('added')
+            if (response.status) {
+               alert('added')
+            } else {
+               alert('already in your wishlist')
+            }
+
          }
       })
    }

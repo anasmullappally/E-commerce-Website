@@ -88,17 +88,15 @@ module.exports = {
       resolve();
     });
   }),
-  viewSingleOrder: (orderId) => {
-    return new Promise(async (resolve, reject) => {
-      let orderdetail = await db.get().collection(collection.USER_COLLECTION).aggregate([
-        { $match: { 'orders._id': ObjectId(orderId) } },
-        { $unwind: '$orders' },
-        { $match: { 'orders._id': ObjectId(orderId) } },
+  viewSingleOrder: (orderId) => new Promise(async (resolve) => {
+    const orderdetail = await db.get().collection(collection.USER_COLLECTION).aggregate([
+      { $match: { 'orders._id': ObjectId(orderId) } },
+      { $unwind: '$orders' },
+      { $match: { 'orders._id': ObjectId(orderId) } },
 
-        { $project: { orders: 1, _id: 0 } }
-      ]).toArray()
-      resolve(orderdetail[0])
-    })
-  }
+      { $project: { orders: 1, _id: 0 } },
+    ]).toArray();
+    resolve(orderdetail[0]);
+  }),
 
 };

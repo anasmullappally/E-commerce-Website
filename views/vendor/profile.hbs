@@ -1,0 +1,170 @@
+{{!-- <section>
+    <div class="container pt-5 pb-2">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-12">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                            alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">John Smith</h5>
+                        <p class="text-muted mb-1">sudev.a.in@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-12">
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">Johnatan Smith</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">sudev.a.in@gamil.com</p>
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0"> Mobile <i class="fa-solid fa-phone"> </i></p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">(098) 765-4321</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0"> State</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">Kerala</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Address</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">Peruvayal, Calicut, Kerala</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section> --}}
+{{#each profile}}
+<div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
+                    width="150px"
+                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
+                    class="font-weight-bold">{{this.firstName}} {{this.lastName}} </span><span
+                    class="text-black-50">{{this.email}}</span><span>
+                </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile </h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
+                            name="firstName" id="firstName" value="{{this.firstName}}"></div>
+                    <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control"
+                            name="lastName" id="lastName" value="{{this.lastName}}"></div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
+                            name="mobileNumber" id="mobileNumber" class="form-control" value="{{this.phoneNumber}}">
+                    </div>
+
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"
+                            name="email" id="email" value="{{this.email}}"></div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control"
+                            name="country" id="country" value="{{this.country}}"></div>
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" name="state"
+                            id="state" class="form-control" value="{{this.state}}"></div>
+                </div>
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="button" id="editVendor">Edit Profile</button>
+                    <button class="btn btn-primary profile-button" type="button" onclick="updateVendor()">update
+                        Profile</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{{/each}}
+<script>
+
+    $('#firstName').prop("disabled", true)
+    $('#lastName').prop("disabled", true)
+    $('#email').prop("disabled", true)
+    $('#mobileNumber').prop("disabled", true)
+    $('#country').prop("disabled", true)
+    $('#state').prop("disabled", true)
+
+    //enable
+
+    $('#editVendor').click(() => {
+        $('#firstName').prop("disabled", false)
+        $('#lastName').prop("disabled", false)
+        $('#email').prop("disabled", false)
+        $('#mobileNumber').prop("disabled", false)
+        $('#country').prop("disabled", false)
+        $('#state').prop("disabled", false)
+    })
+
+
+
+    function updateVendor() {
+        firstName = $('#firstName').val()
+        lastName = $('#lastName').val()
+        email = $('#email').val()
+        phoneNum = $('#mobileNumber').val()
+        country = $('#country').val()
+        state = $('#state').val()
+
+
+        $.ajax({
+            url: '/vendor/updateVendor',
+            method: 'post',
+            data: {
+                firstName,
+                lastName,
+                email,
+                phoneNum,
+                country,
+                state
+            },
+            success: (response) => {
+                alert('updated')
+                window.location.reload()
+            }
+        })
+
+
+
+    }
+
+</script>

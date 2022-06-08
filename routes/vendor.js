@@ -1,4 +1,5 @@
 const express = require('express')
+const { redirect } = require('express/lib/response')
 const vendorHelpers = require('../helpers/vendor-helpers')
 const router = express.Router()
 
@@ -140,6 +141,28 @@ router.post('/editProduct/:id', (req, res) => {
   vendorHelpers.updateProduct(productId, productInfo).then((data) => {
     res.render('vendor/updateSuccess', { vendor: true, })
   })
+})
+
+router.get('/profile', (req, res) => {
+  if (req.session.vendor) {
+    vendor = req.session.vendor
+    vendorHelpers.VendorProfileDetails(vendor._id).then((profile) => {
+      res.render('vendor/profile', { profile, vendor })
+    })
+
+  } else {
+    res.redirect('/vendor')
+  }
+})
+
+router.post('/updateVendor', (req, res) => {
+  if (req.session.vendor) {
+    let vendor = req.session.vendor
+    let vendorData = req.body
+    vendorHelpers.updateVendorProfile(vendorData, vendor._id).then(() => {
+      res.json({ status: true })
+    })
+  }
 })
 
 router.get('/logout', (req, res) => {
