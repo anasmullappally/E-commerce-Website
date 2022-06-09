@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 <div class="container mt-5 mb-5">
 
     <div class="row d-flex justify-content-center">
@@ -24,7 +25,7 @@
 
 
 
-                <div class="invoice p-5">
+                <div id="invoice" class="invoice p-5">
 
                     <h5>Your order Confirmed!</h5>
 
@@ -50,7 +51,7 @@
                                         <div class="py-2">
 
                                             <span class="d-block text-muted">Order No</span>
-                                            <span>{{orderDetails._id}}</span>
+                                            <span>{{orderDetails.orderId}}</span>
 
                                         </div>
                                     </td>
@@ -214,12 +215,13 @@
                     </div>
                     <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
                     <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+
                     <span>SHOPPI</span>
                 </div>
-
+                {{!-- <button id="download" class="btn primary"> Download invoice</button> --}}
 
                 <div class="d-flex justify-content-between footer p-3">
-
+                    <button id="download" class="btn btn-link btn-sm" > Download invoice</button>
                     <span>Need Help? visit our <a href="#"> help center</a></span>
                     {{!-- <span>12 June, 2020</span> --}}
 
@@ -234,4 +236,25 @@
 
     </div>
 
-</div
+</div>
+
+
+<script>
+
+    window.onload = function () {
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const invoice = this.document.getElementById("invoice");
+                console.log(invoice);
+                console.log(window);
+                var opt = {
+                    margin: 1,
+                    filename: '{{orderDetails.orderId}}invoice',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(invoice).set(opt).save();
+            })
+    }
+</script>

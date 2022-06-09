@@ -18,10 +18,11 @@ module.exports = {
     const _id = new ObjectId();
     let orders = {};
     orders = orderdetails;
+    orders.orderId= 'SP'+Date.now()
     orders._id = _id;
     orders.products = cart;
     orders.total = cart.sum;
-    orders.date = new Date();
+    orders.date = (new Date()).toLocaleDateString('en-IN');
     if (orderdetails.paymentmethod == 'COD') {
       orders.status = 'placed';
 
