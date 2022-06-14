@@ -138,7 +138,22 @@ router.get('/editProduct/:id', (req, res) => {
 router.post('/editProduct/:id', (req, res) => {
   productId = req.params.id
   productInfo = req.body
+ 
   vendorHelpers.updateProduct(productId, productInfo).then((data) => {
+    if (req.files) {
+      if (req.files.image1) {
+        addImage(req.files.image1, 1, productId)
+      }
+      if (req.files.image2) {
+        addImage(req.files.image2, 2, productId)
+      }
+      if (req.files.image3) {
+        addImage(req.files.image3, 3, productId)
+      }
+      if (req.files.image4) {
+        addImage(req.files.image4, 4, productId)
+      }
+    }
     res.render('vendor/updateSuccess', { vendor: true, })
   })
 })
@@ -153,6 +168,10 @@ router.get('/profile', (req, res) => {
   } else {
     res.redirect('/vendor')
   }
+})
+router.get ('/viewOrders',(req,res)=>{
+  vendor =req.session.vendor._id
+  vendorHelpers.viewOrders(vendor)
 })
 
 router.post('/updateVendor', (req, res) => {

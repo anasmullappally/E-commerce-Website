@@ -49,6 +49,7 @@ module.exports = {
         }
         if (products.category == 'mobile') {
             products = {
+                'vendorId': ObjectId(vendorId),
                 '_id': new ObjectId(),
                 'mobile': true,
                 'title': productDetails.title,
@@ -59,12 +60,13 @@ module.exports = {
                 'processor': productDetails.mobileprocessor,
                 'os': productDetails.mobileOs,
                 'screenSize': productDetails.screenSize,
-                'price': productDetails.price,
+                'price': Number(productDetails.price),
                 'quantity': productDetails.quantity,
                 'deleted': false
             }
         } else {
             products = {
+                'vendorId': ObjectId(vendorId),
                 '_id': new ObjectId(),
                 'laptop': true,
                 'title': productDetails.title,
@@ -76,7 +78,7 @@ module.exports = {
                 'ssd': productDetails.ssdCapacity,
                 'hdd': productDetails.hddCapacity,
                 'screenSize': productDetails.screenSize,
-                'price': productDetails.price,
+                'price': Number(productDetails.price),
                 'quantity': productDetails.quantity,
                 'deleted': false
             }
@@ -164,6 +166,7 @@ module.exports = {
                         }
                     }
                 ).then((response) => {
+                    console.log(response);
                     resolve(response)
 
                 })
@@ -205,9 +208,17 @@ module.exports = {
                 },
             },
         ).then((response) => {
-            console.log(response);
             resolve(response);
         });
     }),
+    viewOrders :(vendorId)=>{
+        return new Promise (async(resolve)=>{
+            let orders=await db.get().collection(collection.USER_COLLECTION).aggregate([
+                {$unwind : '$orders'},
+
+            ]).toArray()
+            console.log(orders);
+        })
+    }
 
 }

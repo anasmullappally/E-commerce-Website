@@ -22,6 +22,7 @@ module.exports = {
     } else {
       await vendorHelpers.getProductDetails(productId).then(async (response) => {
         const productDetails = response.products;
+        console.log(productDetails);
         const cart_id = new ObjectId();
         await db.get().collection(collection.USER_COLLECTION).updateOne(
           { _id: ObjectId(userId) },
@@ -32,6 +33,7 @@ module.exports = {
                 productId: ObjectId(productId),
                 title: productDetails.title,
                 price: productDetails.price,
+                vendorID :productDetails.vendorId,
                 quantity: 1,
               },
             },

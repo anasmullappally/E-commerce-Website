@@ -1,59 +1,41 @@
-placeOrder: (order, user, cart) => {
-    return new Promise(async (resolve, reject) => {
-        // console.log(true);
-        // console.log(cart);
-        let _id = new ObjectId()
-        let orders = {}
-        orders = order
-        orders._id = _id
-        orders.products = cart
-        orders.date = new Date()
+filterProducts: (req, res) => {
 
-        let sum = 0, mult = 1, count = 0
-        for (let i in cart) {
-            sum = sum + (cart[i].price * cart[i].quantity)
-            count += 1
-        }
+    // console.log(req.body.sort);
 
+    let a = req.body
+    let price = parseInt(a.price)
+    let filter = []
+    for (let i of a.brandName) {
+      filter.push({ 'products.brandName': i })
+    }
+    userhelpers.filterProducts(filter, gender, price).then((response) => {
+      // console.log(response);
+      filterResult = response
 
-        if (order.paymentMethod == 'cashOnDelivery') {
-
-            orders.status = 'placed'
-
-
-
-            await db.get().collection(collection.mainCollection).updateOne(
-                { _id: ObjectId(user._id) },
-                { $push: { orders: orders } }
-            )
-            cartHelpers.emptyCart(user.id).then(() => {
-                sellerHelpers.updateProductQuantity(cart, user._Id).then(() => {
-                    resolve(orders.id)
-                })
-            })
-            // console.log(true);
-            // console.log(cart); 
-
-
-
-
-        } else {
-            orders.status = 'pending'
-            await db.get().collection(collection.mainCollection).updateOne({ _id: ObjectId(user._id) },
-                // {'orders._id':ObjectId(_id)}
-
-
-                {
-                    $push: { orders: orders }
-                }
-            )
-            // console.log(true);
-            // console.log(user._id);
-            cartHelpers.emptyCart(user._id).then(() => {
-                sellerHelpers.updateProductQuantity(cart, user._id).then(() => {
-                    resolve(orders._id)
-                })
-            })
-        }
+      // console.log(filterResult);
+      if (req.body.sort == "Sort") {
+        res.json({ status: true })
+      }
+      if (req.body.sort == 'rating') {
+        filterResult.sort((a, b) => {
+          return b.products.rating - a.products.rating
+        })
+        res.json({ status: true })
+      }
+      if (req.body.sort == 'lh') {
+        filterResult.sort((a, b) => {
+          return a.products.price - b.products.price
+        })
+        res.json({ status: true })
+      }
+      if (req.body.sort == 'hl') {
+        filterResult.sort((a, b) => {
+          return b.products.price - a.products.price
+        })
+        res.json({ status: true })
+      }
     })
-}
+
+
+
+  }

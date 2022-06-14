@@ -3,15 +3,15 @@ const { redirect } = require('express/lib/response');
 const userHelpers = require('../helpers/user-helpers');
 const cartHelpers = require('../helpers/cart-helpers');
 const orderhelpers = require('../helpers/order-helpers');
-
 const router = express.Router();
-let cartTotal; let
-  orderid;
+
+let cartTotal, orderid, device, filteredProduct
 
 /* GET users listing. */
 router.get('/', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session;
+    const user = req.session.user;
+
     cartHelpers.getCartCount(user._id).then((count) => {
       req.session.user.cartCount = count;
     });
@@ -20,6 +20,15 @@ router.get('/', (req, res) => {
     res.render('user/home');
   }
 });
+
+// router.get ('/shop/:device',(req,res)=>{
+//   // console.log(req.params.device);
+//   let device=req.params.device
+//   userHelpers.getBrands(device).then((devices)=>{
+//     res.redirect('/shop')
+//   })
+// })
+
 
 router.get('/login', (req, res) => {
   if (req.session.user) {
@@ -69,21 +78,42 @@ router.post('/signup', (req, res) => {
     res.redirect('/signup');
   });
 });
-
 router.get('/shop', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session;
-    userHelpers.viewAllProducts().then((products) => {
-      res.render('user/shop', { products, user });
-    });
+    user = req.session.user
+    userHelpers.getAllBrands(device).then((brands) => {
+      res.render('user/shop', { products: filteredProduct, brands, device, user });
+    })
   } else {
-    userHelpers.viewAllProducts().then((products) => {
-      res.render('user/shop', { products });
-    });
+    userHelpers.getAllBrands(device).then((brands) => {
+      res.render('user/shop', { products: filteredProduct, brands, device });
+    })
   }
+
+})
+router.get('/shop/:device', (req, res) => {
+  device = req.params.device
+  // if (req.session.user) {
+  // const { user } = req.session;
+  userHelpers.viewAllProducts(device).then((response) => {
+    filteredProduct = response
+    res.redirect('/shop')
+
+  });
+  // } else {
+  //   userHelpers.viewAllProducts(device).then((response) => {
+  //     // userHelpers.getAllBrands(device).then((brands) => {
+  //       filteredProduct = response
+  //       console.log(filteredProduct);
+  //       // console.log(584787);
+  //       // res.render('user/shop', { products: filteredProduct, brands, device });
+  //     // })
+  //       res.redirect('/shop')
+  //   });
+  // }
 });
 
-router.get('/shop/:id', (req, res) => {
+router.get('/shop/view/:id', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
     userHelpers.viewSingleProduct(req.params.id).then((product) => {
@@ -100,13 +130,15 @@ router.post('/addtowishlist', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
     userHelpers.addTowishlist(req.body, user._id).then((status) => {
-      if(status){
-        res.json({ status:true });
-      }else{
-        res.json({status:false})
+      if (status) {
+        res.json({ added: true });
+      } else {
+        res.json({ exist: true })
       }
-      
+
     });
+  } else {
+    res.json({ login: true })
   }
 });
 
@@ -135,7 +167,7 @@ router.get('/addtocart/:id', (req, res) => {
     cartHelpers.addToCart(req.params.id, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
         req.session.user.cartCount = count;
-        res.redirect('/shop');
+        res.redirect('/cart');
       });
     });
   } else {
@@ -149,7 +181,7 @@ router.get('/shop/:id/addtoCart', (req, res) => {
     cartHelpers.addToCart(req.params.id, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
         req.session.user.cartCount = count;
-        res.redirect(`/shop/${req.params.id}`);
+        res.redirect(`/shop/view/${req.params.id}`);
       });
     });
   } else {
@@ -289,10 +321,44 @@ router.post('/updateUser', (req, res) => {
     phoneNum: req.body.phoneNum,
   };
   const userId = req.session.user._id;
-  userHelpers.updateProfile(data, userId).then(()=>{
-    res.json({status:true})
+  userHelpers.updateProfile(data, userId).then(() => {
+    res.json({ status: true })
   })
 });
+
+router.post('/products/filter', (req, res) => {
+  console.log(req.body);
+  let deatil = req.body
+  let price = parseInt(deatil.price)
+  let filter = []
+  for (let i of deatil.brandName) {
+    filter.push({ 'products.brand': i })
+  }
+  // console.log(filter);
+  userHelpers.filterProducts(filter, device, price).then((response) => {
+    filteredProduct = response
+    // console.log(filteredProduct);
+    // res.json({ status: true })
+    if (req.body.sort == "Sort") {
+      res.json({ status: true })
+    }
+    if (req.body.sort == 'lh') {
+      filteredProduct.sort((a, b) => {
+        return a.products.price - b.products.price
+      })
+      res.json({ status: true })
+    }
+    if (req.body.sort == 'hl') {
+      filteredProduct.sort((a, b) => {
+        return b.products.price - a.products.price
+      })
+      res.json({ status: true })
+    }
+
+  })
+
+})
+
 
 router.post('/review/:id', (req, res) => {
   // console.log(req.params.id);

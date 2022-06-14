@@ -1,5 +1,3 @@
-
-
 <div class="site-wrap">
   <div class="bg-light py-3">
     <div class="container">
@@ -13,6 +11,26 @@
   <div class="site-section">
     <div class="container">
       <div class="row">
+        {{!-- <div class="col-lg-5 col-md-12 col-sm-12 mr-5 mb-3 mx-auto ">
+
+          <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid pb-1" id="MainImg" alt="">
+          <div class="small-img-group d-flex ">
+            <div class="small-img-col">
+              <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="small-img" alt="">
+            </div>
+            <div class="small-img-col">
+              <img src="/images/productsImages/{{product.products._id}}(2).jpg" class="small-img" alt="">
+            </div>
+            <div class="small-img-col">
+              <img src="/images/productsImages/{{product.products._id}}(3).jpg" class="small-img" alt="">
+            </div>
+            <div class="small-img-col">
+              <img src="/images/productsImages/{{product.products._id}}(4).jpg" class="small-img" alt="">
+            </div>
+
+          </div>
+
+        </div> --}}
         <div class="col-md-6">
           <img src="/images/productsImages/{{product.products._id}}(1).jpg" alt="Image" class="img-fluid">
         </div>
@@ -37,18 +55,19 @@
           {{/if}}
           <p><strong class="text-primary h4">${{product.products.price}}</strong></p>
 
-          
-          <p><a href="/shop/{{product.products._id}}/addtocart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+
+          <p><a href="/shop/{{product.products._id}}/addtocart" class="buy-now btn btn-sm btn-primary">Add To Cart</a>
+          </p>
 
         </div>
 
 
       </div>
 
-    
+
       {{#if user}}
       <form action="/review/" method="post">
-        
+
         <div class="container">
           <h4>Enter Your Name</h4>
           <div class="form-group">
@@ -139,14 +158,37 @@
   }
 </style>
 <script>
+
+  var MainImg = document.getElementById('MainImg');
+  var smallimg = document.getElementsByClassName('small-img');
+  smallimg[0].onclick = function () {
+    MainImg.src = smallimg[0].src;
+  }
+  smallimg[1].onclick = function () {
+    MainImg.src = smallimg[1].src;
+  }
+  smallimg[2].onclick = function () {
+    MainImg.src = smallimg[2].src;
+  }
+  smallimg[3].onclick = function () {
+    MainImg.src = smallimg[3].src;
+  }
+  smallimg[4].onclick = function () {
+    MainImg.src = smallimg[4].src;
+  }
+  smallimg[5].onclick = function () {
+    MainImg.src = smallimg[5].src;
+  }
+
+
+
+
   let star = document.querySelectorAll('input');
   let showValue = document.querySelector('#rating-value');
 
   for (let i = 0; i < star.length; i++) {
     star[i].addEventListener('click', function () {
       i = this.value;
-
       showValue.innerHTML = i + " out of 5";
     });
-  }
-</script>
+  } </script>

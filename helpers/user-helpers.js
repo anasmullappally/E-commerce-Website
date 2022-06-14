@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const async = require('hbs/lib/async');
 
 const { ObjectId } = require('mongodb');
 const collection = require('../configration/collection');
@@ -39,9 +40,10 @@ module.exports = {
       resolve({ status: false });
     }
   }),
-  viewAllProducts: () => new Promise(async (resolve) => {
+  viewAllProducts: (device) => new Promise(async (resolve) => {
     const products = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
       { $unwind: '$products' },
+      { $match: { 'products.category': device } },
       { $project: { products: 1, _id: 0 } },
     ]).toArray();
     resolve(products);
@@ -65,11 +67,11 @@ module.exports = {
     productid = product.productId;
     return new Promise(async (resolve) => {
       const check = await db.get().collection(collection.USER_COLLECTION).aggregate([
-        { $unwind: '$cart' },
+        { $unwind: '$wishlist' },
         {
           $match: {
             $and: [{ _id: ObjectId(userId) },
-              { 'wishlist.productId': ObjectId(productid) }],
+            { 'wishlist.productId': ObjectId(productid) }],
           },
         },
       ]).toArray();
@@ -93,7 +95,7 @@ module.exports = {
               },
             },
           ).then(() => {
-            resolve({status:true});
+            resolve({ status: true });
           });
         });
       }
@@ -135,5 +137,51 @@ module.exports = {
       resolve(response);
     });
   }),
+
+  getProductsbyCategory: (device) => {
+    return new Promise(async (resolve) => {
+      let product = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
+        { $unwind: '$products' },
+        { $match: { 'products.category': device } },
+        { $project: { products: 1, _id: 0 } },
+      ]).toArray()
+      // console.log(product);
+      resolve(product)
+    })
+  },
+  getAllBrands: (device) => {
+    return new Promise(async (resolve) => {
+      let brands = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
+        { $unwind: '$products' },
+        { $match: { 'products.category': device } },
+        { $group: { _id: { brand: '$products.brand' } } }
+      ]).toArray()
+      resolve(brands)
+    })
+  },
+  filterProducts: (filter, device, price) => {
+    return new Promise(async (resolve) => {
+      let resultProducts
+      if (filter.length > 1) {
+        resultProducts = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
+          { $unwind: '$products' },
+          { $match: { 'products.category': device } },
+          { $match: { 'products.price': { $lt: price } } },
+          { $match: { $or: filter } },
+          { $project: { _id: 0, products: 1 } }
+        ]).toArray()
+        resolve(resultProducts)
+      } else {
+        resultProducts = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
+          { $unwind: '$products' },
+          { $match: { 'products.category': device } },
+          { $match: { 'products.price': { $lt: price } } },
+          { $project: { _id: 0, products: 1 } },
+        ]).toArray()
+        resolve(resultProducts)
+      }
+    })
+
+  }
 
 };

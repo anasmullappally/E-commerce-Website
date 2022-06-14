@@ -1,0 +1,184 @@
+<div class="container-fluid ">
+
+    <form method="post" id="brandFilter">
+        <div class="row">
+            <div class="float-end">
+                <select class="form-select float-end filter" aria-label="Default select example" style="width: 20%;"
+                    name="sort" id="sortMenu">
+                    <option selected>Sort</option>
+                    <option value="rating">Customer Rating</option>
+                    <option value="hl">Price : High To Low</option>
+                    <option value="lh">Price : Low To High</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="row ">
+
+
+            <div class="col-xs-1 col-2 container ">
+                <input class="form-check-input ms-2 filter" type="checkbox" id="flexCheckChecked" name="brandName"
+                    value="" hidden checked>
+
+                <p class="fs-6">BRANDS</p>
+                {{#each response}}
+                <div class="form-check ms-2">
+                    <input class="form-check-input " type="checkbox" id="brands" name="brandName"
+                        value="{{this._id.brandName}}">
+                    <p>
+                        <label class="form-check-label ms-4 " for="flexCheckChecked">
+                            {{this._id.brandName}}
+                        </label>
+                    </p>
+                </div>
+                {{!-- -----checkbox---- --}}
+                {{/each}}
+                <br>
+                {{!-- <p class="fs-6">PRICE</p>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="100">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.100</label></p>
+                </div>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="300">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.300</label></p>
+                </div>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="500">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.500</label></p>
+                </div>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="700">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.700</label></p>
+                </div>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="1000">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.1000</label></p>
+                </div>
+
+                <div class="form-check ms-2"><input class="form-check-input " type="checkbox" id="price" name="price"
+                        value="1500">
+                    <p><label class="form-check-label ms-4 " for="flexCheckChecked">Above Rs.1500</label></p>
+                </div> --}}
+
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" hidden checked value="50000">
+
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="200">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.200
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="400">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Under Rs.400
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="600">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.600
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="700">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.700
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="1000">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.1000
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="1500">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.1500
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="price" name="price" value="2500">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Under Rs.2500
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-10 mt-5 ">
+
+                <div class=" " id="products">
+                    <div class="row property__gallery">
+                        {{#each products}}
+                        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 ">
+                            <div class="product-grid  ">
+                                <div class="product-image men">
+                                    <a href="/product/details/{{this.products._id}}" class="image ">
+                                        <img src="/product-images/{{this.products._id}}(1).jpg" class="rounded-lg mt-3">
+                                    </a>
+                                    <ul class="product-links">
+                                        {{!-- <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li> --}}
+                                        {{!-- <li> <input type="button"><i class="fa fa-heart"></i></a></li> --}}
+                                        <li> <button onclick="addToWishlist('{{this.products._id}}')" class="btn mt-3">
+                                                {{!-- <i class="fa fa-heart"></i> --}}
+                                                <i class="bi bi-heart"></i>
+                                            </button></li>
+
+                                        {{!-- <li><a href="#"><i class="fa fa-random"></i></a></li> --}}
+                                    </ul>
+                                </div>
+                                <div class=" ">
+                                    <h6 class=" mt-1  fs-6 fw-bold p-0"><a class="text-dark "
+                                            href="#">{{this.products.brandName}}</a></h6>
+                                    <div>
+                                        <p class="p-0 m-0"><a class="text-dark m-0 "
+                                                href="#">{{this.products.title}}</a>
+                                        </p>
+
+                                    </div>
+                                    <div class="d-flex">
+                                        {{!-- <div class="price fw-bold opacity-75"></div> --}}
+                                        <p class="price  opacity-75">Rs.{{this.products.discountPrice}}</p>
+
+                                        {{#if this.products.discount}}
+                                        &nbsp <p><s> Rs.{{this.products.price}}</s></p>&nbsp
+                                        <p class="text-success">({{this.products.discount}}%OFF)</p>
+                                        {{/if}}
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class=" mr-1 ml-md-auto">
+
+    <div class="float-end">
+       <select class="form-select float-end filter " aria-label="Default select example"
+          style="width: 20%;" name="sort" id="sortMenu">
+          <option selected>Sort</option>
+          <option value="rating">Customer Rating</option>
+          <option value="hl">Price : High To Low</option>
+          <option value="lh">Price : Low To High</option>
+       </select>
+    </div>
+
+ </div>

@@ -1,9 +1,7 @@
 jQuery.validator.addMethod("lettersonly", function (value, element) {
     return this.optional(element) || /^[a-z]+$/i.test(value);
 }, "Letters only please");
-// jQuery.validator.addMethod("numbersonly", function (value, element) {
-//     return this.optional(element) || /^[0-9]+$/i.test(value);
-// }, "Numbers only please");
+
 
 $(document).ready(function () {
     $("#userSignup").validate({
@@ -104,6 +102,68 @@ $(document).ready(function () {
             password: {
                 required: true
             }
+        }
+    })
+})
+
+$(document).ready(function () {
+    $("#checkOutform").validate({
+        rules: {
+            country: {
+                required: true
+            },
+            firstName: {
+                required: true,
+                minlength: 5
+            },
+            lastName: {
+                required: true
+            },
+            address1: {
+                required: true,
+                minlength: 6
+            },
+            state: {
+                required: true
+            },
+            zip: {
+                required: true,
+                numbersonly: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            phone: {
+                required: true,
+                length: 10,
+                numbersonly: true
+            }
+        }
+    })
+})
+$(document).ready(function () {
+    $("#contactForm").validate({
+        rules: {
+            c_fname: {
+                required: true,
+                minlength: 4,
+                
+            },
+            c_lname: {
+                required: true,
+                minlength: 4
+            },
+            c_email: {
+                email: true,
+                required: true
+            },
+            c_message: {
+                required: true,
+                minlength: 5
+            }
+
+
         }
     })
 })
