@@ -52,6 +52,7 @@ module.exports = {
                 'vendorId': ObjectId(vendorId),
                 '_id': new ObjectId(),
                 'mobile': true,
+                'category': 'mobile',
                 'title': productDetails.title,
                 'brand': productDetails.phonebrand,
                 'ram': productDetails.ram,
@@ -69,6 +70,7 @@ module.exports = {
                 'vendorId': ObjectId(vendorId),
                 '_id': new ObjectId(),
                 'laptop': true,
+                'category': 'laptop',
                 'title': productDetails.title,
                 'brand': productDetails.lapBrand,
                 'processorBrand': productDetails.processorBrand,
@@ -138,7 +140,7 @@ module.exports = {
                             'products.$.processor': productInfo.mobileprocessor,
                             'products.$.os': productInfo.mobileOs,
                             'products.$.screenSize': productInfo.screenSize,
-                            'products.$.price': productInfo.price,
+                            'products.$.price': Number(productInfo.price),
                             'products.$.quantity': productInfo.quantity,
                         }
                     }
@@ -155,7 +157,7 @@ module.exports = {
                             'products.$.title': productInfo.title,
                             'products.$.brand': productInfo.lapBrand,
                             'products.$.screenSize': productInfo.screenSize,
-                            'products.$.price': productInfo.price,
+                            'products.$.price': Number(productInfo.price),
                             'products.$.quantity': productInfo.quantity,
                             'products.$.processorBrand': productInfo.processorBrand,
                             'products.$.ram': productInfo.lapRam,
@@ -203,18 +205,18 @@ module.exports = {
                     lastName: data.lastName,
                     phoneNumber: data.phoneNum,
                     email: data.email,
-                    country :data.country,
-                    state :data.state
+                    country: data.country,
+                    state: data.state
                 },
             },
         ).then((response) => {
             resolve(response);
         });
     }),
-    viewOrders :(vendorId)=>{
-        return new Promise (async(resolve)=>{
-            let orders=await db.get().collection(collection.USER_COLLECTION).aggregate([
-                {$unwind : '$orders'},
+    viewOrders: (vendorId) => {
+        return new Promise(async (resolve) => {
+            let orders = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                { $unwind: '$orders' },
 
             ]).toArray()
             console.log(orders);

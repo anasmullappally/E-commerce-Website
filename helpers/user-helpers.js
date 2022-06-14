@@ -170,6 +170,7 @@ module.exports = {
           { $match: { $or: filter } },
           { $project: { _id: 0, products: 1 } }
         ]).toArray()
+        console.log(resultProducts);
         resolve(resultProducts)
       } else {
         resultProducts = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
@@ -178,6 +179,7 @@ module.exports = {
           { $match: { 'products.price': { $lt: price } } },
           { $project: { _id: 0, products: 1 } },
         ]).toArray()
+        console.log(resultProducts);
         resolve(resultProducts)
       }
     })

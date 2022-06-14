@@ -334,10 +334,11 @@ router.post('/products/filter', (req, res) => {
   for (let i of deatil.brandName) {
     filter.push({ 'products.brand': i })
   }
-  // console.log(filter);
+  console.log(filter);
+  console.log(584);
   userHelpers.filterProducts(filter, device, price).then((response) => {
     filteredProduct = response
-    // console.log(filteredProduct);
+    console.log(filteredProduct);
     // res.json({ status: true })
     if (req.body.sort == "Sort") {
       res.json({ status: true })
