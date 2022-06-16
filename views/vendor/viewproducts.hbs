@@ -1,10 +1,9 @@
 <div class="text-center">
     <h2>PRODUCT MANAGEMENT </h2>
     <table id="userTable" class="display  table-dark table-hover ">
-        <thead>
-            <tr class="table-secondary">
+        <thead class="table-secondary">
+            <tr>
                 <th>Product Id</th>
-
                 <th>Category</th>
                 <th>Brand</th>
                 <th>Price</th>
@@ -24,20 +23,19 @@
                 {{#if this.mobile}}
                 <td>Mobile</td>
                 {{else}}
-                 <td>Laptop</td>
-                 {{/if}}
+                <td>Laptop</td>
+                {{/if}}
                 <td>{{this.brand}}</td>
                 <td>{{this.price}}</td>
                 <td>{{this.quantity}}</td>
-               <td> <img src="/images/productsImages/{{this._id}}(1).jpg" alt="" style="height: 5rem; width:4rem;"></td>
-
-
+                <td> <img src="/images/productsImages/{{this._id}}(1).jpg" alt="" style="height: 5rem; width:4rem;">
+                </td>
                 <td><a href="/vendor/deleteProduct/{{this._id}}" class="icon-delete mr-3"
-                        onclick="return confirm('are you sure about it {{this.title}}>?')"></a>
+                        onclick="return confirm('are you sure about it {{this.title}}?')"></a>
                     <a href="/vendor/editProduct/{{this._id}}" class="icon-mode_edit mr-3"></a>
                     <a href="/vendor/viewProduct/{{this._id}}" class="icon-pageview"></a>
                 </td>
-                 
+
             </tr>
             {{/if}}
             {{/each}}
@@ -46,7 +44,7 @@
 
     </table>
 </div>
-</div>
+
 
 
 <script>

@@ -62,7 +62,7 @@ module.exports = {
                 'os': productDetails.mobileOs,
                 'screenSize': productDetails.screenSize,
                 'price': Number(productDetails.price),
-                'quantity': productDetails.quantity,
+                'quantity': Number(productDetails.quantity),
                 'deleted': false
             }
         } else {
@@ -81,7 +81,7 @@ module.exports = {
                 'hdd': productDetails.hddCapacity,
                 'screenSize': productDetails.screenSize,
                 'price': Number(productDetails.price),
-                'quantity': productDetails.quantity,
+                'quantity': Number(productDetails.quantity),
                 'deleted': false
             }
         }
@@ -141,7 +141,7 @@ module.exports = {
                             'products.$.os': productInfo.mobileOs,
                             'products.$.screenSize': productInfo.screenSize,
                             'products.$.price': Number(productInfo.price),
-                            'products.$.quantity': productInfo.quantity,
+                            'products.$.quantity': Number(productInfo.quantity),
                         }
                     }
                 ).then((response) => {
@@ -158,7 +158,7 @@ module.exports = {
                             'products.$.brand': productInfo.lapBrand,
                             'products.$.screenSize': productInfo.screenSize,
                             'products.$.price': Number(productInfo.price),
-                            'products.$.quantity': productInfo.quantity,
+                            'products.$.quantity': Number(productInfo.quantity),
                             'products.$.processorBrand': productInfo.processorBrand,
                             'products.$.ram': productInfo.lapRam,
                             'products.$.occassion': productInfo.occassion,
@@ -168,7 +168,7 @@ module.exports = {
                         }
                     }
                 ).then((response) => {
-                    console.log(response);
+
                     resolve(response)
 
                 })
@@ -176,13 +176,14 @@ module.exports = {
         }
     },
     updateQuantity: (cart) => {
+        console.log(cart);
         return new Promise(async (resolve) => {
             let qua
             for (i = 0; i < cart.count; i++) {
                 qua = -(cart[i].quantity)
                 await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
                     { 'products._id': ObjectId(cart[i].productId) },
-                    { $inc: { 'products.$.qauntity': qua } }
+                    { $inc: { 'products.$.quantity': qua } }
                 )
                 resolve()
             }
@@ -214,13 +215,40 @@ module.exports = {
         });
     }),
     viewOrders: (vendorId) => {
+        console.log(vendorId);
         return new Promise(async (resolve) => {
             let orders = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 { $unwind: '$orders' },
+                { $unwind: '$orders.products' },
+                { $match: { 'orders.products.vendorID':ObjectId(vendorId) } },
+                { $project: { 'orders': 1, _id: 0 } }
 
             ]).toArray()
-            console.log(orders);
+            // console.log(orders);
+            resolve(orders)
         })
-    }
+    },
+    changeShippingStatus: (orderId) => {
+        return new Promise((resolve) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne(
+                { 'orders._id': ObjectId(orderId) },
+                { $set: { 'orders.$.shipped': true } },
+            ).then((response) => {
+                // console.log(response);
+                resolve()
+            })
+        })
+   },
+   changeDeliveredStatus: (orderId) => {
+    return new Promise((resolve) => {
+        db.get().collection(collection.USER_COLLECTION).updateOne(
+            { 'orders._id': ObjectId(orderId) },
+            { $set: { 'orders.$.delivered': true } },
+        ).then((response) => {
+            console.log(response);
+            resolve()
+        })
+    })
+}
 
 }

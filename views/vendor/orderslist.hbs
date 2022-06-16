@@ -1,0 +1,74 @@
+<table id="myTable" class="display table-dark table-hover">
+    <thead class="table-secondary">
+        <tr>
+            <th>Date</th>
+            <th>Order ID</th>
+            <th>Payment Mode</th>
+            <th>Address</th>
+            <th>product</th>
+            <th>Amount (₹)</th>
+            <th>order Status</th>
+
+            {{!-- <th>Product</th>
+            <th>Quantity</th> --}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each orders}}
+        <tr>
+            <td>{{orders.date}}</td>
+            <td>{{orders.orderId}}</td>
+            <td>{{orders.paymentmethod}}</td>
+            <td>
+                <p>Address :</p>
+                <p> {{orders.firstName}} {{orders.lastName}}</p>
+                <p>{{orders.email}} </p>
+                <p>{{orders.phone}} </p>
+                <p> {{orders.address1}},{{orders.addres2}},</p>
+                <p>{{orders.zip}}</p>
+            </td>
+            <td>
+                <p>Product :</p>
+                <img src="/images/productsImages/{{orders.products.productId}}(1).jpg" width="100">
+                <p>{{orders.products.title}}</p>
+                <p>{{orders.products.quantity}}</p>
+            </td>
+            <td>₹ {{orders.total}}</td>
+            <td>
+                {{#if orders.cancelled}}
+                <p>order cancelled</p>
+                {{else}}
+                    {{#if orders.shipped}}
+                    <p>item shipped</p>
+                    {{#if orders.delivered}}
+                    <p>item delivered</p>
+                    {{else}}
+                    <a href="/vendor/orders/deliver/{{orders._id}}" class="btn btn-link">
+                    <p class="fw-bold text-success"> deliver</p>
+                    </a>
+                    {{/if}}
+                    {{else}}
+                    <a href="/vendor/orders/ship/{{orders._id}}" class="btn btn-link">
+                        <p class="fw-bold text-success"> Ship</p>
+                    </a>
+                    {{/if}}
+                    {{/if}}
+            </td>
+
+
+        </tr>
+
+
+        {{/each}}
+    </tbody>
+</table>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let table = new DataTable('#myTable');
+    });
+</script>

@@ -138,7 +138,7 @@ router.get('/editProduct/:id', (req, res) => {
 router.post('/editProduct/:id', (req, res) => {
   productId = req.params.id
   productInfo = req.body
- 
+
   vendorHelpers.updateProduct(productId, productInfo).then((data) => {
     if (req.files) {
       if (req.files.image1) {
@@ -169,9 +169,16 @@ router.get('/profile', (req, res) => {
     res.redirect('/vendor')
   }
 })
-router.get ('/viewOrders',(req,res)=>{
-  vendor =req.session.vendor._id
-  vendorHelpers.viewOrders(vendor)
+router.get('/viewOrders', (req, res) => {
+  if (req.session.vendor) {
+    vendor = req.session.vendor
+    vendorHelpers.viewOrders(vendor._id).then((orders) => {
+      console.log(orders);
+      res.render('vendor/orderslist', { orders, vendor })
+    })
+  } else {
+    res.redirect('/vendor')
+  }
 })
 
 router.post('/updateVendor', (req, res) => {
@@ -183,6 +190,21 @@ router.post('/updateVendor', (req, res) => {
     })
   }
 })
+
+router.get('/orders/ship/:id', (req, res) => {
+  let orderId = req.params.id
+  vendorHelpers.changeShippingStatus(orderId).then(() => {
+    res.redirect('/vendor/viewOrders')
+  })
+})
+router.get('/orders/deliver/:id', (req, res) => {
+  let orderId = req.params.id
+  vendorHelpers.changeDeliveredStatus(orderId).then(() => {
+    res.redirect('/vendor/viewOrders')
+  })
+
+})
+
 
 router.get('/logout', (req, res) => {
   req.session.logged = false

@@ -170,7 +170,6 @@ module.exports = {
           { $match: { $or: filter } },
           { $project: { _id: 0, products: 1 } }
         ]).toArray()
-        console.log(resultProducts);
         resolve(resultProducts)
       } else {
         resultProducts = await db.get().collection(collection.VENDOR_COLLECTION).aggregate([
@@ -179,11 +178,20 @@ module.exports = {
           { $match: { 'products.price': { $lt: price } } },
           { $project: { _id: 0, products: 1 } },
         ]).toArray()
-        console.log(resultProducts);
         resolve(resultProducts)
       }
     })
 
+  },
+  getAddress:(userId)=>{
+    return new Promise (async(resolve)=>{
+    let  address=await db.get().collection(collection.USER_COLLECTION).find(
+        { _id: ObjectId(userId) },
+        { _id: 1, orders: 0 },
+      ).toArray();
+      console.log(address);
+      resolve(address[0]);
+    })
   }
-
+ 
 };

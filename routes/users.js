@@ -222,15 +222,18 @@ router.post('/deleteproduct', (req, res) => {
     });
   }
 });
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.get('/cart/checkout', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
-    res.render('user/checkout', { user, cartTotal });
+    userHelpers.getAddress(user._id).then((userdetails)=>{
+      res.render('user/checkout', { user, cartTotal ,userdetails });
+    })
   } else {
     redirect('/');
   }
 });
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.post('/place-order', (req, res) => {
   const orderdetails = req.body;
   const { user } = req.session;
@@ -327,18 +330,14 @@ router.post('/updateUser', (req, res) => {
 });
 
 router.post('/products/filter', (req, res) => {
-  console.log(req.body);
   let deatil = req.body
   let price = parseInt(deatil.price)
   let filter = []
   for (let i of deatil.brandName) {
     filter.push({ 'products.brand': i })
   }
-  console.log(filter);
-  console.log(584);
   userHelpers.filterProducts(filter, device, price).then((response) => {
     filteredProduct = response
-    console.log(filteredProduct);
     // res.json({ status: true })
     if (req.body.sort == "Sort") {
       res.json({ status: true })
@@ -360,6 +359,15 @@ router.post('/products/filter', (req, res) => {
 
 })
 
+router.post('/cancelOrder', (req, res) => {
+  let data = req.body
+  orderhelpers.cancelorder(data).then(() => {
+    orderhelpers.changeProductQuntity(data).then(() => {
+        console.log(true);
+    })
+  })
+
+})
 
 router.post('/review/:id', (req, res) => {
   // console.log(req.params.id);

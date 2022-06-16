@@ -6,7 +6,8 @@ const db = require('../configration/connection');
 const collection = require('../configration/collection');
 const cartHelpers = require('./cart-helpers');
 const vendorHelpers = require('./vendor-helpers');
-const { options } = require('../app');
+const { options, response } = require('../app');
+const { resolve } = require('path');
 
 const instance = new Razorpay({
   key_id: 'rzp_test_IxGlNG7u5EDEyS',
@@ -15,14 +16,36 @@ const instance = new Razorpay({
 
 module.exports = {
   placeOder: (orderdetails, cart, user) => new Promise(async (resolve) => {
+    let address = {}
+    address.country = orderdetails.country
+    address.firstName = orderdetails.firstName
+    address.lastName = orderdetails.lastName
+    address.address1 = orderdetails.address1
+    address.addres2 = orderdetails.addres2
+    address.state = orderdetails.state
+    address.zip = orderdetails.zip
+    address.email = orderdetails.email
+    address.phone = orderdetails.phone
+
+
+    db.get().collection(collection.USER_COLLECTION).updateOne(
+      { _id: ObjectId(user._id) },
+      {
+        $set: { address },
+      },
+    )
+
+
+
     const _id = new ObjectId();
     let orders = {};
     orders = orderdetails;
-    orders.orderId= 'SP'+Date.now()
+    orders.orderId = 'SP' + Date.now()
     orders._id = _id;
     orders.products = cart;
     orders.total = cart.sum;
     orders.date = (new Date()).toLocaleDateString('en-IN');
+    orders.cancelled = false
     if (orderdetails.paymentmethod == 'COD') {
       orders.status = 'placed';
 
@@ -52,6 +75,7 @@ module.exports = {
     const orders = await db.get().collection(collection.USER_COLLECTION).aggregate([
       { $match: { _id: ObjectId(userId) } },
       { $unwind: '$orders' },
+      { $unwind: '$orders.products' },
       { $project: { orders: 1, _id: 0 } },
     ]).toArray();
     resolve(orders);
@@ -99,5 +123,32 @@ module.exports = {
     ]).toArray();
     resolve(orderdetail[0]);
   }),
+  cancelorder: (data) => {
+    return new Promise((resolve) => {
+      db.get().collection(collection.USER_COLLECTION).updateOne(
+        { 'orders._id': ObjectId(data.orderId) },
+        { $set: { 'orders.$.cancelled': true } },
+      ).then((response) => {
+        console.log(response);
+        resolve()
+      })
+    })
+
+  },
+  changeProductQuntity: (data) => {
+    console.log(data);
+    quan = parseInt(data.productQuantity)
+    console.log(quan);
+    return new Promise((resolve) => {
+      db.get().collection(collection.VENDOR_COLLECTION).updateOne(
+        { 'products._id': ObjectId(data.productId) },
+        { $inc: { 'products.$.quantity': quan } }
+      ).then((response) => {
+        console.log(response);
+        console.log(555555);
+      })
+    })
+  }
+
 
 };
