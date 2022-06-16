@@ -35,20 +35,20 @@
             </td>
             <td>₹ {{orders.total}}</td>
             <td>
-                {{#if orders.cancelled}}
+                {{#if orders.products.cancelled}}
                 <p>order cancelled</p>
                 {{else}}
-                    {{#if orders.shipped}}
+                    {{#if orders.products.shipped}}
                     <p>item shipped</p>
-                    {{#if orders.delivered}}
+                    {{#if orders.products.delivered}}
                     <p>item delivered</p>
                     {{else}}
-                    <a href="/vendor/orders/deliver/{{orders._id}}" class="btn btn-link">
+                    <a href="/vendor/orders/deliver/{{orders.products.cart_id}}" class="btn btn-link">
                     <p class="fw-bold text-success"> deliver</p>
                     </a>
                     {{/if}}
                     {{else}}
-                    <a href="/vendor/orders/ship/{{orders._id}}" class="btn btn-link">
+                    <a href="/vendor/orders/ship/{{orders.products.cart_id}}" class="btn btn-link">
                         <p class="fw-bold text-success"> Ship</p>
                     </a>
                     {{/if}}

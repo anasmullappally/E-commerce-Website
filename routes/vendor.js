@@ -192,14 +192,14 @@ router.post('/updateVendor', (req, res) => {
 })
 
 router.get('/orders/ship/:id', (req, res) => {
-  let orderId = req.params.id
-  vendorHelpers.changeShippingStatus(orderId).then(() => {
+  let cartId = req.params.id
+  vendorHelpers.changeShippingStatus(cartId).then(() => {
     res.redirect('/vendor/viewOrders')
   })
 })
 router.get('/orders/deliver/:id', (req, res) => {
-  let orderId = req.params.id
-  vendorHelpers.changeDeliveredStatus(orderId).then(() => {
+  let cartId = req.params.id
+  vendorHelpers.changeDeliveredStatus(cartId).then(() => {
     res.redirect('/vendor/viewOrders')
   })
 

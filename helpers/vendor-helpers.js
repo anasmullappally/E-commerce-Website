@@ -220,7 +220,7 @@ module.exports = {
             let orders = await db.get().collection(collection.USER_COLLECTION).aggregate([
                 { $unwind: '$orders' },
                 { $unwind: '$orders.products' },
-                { $match: { 'orders.products.vendorID':ObjectId(vendorId) } },
+                { $match: { 'orders.products.vendorID': ObjectId(vendorId) } },
                 { $project: { 'orders': 1, _id: 0 } }
 
             ]).toArray()
@@ -228,27 +228,40 @@ module.exports = {
             resolve(orders)
         })
     },
-    changeShippingStatus: (orderId) => {
-        return new Promise((resolve) => {
-            db.get().collection(collection.USER_COLLECTION).updateOne(
-                { 'orders._id': ObjectId(orderId) },
-                { $set: { 'orders.$.shipped': true } },
-            ).then((response) => {
-                // console.log(response);
-                resolve()
-            })
-        })
-   },
-   changeDeliveredStatus: (orderId) => {
-    return new Promise((resolve) => {
-        db.get().collection(collection.USER_COLLECTION).updateOne(
-            { 'orders._id': ObjectId(orderId) },
-            { $set: { 'orders.$.delivered': true } },
-        ).then((response) => {
-            console.log(response);
+    changeShippingStatus: (cartId) => {
+        return new Promise(async (resolve) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne(
+                { 'orders.products.cart_id': ObjectId(cartId) },
+                {
+                    $set: { 'orders.$.products.$[i].shipped': true }
+                },
+                {
+                    arrayFilters: [{
+                        'i.cart_id': ObjectId(cartId)
+                    }]
+                }
+            )
             resolve()
         })
-    })
-}
+
+    },
+    changeDeliveredStatus: (cartId) => {
+        return new Promise(async (resolve) => {
+            await db.get().collection(collection.USER_COLLECTION).updateOne(
+                { 'orders.products.cart_id': ObjectId(cartId) },
+                {
+                    $set: { 'orders.$.products.$[i].delivered': true }
+                },
+                {
+                    arrayFilters: [{
+                        'i.cart_id': ObjectId(cartId)
+                    }]
+                }
+            )
+            resolve()
+        })
+
+    },
+
 
 }

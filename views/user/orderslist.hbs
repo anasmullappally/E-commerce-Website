@@ -19,7 +19,7 @@
             {{#each orders}}
             <tr>
                 {{!-- <th scope="row">{{@index}}</th> --}}
-                <td><a href="/sellers/product/view?id={{this.orders.products.productId}}"><img class="shadow"
+                <td><a href="/vieworder/{{orders._id}}"><img class="shadow"
                             src="/images/productsImages/{{orders.products.productId}}(1).jpg" alt="" width="100"></a>
                 </td>
                 <td>
@@ -45,16 +45,17 @@
                 {{!-- <td>{{this.orders.products.title}}</td> --}}
                 {{!-- <td></td> --}}
                 {{!-- <td></td> --}}
-                <td>{{#if orders.shipped}}
+                <td>{{#if orders.products.shipped}}
                     <p class="text-success">Product Shipped</p>
-                    {{#if orders.delivered}}
+                    {{#if orders.products.delivered}}
                     <p class="text-success">Product Delivered</p>
                     {{else}}
-                    {{#if orders.cancelled}}
+                    {{#if orders.products.cancelled}}
                     <p class="text-danger">Order Cancelled</p>
                     {{else}}
-                    <p class="text-danger fw-bold"><a onclick="cancelOrder('{{orders._id}}')" href=""><span
-                                class="  text-danger">Cancel Order </span></a></p>
+                    <p class="text-danger fw-bold"><a
+                            onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')"
+                            href=""><span class="  text-danger">Cancel Order </span></a></p>
                     {{/if}}
                     {{!-- <a href="/sellers/orders/deliver?id={{this.orders.products.cart_id}}" class="btn btn-link">
                         <p class="fw-bold text-success">Deliver</p>
@@ -62,11 +63,11 @@
                     {{/if}}
                     {{else}}
                     <p class="text-success">Order Placed</p>
-                    {{#if orders.cancelled}}
+                    {{#if orders.products.cancelled}}
                     <p class="text-danger">Order Cancelled</p>
                     {{else}}
                     <p class="text-danger fw-bold"><a
-                            onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.quantity}}')"
+                            onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')"
                             href=""><span class="  text-danger">Cancel Order </span></a></p>
                     {{/if}}
                     {{!-- <a href="/sellers/orders/ship?id={{this.orders.products.cart_id}}" class="btn btn-link">
@@ -93,13 +94,14 @@
     });
 
 
-    function cancelOrder(orderId, productId, productQuantity) {
+    function cancelOrder(orderId, productId,cartId ,productQuantity) {
         $.ajax({
             url: '/cancelOrder',
             data: {
                orderId :orderId,
                productId:productId,
-               productQuantity : parseInt(productQuantity)
+               cartId : cartId,
+               productQuantity :productQuantity
             },
             method: 'post',
            // success: (response) => {

@@ -45,7 +45,7 @@ module.exports = {
     orders.products = cart;
     orders.total = cart.sum;
     orders.date = (new Date()).toLocaleDateString('en-IN');
-    orders.cancelled = false
+    // orders.cancelled = false
     if (orderdetails.paymentmethod == 'COD') {
       orders.status = 'placed';
 
@@ -123,18 +123,37 @@ module.exports = {
     ]).toArray();
     resolve(orderdetail[0]);
   }),
-  cancelorder: (data) => {
-    return new Promise((resolve) => {
-      db.get().collection(collection.USER_COLLECTION).updateOne(
-        { 'orders._id': ObjectId(data.orderId) },
-        { $set: { 'orders.$.cancelled': true } },
-      ).then((response) => {
-        console.log(response);
-        resolve()
-      })
-    })
+  // cancelorder: (data) => {
+  //   return new Promise((resolve) => {
+  //     db.get().collection(collection.USER_COLLECTION).updateOne(
+  //       { 'orders._id': ObjectId(data.orderId) },
+  //       { $set: { 'orders.$.cancelled': true } },
+  //     ).then((response) => {
+  //       console.log(response);
+  //       resolve()
+  //     })
+  //   })
 
-  },
+  // },
+  cancelorder: (data) => {
+    return new Promise(async (resolve, reject) => {
+        let { orderId, productId, cartId, productQuantity } = data
+        // console.log(true);
+        // console.log(productId);
+        await db.get().collection(collection.USER_COLLECTION).updateOne(
+            { 'orders.products.cart_id': ObjectId(cartId) },
+            {
+                $set: { 'orders.$.products.$[i].cancelled': true }
+            },
+            {
+                arrayFilters: [{
+                    'i.cart_id': ObjectId(cartId)
+                }]
+            }
+        )
+        resolve()
+    })
+},
   changeProductQuntity: (data) => {
     console.log(data);
     quan = parseInt(data.productQuantity)

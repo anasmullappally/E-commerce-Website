@@ -222,7 +222,7 @@ router.post('/deleteproduct', (req, res) => {
     });
   }
 });
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 router.get('/cart/checkout', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
@@ -233,7 +233,7 @@ router.get('/cart/checkout', (req, res) => {
     redirect('/');
   }
 });
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 router.post('/place-order', (req, res) => {
   const orderdetails = req.body;
   const { user } = req.session;
@@ -361,10 +361,11 @@ router.post('/products/filter', (req, res) => {
 
 router.post('/cancelOrder', (req, res) => {
   let data = req.body
+  console.log(data);
   orderhelpers.cancelorder(data).then(() => {
-    orderhelpers.changeProductQuntity(data).then(() => {
-        console.log(true);
-    })
+    // orderhelpers.changeProductQuntity(data).then(() => {
+    //     console.log(true);
+    // })
   })
 
 })
