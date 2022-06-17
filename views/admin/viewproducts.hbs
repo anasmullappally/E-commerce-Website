@@ -3,10 +3,12 @@
     <table id="userTable" class="display  table-dark table-hover ">
         <thead>
             <tr class="table-secondary">
-                <th>Product Id</th>
+
 
                 <th>Category</th>
-                <th>Brand</th>
+                <td>Image</td>
+                <th>product Details</th>
+             
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Option</th>
@@ -15,24 +17,38 @@
 
         <tbody>
             {{#each products}}
+            {{products.title}}
             {{#each this}}
             <tr>
-                <td>{{this._id}}</td>
                 {{#if this.mobile}}
                 <td>Mobile</td>
                 {{else}}
-                 <td>Laptop</td>
-                 {{/if}}
-                <td>{{this.brand}}</td>
+                <td>Laptop</td>
+                {{/if}}
+                <td>
+                    <img src="/images/productsImages/{{this._id}}(1).jpg" width="100" height="100" alt=""> </td>
+                    <td>
+                   <p>{{this.title}}</p>
+                   <p>{{this.brand}}</p>
+                   <p>{{this.rom}}</p>
+                   <p>{{this.ssd}}</p>
+                   <p>{{this.hdd}}</p>
+
+                    
+                    
+                    </td>
+              
                 <td>{{this.price}}</td>
                 <td>{{this.quantity}}</td>
 
 
-                <td><a href="/vendor/deleteProduct/{{this._id}}" class="icon-delete mr-3"
+                <td>
+                    {{!-- <a href="/vendor/deleteProduct/{{this._id}}" class="icon-delete mr-3"
                         onclick="return confirm('are you sure about it {{this.title}}>?')"></a>
-                    <a href="/vendor/editProduct/{{this._id}}" class="icon-mode_edit mr-3"></a>
+                    <a href="/vendor/editProduct/{{this._id}}" class="icon-mode_edit mr-3"></a> --}}
                     <a href="/vendor/viewProduct/{{this._id}}" class="icon-pageview"></a>
                 </td>
+            
             </tr>
             {{/each}}
             {{/each}}

@@ -94,21 +94,21 @@
     });
 
 
-    function cancelOrder(orderId, productId,cartId ,productQuantity) {
+    function cancelOrder(orderId, productId, cartId, productQuantity) {
         $.ajax({
             url: '/cancelOrder',
             data: {
-               orderId :orderId,
-               productId:productId,
-               cartId : cartId,
-               productQuantity :productQuantity
+                orderId: orderId,
+                productId: productId,
+                cartId: cartId,
+                productQuantity: productQuantity
             },
             method: 'post',
-           // success: (response) => {
-               // if (response) {
-                   // window.location.reload()
-              //  }
-          //  }
+            // success: (response) => {
+            // if (response) {
+            // window.location.reload()
+            //  }
+            //  }
         })
     }
 </script>

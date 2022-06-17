@@ -38,21 +38,21 @@
                 {{#if orders.products.cancelled}}
                 <p>order cancelled</p>
                 {{else}}
-                    {{#if orders.products.shipped}}
-                    <p>item shipped</p>
-                    {{#if orders.products.delivered}}
-                    <p>item delivered</p>
-                    {{else}}
-                    <a href="/vendor/orders/deliver/{{orders.products.cart_id}}" class="btn btn-link">
+                {{#if orders.products.shipped}}
+                <p>item shipped</p>
+                {{#if orders.products.delivered}}
+                <p>item delivered</p>
+                {{!-- {{else}}
+                <a href="/vendor/orders/deliver/{{orders.products.cart_id}}" class="btn btn-link">
                     <p class="fw-bold text-success"> deliver</p>
-                    </a>
-                    {{/if}}
-                    {{else}}
-                    <a href="/vendor/orders/ship/{{orders.products.cart_id}}" class="btn btn-link">
-                        <p class="fw-bold text-success"> Ship</p>
-                    </a>
-                    {{/if}}
-                    {{/if}}
+                </a> --}}
+                {{/if}}
+                {{!-- {{else}}
+                <a href="/vendor/orders/ship/{{orders.products.cart_id}}" class="btn btn-link">
+                    <p class="fw-bold text-success"> Ship</p>
+                </a> --}}
+                {{/if}}
+                {{/if}}
             </td>
         </tr>
         {{/each}}

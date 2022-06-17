@@ -3,14 +3,16 @@ const { redirect } = require('express/lib/response');
 const userHelpers = require('../helpers/user-helpers');
 const cartHelpers = require('../helpers/cart-helpers');
 const orderhelpers = require('../helpers/order-helpers');
+
 const router = express.Router();
 
-let cartTotal, orderid, device, filteredProduct
+let cartTotal; let orderid; let device; let
+  filteredProduct;
 
 /* GET users listing. */
 router.get('/', (req, res) => {
   if (req.session.user) {
-    const user = req.session.user;
+    const { user } = req.session;
 
     cartHelpers.getCartCount(user._id).then((count) => {
       req.session.user.cartCount = count;
@@ -28,7 +30,6 @@ router.get('/', (req, res) => {
 //     res.redirect('/shop')
 //   })
 // })
-
 
 router.get('/login', (req, res) => {
   if (req.session.user) {
@@ -80,25 +81,25 @@ router.post('/signup', (req, res) => {
 });
 router.get('/shop', (req, res) => {
   if (req.session.user) {
-    user = req.session.user
+    user = req.session.user;
     userHelpers.getAllBrands(device).then((brands) => {
-      res.render('user/shop', { products: filteredProduct, brands, device, user });
-    })
+      res.render('user/shop', {
+        products: filteredProduct, brands, device, user,
+      });
+    });
   } else {
     userHelpers.getAllBrands(device).then((brands) => {
       res.render('user/shop', { products: filteredProduct, brands, device });
-    })
+    });
   }
-
-})
+});
 router.get('/shop/:device', (req, res) => {
-  device = req.params.device
+  device = req.params.device;
   // if (req.session.user) {
   // const { user } = req.session;
   userHelpers.viewAllProducts(device).then((response) => {
-    filteredProduct = response
-    res.redirect('/shop')
-
+    filteredProduct = response;
+    res.redirect('/shop');
   });
   // } else {
   //   userHelpers.viewAllProducts(device).then((response) => {
@@ -133,12 +134,11 @@ router.post('/addtowishlist', (req, res) => {
       if (status) {
         res.json({ added: true });
       } else {
-        res.json({ exist: true })
+        res.json({ exist: true });
       }
-
     });
   } else {
-    res.json({ login: true })
+    res.json({ login: true });
   }
 });
 
@@ -226,9 +226,9 @@ router.post('/deleteproduct', (req, res) => {
 router.get('/cart/checkout', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
-    userHelpers.getAddress(user._id).then((userdetails)=>{
-      res.render('user/checkout', { user, cartTotal ,userdetails });
-    })
+    userHelpers.getAddress(user._id).then((userdetails) => {
+      res.render('user/checkout', { user, cartTotal, userdetails });
+    });
   } else {
     redirect('/');
   }
@@ -325,51 +325,47 @@ router.post('/updateUser', (req, res) => {
   };
   const userId = req.session.user._id;
   userHelpers.updateProfile(data, userId).then(() => {
-    res.json({ status: true })
-  })
+    res.json({ status: true });
+  });
 });
 
 router.post('/products/filter', (req, res) => {
-  let deatil = req.body
-  let price = parseInt(deatil.price)
-  let filter = []
-  for (let i of deatil.brandName) {
-    filter.push({ 'products.brand': i })
+  const deatil = req.body;
+  const price = parseInt(deatil.price);
+  const filter = [];
+  for (const i of deatil.brandName) {
+    filter.push({ 'products.brand': i });
   }
   userHelpers.filterProducts(filter, device, price).then((response) => {
-    filteredProduct = response
+    filteredProduct = response;
     // res.json({ status: true })
-    if (req.body.sort == "Sort") {
-      res.json({ status: true })
+    if (req.body.sort == 'Sort') {
+      res.json({ status: true });
     }
     if (req.body.sort == 'lh') {
-      filteredProduct.sort((a, b) => {
-        return a.products.price - b.products.price
-      })
-      res.json({ status: true })
+      filteredProduct.sort((a, b) => a.products.price - b.products.price);
+      res.json({ status: true });
     }
     if (req.body.sort == 'hl') {
-      filteredProduct.sort((a, b) => {
-        return b.products.price - a.products.price
-      })
-      res.json({ status: true })
+      filteredProduct.sort((a, b) => b.products.price - a.products.price);
+      res.json({ status: true });
     }
-
-  })
-
-})
+  });
+});
 
 router.post('/cancelOrder', (req, res) => {
-  let data = req.body
+  const data = req.body;
   console.log(data);
   orderhelpers.cancelorder(data).then(() => {
     // orderhelpers.changeProductQuntity(data).then(() => {
     //     console.log(true);
     // })
-  })
-
-})
-
+  });
+});
+router.post('/searchproducts', (req, res) => {
+  const { search } = req.body;
+  console.log(search);
+});
 router.post('/review/:id', (req, res) => {
   // console.log(req.params.id);
   // console.log(req.body);

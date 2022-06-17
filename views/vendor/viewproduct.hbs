@@ -24,38 +24,30 @@
     <p class="text-center text-bold fw-bold text-info fs-1 ">PRODUCT DETAILS</p>
     <div class="row mt-5 pt-5">
         <div class="col-lg-5 col-md-6 col-12 mr-5 mb-3">
-            <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid w-100 pb-1" id="MainImg"
+            <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid w-75 pb-3" id="MainImg"
                 alt="">
             <div class="small-img-group">
                 <div class="small-img-col">
                     <img src="/images/productsImages/{{product.products._id}}(1).jpg" width="100%" class="small-img"
-                        alt="">
+                        alt="" style="max-height:10rem ;">
                 </div>
                 <div class="small-img-col">
                     <img src="/images/productsImages/{{product.products._id}}(2).jpg" width="100%" class="small-img"
-                        alt="">
+                        alt="" style="max-height:10rem ;">
                 </div>
                 <div class="small-img-col">
                     <img src="/images/productsImages/{{product.products._id}}(3).jpg" width="100%" class="small-img"
-                        alt="">
+                        alt="" style="max-height:10rem ;">
                 </div>
                 <div class="small-img-col">
                     <img src="/images/productsImages/{{product.products._id}}(4).jpg" width="100%" class="small-img"
-                        alt="">
+                        alt="" style="max-height:10rem ;">
                 </div>
 
             </div>
         </div>
         <div class="col-lg-5 col-md-6 col-12     details">
-            {{!-- <h4 class="txt">Car Details</h5>
-                <h4 class="txt">Brand:Maruthi Suzuki</h4>
-                <h4 class="txt">model:Alto 800</h4>
-                <h4 class="txt">Varient:LXI</h4>
-                <h5 class="txt">Transmission:<i class="fa fa-gears fa-spin" style="font-size:30px"></i> Manual</h5>
-                <p class="txt"> <i class="fa-solid fa-gas-pump"></i> Fuel: Petrol</p>
-                <p class="txt"> Rent : <span class="ml-2 "><i class="fa-solid fa-indian-rupee-sign"></i><b> 1000</b> /
-                        per day</span></p>
-                <span class="btn btn-warning ">Book Now</span> --}}
+            
                 <table>
                     {{#if product.products.mobile}}
                     <tr>
@@ -256,6 +248,3 @@
 
 </script>
 
-
-{{!--
-<script src="https://kit.fontawesome.com/d46ab11f99.js" crossorigin="anonymous"></script> --}}
