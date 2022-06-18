@@ -355,8 +355,9 @@ router.post('/products/filter', (req, res) => {
 
 router.post('/cancelOrder', (req, res) => {
   const data = req.body;
-  console.log(data);
-  orderhelpers.cancelorder(data).then(() => {
+  orderhelpers.cancelorder(data).then((response) => {
+    
+    res.json(response)
     // orderhelpers.changeProductQuntity(data).then(() => {
     //     console.log(true);
     // })

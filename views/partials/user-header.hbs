@@ -75,20 +75,20 @@
 </header>
 <script>
 
-  $('input[name=search]').change(function () {
-   alert( this.value );
-      $.ajax({
-         url: '/searchproducts',
-         method: "post",
-         data: $('#search').serialize(),
-         success: (isResult) => {
+ // $('input[name=search]').change(function () {
+   //alert( this.value );
+     // $.ajax({
+       //  url: '/searchproducts',
+         //method: "post",
+        // data: $('#search').serialize(),
+        // success: (isResult) => {
            // if (isResult) {
                // window.location.reload()
                // $('#products').load('/products/filter');
               // $('#products').load(location.href + " #products");
            // }
-         }
-      })
+        // }
+     // })
 
-   });
+  // });
 </script>

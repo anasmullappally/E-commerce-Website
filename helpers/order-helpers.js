@@ -4,6 +4,7 @@ const db = require('../configration/connection');
 const collection = require('../configration/collection');
 const cartHelpers = require('./cart-helpers');
 const vendorHelpers = require('./vendor-helpers');
+const { response } = require('express');
 
 const instance = new Razorpay({
   key_id: 'rzp_test_IxGlNG7u5EDEyS',
@@ -145,7 +146,7 @@ module.exports = {
         }],
       },
     );
-    resolve();
+    resolve(response);
   }),
   // changeProductQuntity: (data) => {
   //   console.log(data)
