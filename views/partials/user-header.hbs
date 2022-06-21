@@ -4,9 +4,9 @@
       <div class="row align-items-center">
 
         <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-          <form action="" class="site-block-top-search" id="search">
+          <form action="/searchproducts" class="site-block-top-search" id="search" method="post">
             <span class="icon icon-search2"></span>
-            <input type="text" class="form-control border-0" name="search" placeholder="Search">
+            <input type="text" class="form-control border-0" name="search" placeholder="Search" >
           </form>
         </div>
 
@@ -27,9 +27,9 @@
               <li><a href="/wishlist"><span class="icon icon-heart-o"></span></a></li>
 
               <li>
-                <a href="/cart" class="site-cart">
+                <a href="/cart" class="site-cart" id="cart">
                   <span class="icon icon-shopping_cart"></span>
-                  <span class="count">{{user.cartCount}}</span>
+                  <span  class="count">{{user.cartCount}}</span>
                 </a>
               </li>
               {{else}}

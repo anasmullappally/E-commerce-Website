@@ -39,6 +39,7 @@ module.exports = {
     orders.products = cart;
     orders.total = cart.sum;
     orders.date = (new Date()).toLocaleDateString('en-IN');
+
     // orders.cancelled = false
     if (orderdetails.paymentmethod == 'COD') {
       orders.status = 'placed';

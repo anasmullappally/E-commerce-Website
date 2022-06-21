@@ -13,50 +13,55 @@
       <div class="row">
         <div class="col-lg-5 col-md-12 col-sm-12 mr-5 mb-3 mx-auto ">
 
-          <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid pb-1" id="MainImg" alt="" style="height: 25rem;">
+          <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid pb-1" id="MainImg" alt=""
+            style="height: 25rem;">
           <div class="small-img-group d-flex ">
             <div class="small-img-col">
-              <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="small-img" alt=""  width="100%"  style="max-height:10rem ;">
+              <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="small-img" alt="" width="100%"
+                style="max-height:10rem ;">
             </div>
             <div class="small-img-col">
-              <img src="/images/productsImages/{{product.products._id}}(2).jpg" class="small-img" alt=""  width="100%"  style="max-height:10rem ;">
+              <img src="/images/productsImages/{{product.products._id}}(2).jpg" class="small-img" alt="" width="100%"
+                style="max-height:10rem ;">
             </div>
             <div class="small-img-col">
-              <img src="/images/productsImages/{{product.products._id}}(3).jpg" class="small-img" alt=""  width="100%"  style="max-height:10rem ;">
+              <img src="/images/productsImages/{{product.products._id}}(3).jpg" class="small-img" alt="" width="100%"
+                style="max-height:10rem ;">
             </div>
             <div class="small-img-col">
-              <img src="/images/productsImages/{{product.products._id}}(4).jpg" class="small-img" alt=""  width="100%"  style="max-height:10rem ;">
+              <img src="/images/productsImages/{{product.products._id}}(4).jpg" class="small-img" alt="" width="100%"
+                style="max-height:10rem ;">
             </div>
 
           </div>
 
         </div>
         {{!-- <div class="col-md-6">
-          <img src="/images/productsImages/{{product.products._id}}(1).jpg" alt="Image" class="img-fluid"  >
+          <img src="/images/productsImages/{{product.products._id}}(1).jpg" alt="Image" class="img-fluid">
         </div> --}}
         <div class="col-md-6">
           <h2 class="text-black">{{product.products.title}}</h2>
           {{#if product.products.mobile}}
-          <p>RAM :{{product.products.ram}} / ROM :{{product.products.rom}}</p>
+          <p>RAM : {{product.products.ram}} / ROM : {{product.products.rom}}</p>
           <p>PROCESSOR : {{product.products.processor}}</p>
-          <p>OPERATING SYSTEM : {{this.products.os}}</p>
+          <p>OPERATING SYSTEM : {{product.products.os}}</p>
           <p>Display : {{product.products.display}} </p>
           <p>Screen Size : {{product.products.screenSize}}</p>
 
           {{else}}
-          <p>OCCASSION :{{product.products.occassion}} </p>
-          <p>S S D :{{product.products.ssd}} </p>
-          <p>H D D :{{product.products.hdd}} </p>
-          <p>RAM :{{product.products.ram}} </p>
+          <p>OCCASSION : {{product.products.occassion}} </p>
+          <p>S S D : {{product.products.ssd}} </p>
+          <p>H D D : {{product.products.hdd}} </p>
+          <p>RAM : {{product.products.ram}} </p>
           <p>PROCESSOR : {{product.products.processorBrand}}</p>
           <p>Screen Size : {{product.products.screenSize}} Inch</p>
-
+          <p>OPERATING SYSTEM : {{product.products.os}}</p>
 
           {{/if}}
-          <p><strong class="text-primary h4">${{product.products.price}}</strong></p>
+          <p><strong class="text-primary h4">₹ {{product.products.price}}</strong></p>
 
-
-          <p><a href="/shop/{{product.products._id}}/addtocart" class="buy-now btn btn-sm btn-primary">Add To Cart</a>
+          <button class="buy-now btn btn-sm btn-primary" type="button"
+            onclick="addtoCart('{{product.products._id}}')">Add To Cart</button>
           </p>
 
         </div>

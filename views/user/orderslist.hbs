@@ -1,114 +1,105 @@
 <div class="container mt-5 shadow">
-    <table class="table table-responsive" id="orders">
-        {{!-- <caption> users</caption> --}}
-        <thead>
-            <tr>
-                {{!-- <th scope="col"></th> --}}
-                <th scope="col"></th>
-                <th scope="col"> </th>
-                <th scope="col"> </th>
-                <th scope="col"> </th>
-                {{!-- <th scope="col"> Title </th> --}}
-                {{!-- <th scope="col"> Price</th> --}}
-                {{!-- <th scope="col"> Quantity</th> --}}
-                <th scope="col"></th>
+    <div id="productStatus">
+        <table class="table table-responsive" id="orders">
+            {{!-- <caption> users</caption> --}}
+            <thead>
+                <tr>
+                    {{!-- <th scope="col"></th> --}}
+                    <th scope="col"></th>
+                    <th scope="col"> </th>
+                    <th scope="col"> </th>
+                    <th scope="col"> </th>
+                    {{!-- <th scope="col"> Title </th> --}}
+                    {{!-- <th scope="col"> Price</th> --}}
+                    {{!-- <th scope="col"> Quantity</th> --}}
+                    <th scope="col"></th>
 
-            </tr>
-        </thead>
-        <tbody>
-            {{#each orders}}
-            <tr>
-                {{!-- <th scope="row">{{@index}}</th> --}}
-                <td><a href="/vieworder/{{orders._id}}"><img class="shadow"
-                            src="/images/productsImages/{{orders.products.productId}}(1).jpg" alt="" width="100"></a>
-                </td>
-                <td>
-                    <p>Order Id :{{orders.orderId}}</p>
-                    <p>Date :{{orders.date}} </p>
-                </td>
-                <td>
-                    <p class="fw-bold">Address</p>
-                    <p>{{orders.email}}</p>
-                    <p>{{orders.address1}} {{orders.addres2}}</p>
-                    <p>{{orders.state}}</p>
-                    <p>{{orders.pincode}}</p>
-                    <p>Paymet :{{orders.paymentmethod}}</p>
+                </tr>
+            </thead>
 
-                </td>
-                <td>
+            <tbody>
 
-                    <p class="fw-bold">{{orders.products.title}}</p>
-                    <p class="fw-bold">Price : {{orders.products.price}}</p>
-                    <p>Quantity : {{orders.products.quantity}}</p>
+                {{#each orders}}
+                <tr>
+                    {{!-- <th scope="row">{{@index}}</th> --}}
+                    <td><a href="/vieworder/{{orders._id}}"><img class="shadow"
+                                src="/images/productsImages/{{orders.products.productId}}(1).jpg" alt=""
+                                width="100"></a>
+                    </td>
+                    <td>
+                        <p>Order Id :{{orders.orderId}}</p>
+                        <p>Date :{{orders.date}} </p>
+                    </td>
+                    <td>
+                        <p class="fw-bold">Address</p>
+                        <p>{{orders.email}}</p>
+                        <p>{{orders.address1}} {{orders.addres2}}</p>
+                        <p>{{orders.state}}</p>
+                        <p>{{orders.pincode}}</p>
+                        <p>Paymet :{{orders.paymentmethod}}</p>
 
-                </td>
-                {{!-- <td>{{this.orders.products.title}}</td> --}}
-                {{!-- <td></td> --}}
-                {{!-- <td></td> --}}
-                <td>{{#if orders.products.shipped}}
-                    <p class="text-success">Product Shipped</p>
-                    {{#if orders.products.delivered}}
-                    <p class="text-success">Product Delivered</p>
-                    {{else}}
-                    {{#if orders.products.cancelled}}
-                    <p class="text-danger">Order Cancelled</p>
-                    {{else}}
-                    <p class="text-danger fw-bold"><a
-                            onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')"
-                            href=""><span class="  text-danger">Cancel Order </span></a></p>
-                    {{/if}}
-                    {{!-- <a href="/sellers/orders/deliver?id={{this.orders.products.cart_id}}" class="btn btn-link">
-                        <p class="fw-bold text-success">Deliver</p>
-                    </a> --}}
-                    {{/if}}
-                    {{else}}
-                    <p class="text-success">Order Placed</p>
-                    {{#if orders.products.cancelled}}
-                    <p class="text-danger">Order Cancelled</p>
-                    {{else}}
-                    <p class="text-danger fw-bold"><a
-                            onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')"
-                            href=""><span class="  text-danger">Cancel Order </span></a></p>
-                    {{/if}}
-                    {{!-- <a href="/sellers/orders/ship?id={{this.orders.products.cart_id}}" class="btn btn-link">
-                        <p class="fw-bold text-success"> Ship</p>
-                    </a> --}}
-                    {{/if}}
-                </td>
+                    </td>
+                    <td>
+
+                        <p class="fw-bold">{{orders.products.title}}</p>
+                        <p class="fw-bold">Price : {{orders.products.price}}</p>
+                        <p>Quantity : {{orders.products.quantity}}</p>
+
+                    </td>
+                    {{!-- <td>{{this.orders.products.title}}</td> --}}
+                    {{!-- <td></td> --}}
+                    {{!-- <td></td> --}}
+
+                    <td>
+                        {{#if orders.products.shipped}}
+                        <p class="text-success">Product Shipped</p>
+                        {{#if orders.products.delivered}}
+                        <p class="text-success">Product Delivered</p>
+                        {{else}}
+                        {{#if orders.products.cancelled}}
+                        <p class="text-danger">Order Cancelled</p>
+                        {{else}}
+                        <p class="text-danger fw-bold"><a
+                                onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')"
+                                href=""><span class="  text-danger">Cancel Order </span></a></p>
+                        {{/if}}
+                        {{!-- <a href="/sellers/orders/deliver?id={{this.orders.products.cart_id}}"
+                            class="btn btn-link">
+                            <p class="fw-bold text-success">Deliver</p>
+                        </a> --}}
+                        {{/if}}
+                        {{else}}
+                        <p class="text-success">Order Placed</p>
+                        {{#if orders.products.cancelled}}
+                        <p class="text-danger">Order Cancelled</p>
+                        {{else}}
+                        <p class="text-danger fw-bold"><button type="button"
+                                onclick="cancelOrder('{{orders._id}}','{{orders.products.productId}}','{{orders.products.cart_id}}','{{orders.products.quantity}}')">Cancel
+                                Order </button></p>
+                        {{/if}}
+                        {{!-- <a href="/sellers/orders/ship?id={{this.orders.products.cart_id}}" class="btn btn-link">
+                            <p class="fw-bold text-success"> Ship</p>
+                        </a> --}}
+                        {{/if}}
+
+                    </td>
 
 
 
 
-            </tr>
+                </tr>
 
-            {{/each}}
-        </tbody>
+                {{/each}}
 
-    </table>
+            </tbody>
+
+        </table>
+    </div>
 </div>
 
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let table = new DataTable('#orders');
-    });
-
-
-    function cancelOrder(orderId, productId, cartId, productQuantity) {
-        $.ajax({
-            url: '/cancelOrder',
-            data: {
-                orderId: orderId,
-                productId: productId,
-                cartId: cartId,
-                productQuantity: productQuantity
-            },
-            method: 'post',
-            success: (response) => {
-                if (response) {
-                    window.location.reload()
-                }
-            }
-        })
-    }
+    })
 </script>

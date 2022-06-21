@@ -15,7 +15,7 @@
                 <form class="col-md-12" method="post">
                     <div class="site-blocks-table">
                         {{#if wishlist}}
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="wishlist">
                             <thead>
                                 <tr>
                                     <th class="product-thumbnail">Image</th>
@@ -37,7 +37,7 @@
                                     </td>
                                     <td>{{wishlist.price}}</td>
                                     <td><button onclick="deletewishlistitem('{{wishlist.wishlist_id}}')"
-                                            class="btn btn-primary btn-sm">X</button></td>
+                                            class="btn btn-primary btn-sm" type="button">X</button></td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -67,18 +67,3 @@
 
 </div>
 
-<script>
-    function deletewishlistitem(wishlistId) {
-        $.ajax({
-            url: '/removeWishlist',
-            data: {
-                wishlist: wishlistId
-            },
-            method: 'post',
-            success: (response) => {
-                alert('deleted')
-                window.location.reload()
-            }
-        })
-    }
-</script>

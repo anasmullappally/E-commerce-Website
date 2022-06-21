@@ -4,52 +4,54 @@ const vendorHelpers = require('../helpers/vendor-helpers');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     const { vendor } = req.session;
     res.render('vendor/dashboard', { vendor });
   } else {
-    res.render('vendor/login', { vendor: true });
+    res.render('vendor/login', { login: true });
   }
 });
 
 router.post('/login', (req, res) => {
   vendorHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.logged = true;
+      req.session.vendor = true;
+      console.log(response);
       req.session.vendor = response.vendor;
 
       if (req.session.vendor.isActive == true) {
         res.redirect('/vendor');
       } else {
         req.session.blockedd = true;
-        res.redirect('vendor/login');
+        res.redirect('/vendor/login',);
       }
     } else {
       req.session.loginError = true;
-      res.redirect('/vendor');
+      res.redirect('/vendor/login');
     }
   });
 });
 
 router.get('/login', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     if (req.session.vendor.isActive) {
       res.redirect('/vendor');
     } else {
-      res.render('vendor/login', { blockedVendor: req.session.blockedd });
+      res.render('vendor/login', { blockedVendor: req.session.blockedd ,login:true });
       req.session.blockedd = false;
     }
   } else {
-    res.render('vendor/login', { loginError: req.session.loginError, vendor: true });
+    res.render('vendor/login', { loginError: req.session.loginError,login:true });
     req.session.loginError = false;
   }
 });
 
 router.get('/signup', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     res.redirect('/vendor');
   } else {
-    res.render('vendor/signup', { alreadyexistv: req.session.alreadyexistv, vendor: true });
+    res.render('vendor/signup', { alreadyexistv: req.session.alreadyexistv, login: true });
+    req.session.alreadyexistv = false
   }
 });
 
@@ -58,12 +60,13 @@ router.post('/signup', (req, res) => {
     res.render('vendor/login', { vendor: true });
   }).catch(() => {
     req.session.alreadyexistv = true;
-    res.render('vendor/signup', { vendor: true });
+    res.redirect('/vendor/signup');
+    
   });
 });
 
 router.get('/dashboard', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     res.render('vendor/dashboard', { vendor: true });
   } else {
     res.redirect('/vendor');
@@ -71,7 +74,7 @@ router.get('/dashboard', (req, res) => {
 });
 
 router.get('/addproducts', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     res.render('vendor/addProducts', { vendor: true });
   } else {
     res.redirect('/vendor');
@@ -99,7 +102,7 @@ router.post('/addproduct', (req, res) => {
 });
 
 router.get('/viewproducts', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     const { vendor } = req.session;
     vendorHelpers.viewProducts(vendor).then((products) => {
       res.render('vendor/viewproducts', { vendor, products });
@@ -113,7 +116,7 @@ function addImage(image, n, id) {
   image.mv(`public/images/productsImages/${id}(${n})` + '.jpg');
 }
 router.get('/viewProduct/:id', (req, res) => {
-  if (req.session.logged) {
+  if (req.session.vendor) {
     const { vendor } = req.session;
     vendorHelpers.getProductDetails(req.params.id).then((product) => {
       res.render('vendor/viewproduct', { vendor, product });
@@ -188,21 +191,21 @@ router.post('/updateVendor', (req, res) => {
   }
 });
 
-router.get('/orders/ship/:id', (req, res) => {
-  const cartId = req.params.id;
+router.post('/shipProduct',(req,res)=>{
+  let cartId=req.body.cartId
   vendorHelpers.changeShippingStatus(cartId).then(() => {
-    res.redirect('/vendor/viewOrders');
+    res.json({shipped:true})
   });
-});
-router.get('/orders/deliver/:id', (req, res) => {
-  const cartId = req.params.id;
+})
+router.post('/deliverProduct', (req, res) => {
+  const cartId = req.body.cartId;
   vendorHelpers.changeDeliveredStatus(cartId).then(() => {
-    res.redirect('/vendor/viewOrders');
+    res.json({deliver:true})
   });
 });
 
 router.get('/logout', (req, res) => {
-  req.session.logged = false;
+  req.session.vendor = false;
   res.redirect('/vendor');
 });
 

@@ -161,19 +161,19 @@ router.post('/removeWishlist', (req, res) => {
   }
 });
 
-router.get('/addtocart/:id', (req, res) => {
-  if (req.session.user) {
-    const { user } = req.session;
-    cartHelpers.addToCart(req.params.id, user._id).then(() => {
-      cartHelpers.getCartCount(user._id).then((count) => {
-        req.session.user.cartCount = count;
-        res.redirect('/cart');
-      });
-    });
-  } else {
-    res.redirect('/login');
-  }
-});
+// router.get('/addtocart/:id', (req, res) => {
+//   if (req.session.user) {
+//     const { user } = req.session;
+//     cartHelpers.addToCart(req.params.id, user._id).then(() => {
+//       cartHelpers.getCartCount(user._id).then((count) => {
+//         req.session.user.cartCount = count;
+//         res.redirect('/cart');
+//       });
+//     });
+//   } else {
+//     res.redirect('/login');
+//   }
+// });
 
 router.get('/shop/:id/addtoCart', (req, res) => {
   if (req.session.user) {
@@ -214,7 +214,7 @@ router.post('/changeProductQuantity', (req, res) => {
 router.post('/deleteproduct', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
-    cartHelpers.deleteProduct(req.body).then(() => {
+    cartHelpers.deleteProduct(req.body).then((response) => {
       cartHelpers.getCartCount(user._id).then((count) => {
         req.session.user.cartCount = count;
         res.json({ status: true });
@@ -239,6 +239,9 @@ router.post('/place-order', (req, res) => {
   const { user } = req.session;
   orderhelpers.placeOder(orderdetails, cartTotal, user).then((orderId) => {
     orderid = orderId;
+    console.log(orderid);
+    console.log(true);
+    console.log(orderId);
     if (orderdetails.paymentmethod == 'COD') {
       res.json({ codSuccess: true });
     } else {
@@ -283,6 +286,7 @@ router.post('/varifyPayment', (req, res) => {
 router.get('/vieworder/:id', (req, res) => {
   const orderId = req.params.id;
   orderhelpers.viewSingleOrder(orderId).then((orderDetails) => {
+    
     res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user });
   });
 });
@@ -356,7 +360,7 @@ router.post('/products/filter', (req, res) => {
 router.post('/cancelOrder', (req, res) => {
   const data = req.body;
   orderhelpers.cancelorder(data).then((response) => {
-    
+
     res.json(response)
     // orderhelpers.changeProductQuntity(data).then(() => {
     //     console.log(true);
@@ -371,7 +375,20 @@ router.post('/review/:id', (req, res) => {
   // console.log(req.params.id);
   // console.log(req.body);
 });
-
+router.post('/addtoCart', (req, res) => {
+  if (req.session.user) {
+  let  productId = req.body.productId
+    const { user } = req.session;
+    cartHelpers.addToCart(productId, user._id).then(() => {
+      cartHelpers.getCartCount(user._id).then((count) => {
+        req.session.user.cartCount = count;
+        res.json({ status: true })
+      });
+    });
+  } else {
+    res.json({ status: false })
+  }
+})
 router.get('/logout', (req, res) => {
   req.session.user = false;
   res.redirect('/');

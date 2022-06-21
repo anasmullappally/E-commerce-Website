@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
     const { admin } = req.session;
     res.render('admin/dashboard', { admin });
   } else {
-    res.render('admin/login', { admin: true });
+    res.render('admin/login', {login:true });
   }
 });
 

@@ -34,7 +34,7 @@
                   </div>
                </div>
                <div class="container" id="products">
-                  <div class="row mb-5" >
+                  <div class="row mb-5">
                      {{#each products}}
                      {{#if products.deleted}}
                      {{else}}
@@ -60,7 +60,10 @@
                               {{/if}}
                               <p class="text-primary font-weight-bold">₹ {{products.price}}</p>
                               <p><a href="/shop/{{products._id}}" class="btn btn-light icon-eye me-5"></a>
-                                 <a href="/addtocart/{{products._id}}" class="btn btn-warning icon-shopping_cart"></a>
+                                 {{!-- <a href="/addtocart/{{products._id}}"
+                                    class="btn btn-warning icon-shopping_cart"></a> --}}
+                                 <button class="btn btn-warning icon-shopping_cart" type="button"
+                                    onclick="addtoCart('{{products._id}}')"></button>
                               </p>
                            </div>
                         </div>
@@ -163,77 +166,55 @@
 </form>
 
 <script>
-
-
-   function addtowishlist(productId) {
-      $.ajax({
-         url: '/addtowishlist',
-         data: {
-            productId: productId
-         },
-         method: 'post',
-         success: (response) => {
-            if (response.added) {
-               alert('added')
-            } else if (response.exist) {
-               alert('already in your wishlist')
-            } else {
-               alert('please login')
-            }
-
-         }
-      })
-   }
-
    $('input[name=brandName]').change(function () {
 
-      $.ajax({
-         url: '/products/filter',
-         method: "post",
-         data: $('#brandFilter').serialize(),
-         success: (isResult) => {
-            if (isResult) {
-               // window.location.reload()
-               // $('#products').load('/products/filter');
-               $('#products').load(location.href + " #products");
-            }
-         }
-      })
+    $.ajax({
+       url: '/products/filter',
+       method: "post",
+       data: $('#brandFilter').serialize(),
+       success: (isResult) => {
+          if (isResult) {
+             // window.location.reload()
+             // $('#products').load('/products/filter');
+             $('#products').load(location.href + " #products");
+          }
+       }
+    })
 
-   });
-
-
-
-   $('#sortMenu').on('change', function () {
-      // alert( this.value );
-      $.ajax({
-         url: '/products/filter',
-         method: "post",
-         data: $('#brandFilter').serialize(),
-         success: (isResult) => {
-            if (isResult) {
-               // window.location.reload()
-               // $('#products').load('/products/filter');
-               $('#products').load(location.href + " #products");
-            }
-         }
-      })
-   });
+ });
 
 
-   $('input[name=price]').change(function () {
-      $.ajax({
-         url: '/products/filter',
-         method: "post",
-         data: $('#brandFilter').serialize(),
-         success: (isResult) => {
-            if (isResult) {
-               // window.location.reload()
-               // $('#products').load('/products/filter');
-               $('#products').load(location.href + " #products");
-            }
-         }
-      })
-   })
+
+ $('#sortMenu').on('change', function () {
+    // alert( this.value );
+    $.ajax({
+       url: '/products/filter',
+       method: "post",
+       data: $('#brandFilter').serialize(),
+       success: (isResult) => {
+          if (isResult) {
+             // window.location.reload()
+             // $('#products').load('/products/filter');
+             $('#products').load(location.href + " #products");
+          }
+       }
+    })
+ });
+
+
+ $('input[name=price]').change(function () {
+    $.ajax({
+       url: '/products/filter',
+       method: "post",
+       data: $('#brandFilter').serialize(),
+       success: (isResult) => {
+          if (isResult) {
+             // window.location.reload()
+             // $('#products').load('/products/filter');
+             $('#products').load(location.href + " #products");
+          }
+       }
+    })
+ })
 
 </script>

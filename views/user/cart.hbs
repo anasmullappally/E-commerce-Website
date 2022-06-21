@@ -10,11 +10,11 @@
 <div class="site-section">
 
   <div class="container">
-    <div class="row mb-5">
+    <div class="row mb-5" >
       {{#if cart}}
-      <form class="col-md-12" method="post">
+      <form class="col-md-12" >
         <div class="site-blocks-table">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="cartItem">
             <thead>
 
 
@@ -48,7 +48,8 @@
 
                     </div>
                     <input type="text" class="form-control text-center" value="{{cart.quantity}}" placeholder=""
-                      aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      aria-label="Example text with button addon" aria-describedby="button-addon1" disabled>
+                      
                     <div class="input-group-append">
                       <button onclick="changeQuantity('{{cart.cart_id}}',1)" class="btn btn-outline-primary js-btn-plus"
                         type="button">&plus;</button>
@@ -93,7 +94,7 @@
       </div>
       <div class="col-md-6 pl-5">
         {{#if cart}}
-        <div class="row justify-content-end">
+        <div class="row justify-content-end" id="cartTotal">
           <div class="col-md-7">
             <div class="row">
               <div class="col-md-12 text-right border-bottom mb-5">
@@ -131,35 +132,3 @@
   </div>
 
 </div>
-
-<script>
-  function changeQuantity(cartId, count) {
-    $.ajax({
-      url: '/changeProductQuantity',
-      data: {
-        cart: cartId,
-        count: count
-      },
-      method: 'post',
-      success: (response) => {
-        if (response) {
-          window.location.reload()
-        
-        }
-      }
-    })
-  }
-
-  function deleteproduct(cartId) {
-    $.ajax({
-      url: '/deleteproduct',
-      data: {
-        cart: cartId
-      },
-      method: 'post',
-      success: (response) => {
-        window.location.reload()
-      }
-    })
-  }
-</script>

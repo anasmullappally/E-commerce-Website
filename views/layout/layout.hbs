@@ -2,7 +2,8 @@
 <html>
 
 <head>
-
+  <script src="/javascripts/ajax.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -32,12 +33,17 @@
   {{#if admin}}
   {{>admin-sidebar}}
   {{else}}
-  {{#if vendor}}
-  {{>vendor-header}}
-  {{else}}
-  {{>user-header}}
-  {{{body}}}
-  {{/if}}
+      {{#if vendor}}
+      {{>vendor-header}}
+      {{else}}
+          {{#if login}}
+          {{>login}}
+          {{{body}}}
+          {{else}}
+          {{>user-header}}
+          {{{body}}}
+          {{/if}}
+      {{/if}}
 
   {{/if}}
 
@@ -70,8 +76,8 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
   <script src="/javascripts/validation.js"></script>
 
-  {{!--
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+
+  {{!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  --}}
   <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap5.min.js"></script>
 
