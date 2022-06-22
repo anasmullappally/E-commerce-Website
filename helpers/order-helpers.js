@@ -5,10 +5,11 @@ const collection = require('../configration/collection');
 const cartHelpers = require('./cart-helpers');
 const vendorHelpers = require('./vendor-helpers');
 const { response } = require('express');
+require('dotenv').config()
 
 const instance = new Razorpay({
-  key_id: 'rzp_test_IxGlNG7u5EDEyS',
-  key_secret: '31gjvvX5sb3WfbhMVwrqUqMR',
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
 });
 
 module.exports = {

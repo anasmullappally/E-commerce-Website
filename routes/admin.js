@@ -1,4 +1,5 @@
 const express = require('express');
+const adminHelpers = require('../helpers/admin-helpers');
 
 const router = express.Router();
 const adminHelper = require('../helpers/admin-helpers');
@@ -9,7 +10,10 @@ const vendorHelpers = require('../helpers/vendor-helpers');
 router.get('/', (req, res) => {
   if (req.session.admin) {
     const { admin } = req.session;
-    res.render('admin/dashboard', { admin });
+    adminHelpers.totalRevenue().then((income)=>{
+      res.render('admin/dashboard', { admin ,income});
+    })
+    
   } else {
     res.render('admin/login', { login: true });
   }
