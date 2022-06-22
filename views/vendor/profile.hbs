@@ -67,15 +67,15 @@
     </div>
 
 </section> --}}
-{{#each profile}}
+{{!-- {{#each profile}} --}}
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5"
                     width="150px"
                     src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span
-                    class="font-weight-bold">{{this.firstName}} {{this.lastName}} </span><span
-                    class="text-black-50">{{this.email}}</span><span>
+                    class="font-weight-bold">{{profile.firstName}} {{profile.lastName}} </span><span
+                    class="text-black-50">{{profile.email}}</span><span>
                 </span></div>
         </div>
         <div class="col-md-5 border-right">
@@ -85,24 +85,24 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control"
-                            name="firstName" id="firstName" value="{{this.firstName}}"></div>
+                            name="firstName" id="firstName" value="{{profile.firstName}}"></div>
                     <div class="col-md-6"><label class="labels">Last Name</label><input type="text" class="form-control"
-                            name="lastName" id="lastName" value="{{this.lastName}}"></div>
+                            name="lastName" id="lastName" value="{{profile.lastName}}"></div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
-                            name="mobileNumber" id="mobileNumber" class="form-control" value="{{this.phoneNumber}}">
+                            name="mobileNumber" id="mobileNumber" class="form-control" value="{{profile.phoneNumber}}">
                     </div>
 
                     <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"
-                            name="email" id="email" value="{{this.email}}"></div>
+                            name="email" id="email" value="{{profile.email}}"></div>
 
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control"
-                            name="country" id="country" value="{{this.country}}"></div>
+                            name="country" id="country" value="{{profile.country}}"></div>
                     <div class="col-md-6"><label class="labels">State/Region</label><input type="text" name="state"
-                            id="state" class="form-control" value="{{this.state}}"></div>
+                            id="state" class="form-control" value="{{profile.state}}"></div>
                 </div>
                 <div class="mt-5 text-center">
                     <button class="btn btn-primary profile-button" type="button" id="editVendor">Edit Profile</button>
@@ -114,7 +114,7 @@
 
     </div>
 </div>
-{{/each}}
+{{!-- {{/each}} --}}
 <script>
 
     $('#firstName').prop("disabled", true)

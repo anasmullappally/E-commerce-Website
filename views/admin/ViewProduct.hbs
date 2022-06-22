@@ -1,0 +1,250 @@
+<style>
+    .small-img-group {
+        display: flex;
+        justify-content: space-between;
+
+    }
+
+    .small-img-col {
+        flex-basis: 24%;
+        cursor: pointer;
+        background-color: aliceblue;
+    }
+
+    .details {}
+
+    .txt {
+        font-weight: 600;
+        line-height: 32px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<section class="container card shadow   product my-5 p-5  ">
+    <p class="text-center text-bold fw-bold text-info fs-1 ">PRODUCT DETAILS</p>
+    <div class="row mt-5 pt-5">
+        <div class="col-lg-5 col-md-6 col-12 mr-5 mb-3">
+            <img src="/images/productsImages/{{product.products._id}}(1).jpg" class="img-fluid w-75 pb-3" id="MainImg"
+                alt="">
+            <div class="small-img-group">
+                <div class="small-img-col">
+                    <img src="/images/productsImages/{{product.products._id}}(1).jpg" width="100%" class="small-img"
+                        alt="" style="max-height:10rem ;">
+                </div>
+                <div class="small-img-col">
+                    <img src="/images/productsImages/{{product.products._id}}(2).jpg" width="100%" class="small-img"
+                        alt="" style="max-height:10rem ;">
+                </div>
+                <div class="small-img-col">
+                    <img src="/images/productsImages/{{product.products._id}}(3).jpg" width="100%" class="small-img"
+                        alt="" style="max-height:10rem ;">
+                </div>
+                <div class="small-img-col">
+                    <img src="/images/productsImages/{{product.products._id}}(4).jpg" width="100%" class="small-img"
+                        alt="" style="max-height:10rem ;">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-12     details">
+            
+                <table>
+                    {{#if product.products.mobile}}
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Title:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.title}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Brand:</p>
+                        </td>
+                        <td>
+                            <p class="fs-4">{{product.products.brand}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Price:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.price}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">RAM:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.ram}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">ROM:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.rom}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Display:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.display}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Processor:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.processor}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">OS :</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.os}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Screen Size:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.screenSize}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Quantity:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.quantity}}</p>
+                        </td>
+                    </tr>
+                    {{/if}}
+
+                    {{#if product.products.laptop}}
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Title:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.title}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Brand:</p>
+                        </td>
+                        <td>
+                            <p class="fs-4">{{product.products.brand}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Price:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.price}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">RAM:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.ram}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">SSD:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.ssd}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">HDD:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.hdd}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Processor:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.processorBrand}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">OS :</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.os}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Screen Size:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.screenSize}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="text-dark fs-4">Quantity:</p>
+                        </td>
+                        <td>
+                            <p class=" fs-4">{{product.products.quantity}}</p>
+                        </td>
+                    </tr>
+                    {{/if}}
+
+
+                </table>
+        </div>
+    </div>
+
+</section>
+
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    var MainImg = document.getElementById('MainImg');
+    var smallimg = document.getElementsByClassName('small-img');
+    smallimg[0].onclick = function () {
+        MainImg.src = smallimg[0].src;
+    }
+    smallimg[1].onclick = function () {
+        MainImg.src = smallimg[1].src;
+    }
+    smallimg[2].onclick = function () {
+        MainImg.src = smallimg[2].src;
+    }
+    smallimg[3].onclick = function () {
+        MainImg.src = smallimg[3].src;
+    }
+
+</script>
+

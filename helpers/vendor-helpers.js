@@ -26,6 +26,8 @@ module.exports = {
   doSignup: (vendorData) => {
     delete vendorData.cPassword;
     vendorData.isActive = true;
+    vendorData.totalErnings = 0;
+    vendorData.claimed = 0
     return new Promise(async (resolve, reject) => {
       const check = await db.get().collection(collection.VENDOR_COLLECTION).findOne({ email: vendorData.email });
       if (check) {
@@ -176,11 +178,11 @@ module.exports = {
     }
   }),
   VendorProfileDetails: (vendorId) => new Promise(async (resolve) => {
-    const profile = await db.get().collection(collection.VENDOR_COLLECTION).find(
+    const vendor = await db.get().collection(collection.VENDOR_COLLECTION).findOne(
       { _id: ObjectId(vendorId) },
       { _id: 1, products: 0 },
-    ).toArray();
-    resolve(profile);
+    )
+    resolve(vendor);
   }),
   updateVendorProfile: (data, vendorId) => new Promise(async (resolve) => {
     await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
@@ -238,5 +240,49 @@ module.exports = {
     );
     resolve();
   }),
+  revenue: (vendorId) => {
+    return new Promise(async (resolve) => {
+      let result = await db.get().collection(collection.USER_COLLECTION).aggregate([
+        { $unwind: '$orders' },
+        { $unwind: '$orders.products' },
+        { $match: { 'orders.products.delivered': true } },
+        { $match: { 'orders.products.vendorID': ObjectId(vendorId), 'orders.status': 'placed' } },
+        { $project: { 'orders.products': 1, _id: 0 } }
+
+      ]).toArray()
+      let response = {}
+      let netRevenue = 0, totalQuantity = 0
+      for (let i of result) {
+        netRevenue += i.orders.products.price
+        totalQuantity += i.orders.products.quantity
+      }
+      netRevenue = netRevenue * 0.9
+      response.netRevenue = netRevenue
+      response.totalQuantity = totalQuantity
+      await db.get().collection(collection.VENDOR_COLLECTION).updateOne({ _id: ObjectId(vendorId) }, { $set: { totalErnings: netRevenue } })
+      resolve(response)
+    })
+  },
+  redeemRequest: (vendorId, vendorName ,balance) => {
+    return new Promise(async (resolve) => {
+        let redeem = {
+            requestId: new ObjectId(),
+            requestTime:  (new Date()).toLocaleDateString('en-IN'),
+            vendorId: ObjectId(vendorId),
+            amount: Number(balance),
+            vendorName: vendorName,
+            paymentStatus: false
+        }
+        await db.get().collection(collection.ADMIN_COLLECTION).updateOne(
+            { role: "admin" },
+            { $push: { redeemRequests: redeem } }
+        )
+        await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
+            { _id: ObjectId(vendorId) },
+            { $set: { redeemRequest: true } }
+        )
+        resolve()
+    })
+},
 
 };

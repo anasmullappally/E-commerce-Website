@@ -1,0 +1,43 @@
+<div class="container mt-5 shadow">
+    <table class="table table-hover  " id="sellersTable">
+        {{!-- <caption> users</caption> --}}
+        <thead>
+            <tr>
+                <th scope="col">N0.</th>
+                <th scope="col">Seller Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Requested Time</th>
+                <th scope="col">Amount</th>
+                {{!-- <th scope="col"></th> --}}
+
+                {{!-- <th scope="col">Description</th> --}}
+            </tr>
+        </thead>
+        <tbody>
+            {{#each redeemRequests}}
+            {{#if this.paymentStatus}}
+            {{else}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                <td> <p>{{this.vendorId}}</p></a></td>
+                <td><a href="/admin/vendor/view/{{this.vendorId}}"><p class="fw-bold">{{this.vendorName}}</p></a></td>
+                <td><p>{{this.requestTime}}</p></td>
+                <td><p class="fw-bold">{{this.amount}}</p></td>
+
+
+                <td><a href="/admin/vendor/payment?id={{this.vendorId}}&amount={{this.amount}}&requestId={{this.requestId}}" class="text-success fw-bold"
+                        onclick="return confirm('Please Confirm   ')"><p class="text-success fw-bold">Pay Now</p></a> </td>
+
+
+            </tr>
+            {{/if}}
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let table = new DataTable('#sellersTable');
+    });
+</script>

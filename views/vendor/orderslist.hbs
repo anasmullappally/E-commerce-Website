@@ -11,9 +11,6 @@
                 <th>product</th>
                 <th>Amount (₹)</th>
                 <th>order Status</th>
-
-                {{!-- <th>Product</th>
-                <th>Quantity</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -36,26 +33,23 @@
                     <p>{{orders.products.title}}</p>
                     <p>{{orders.products.quantity}}</p>
                 </td>
-                <td>₹ {{orders.total}}</td>
+                <td>₹ {{orders.products.cartTotal}}</td>
+
+
                 <td>
 
                     {{#if orders.products.cancelled}}
-                    <p>order cancelled</p>
+                    <p class="text-danger fw-bold">order cancelled</p>
                     {{else}}
                     {{#if orders.products.shipped}}
-                    <p>item shipped</p>
+                    <p class="fw-bold text-success">item shipped</p>
                     {{#if orders.products.delivered}}
-                    <p>item delivered</p>
+                    <p class="fw-bold text-success">item delivered</p>
                     {{else}}
-                    {{!-- <a href="/vendor/orders/deliver/{{orders.products.cart_id}}" class="btn btn-link"> </a>
-                    --}}
-                    <button onclick="deliver('{{orders.products.cart_id}}')">deliver</button>
-                    {{!-- <p class="fw-bold text-success"> deliver</p> --}}
-
+                    <button class="btn btn-success" onclick="deliver('{{orders.products.cart_id}}')">DELIVER</button>
                     {{/if}}
                     {{else}}
-                    <button onclick="ship('{{orders.products.cart_id}}')">ship</button>
-
+                    <button class="btn btn-success" onclick="ship('{{orders.products.cart_id}}')">SHIP</button>
                     {{/if}}
                     {{/if}}
 
@@ -74,35 +68,6 @@
         let table = new DataTable('#myTable');
     });
 
-    function deliver(cartId) {
-        console.log(cartId)
-        $.ajax({
-            url: '/vendor/deliverProduct',
-            method: 'post',
-            data: {
-                cartId: cartId
-            },
-            success: (response) => {
-                if (response.deliver) {
-                    $('#orderlist').load(location.href + " #orderlist");
-                }
-            }
-        })
-    }
-    function ship(cartId) {
-        console.log(cartId)
-        $.ajax({
-            url: '/vendor/shipProduct',
-            method: 'post',
-            data: {
-                cartId: cartId
-            },
-            success: (response) => {
-                if (response.shipped) {
-                    $('#orderlist').load(location.href + " #orderlist");
-                }
-            }
-        })
-    }
+ 
 
 </script>

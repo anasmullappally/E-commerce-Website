@@ -134,6 +134,36 @@ function deletewishlistitem(wishlistId) {
         }
     })
 }
+function deliver(cartId) {
+    console.log(cartId)
+    $.ajax({
+        url: '/vendor/deliverProduct',
+        method: 'post',
+        data: {
+            cartId: cartId
+        },
+        success: (response) => {
+            if (response.deliver) {
+                $('#orderlist').load(location.href + " #orderlist");
+            }
+        }
+    })
+}
+function ship(cartId) {
+    console.log(cartId)
+    $.ajax({
+        url: '/vendor/shipProduct',
+        method: 'post',
+        data: {
+            cartId: cartId
+        },
+        success: (response) => {
+            if (response.shipped) {
+                $('#orderlist').load(location.href + " #orderlist");
+            }
+        }
+    })
+}
 
 
 

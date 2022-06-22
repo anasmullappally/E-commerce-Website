@@ -1,22 +1,34 @@
 const express = require('express');
+const { revenue } = require('../helpers/vendor-helpers');
 const vendorHelpers = require('../helpers/vendor-helpers');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   if (req.session.vendor) {
-    const { vendor } = req.session;
-    res.render('vendor/dashboard', { vendor });
+    res.redirect('/vendor/dashboard')
   } else {
     res.render('vendor/login', { login: true });
   }
 });
+router.get('/dashboard', async (req, res) => {
+  if (req.session.vendor) {
+    const { vendor } = req.session;
+    await vendorHelpers.revenue(vendor._id).then((income)  => {
+       vendorHelpers.VendorProfileDetails(vendor._id).then((vendordetails) => {
+        income.balance = vendordetails.totalErnings - vendordetails.claimed
+        res.render('vendor/dashboard', { vendor, income });
+      })
+    })
+  } else {
+    res.render('vendor/login', { login: true });
+  }
+})
 
 router.post('/login', (req, res) => {
   vendorHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
       req.session.vendor = true;
-      console.log(response);
       req.session.vendor = response.vendor;
 
       if (req.session.vendor.isActive == true) {
@@ -37,11 +49,11 @@ router.get('/login', (req, res) => {
     if (req.session.vendor.isActive) {
       res.redirect('/vendor');
     } else {
-      res.render('vendor/login', { blockedVendor: req.session.blockedd ,login:true });
+      res.render('vendor/login', { blockedVendor: req.session.blockedd, login: true });
       req.session.blockedd = false;
     }
   } else {
-    res.render('vendor/login', { loginError: req.session.loginError,login:true });
+    res.render('vendor/login', { loginError: req.session.loginError, login: true });
     req.session.loginError = false;
   }
 });
@@ -57,21 +69,33 @@ router.get('/signup', (req, res) => {
 
 router.post('/signup', (req, res) => {
   vendorHelpers.doSignup(req.body).then(() => {
-    res.render('vendor/login', { vendor: true });
+    res.redirect('/vendor')
   }).catch(() => {
     req.session.alreadyexistv = true;
     res.redirect('/vendor/signup');
-    
+
   });
 });
 
-router.get('/dashboard', (req, res) => {
+// router.get('/dashboard', (req, res) => {
+//   if (req.session.vendor) {
+//     res.render('vendor/dashboard', { vendor: true });
+//   } else {
+//     res.redirect('/vendor');
+//   }
+// });
+router.post('/redeemRequest', (req, res) => {
   if (req.session.vendor) {
-    res.render('vendor/dashboard', { vendor: true });
+    let vendor = req.session.vendor
+    let balance = req.body.balance
+    console.log(vendor);
+    vendorHelpers.redeemRequest(vendor._id, vendor.firstName, balance).then(() => {
+      res.json({ requested: true })
+    })
   } else {
-    res.redirect('/vendor');
+    res.redirect('/vendor')
   }
-});
+})
 
 router.get('/addproducts', (req, res) => {
   if (req.session.vendor) {
@@ -191,18 +215,31 @@ router.post('/updateVendor', (req, res) => {
   }
 });
 
-router.post('/shipProduct',(req,res)=>{
-  let cartId=req.body.cartId
+router.post('/shipProduct', (req, res) => {
+  let cartId = req.body.cartId
   vendorHelpers.changeShippingStatus(cartId).then(() => {
-    res.json({shipped:true})
+    res.json({ shipped: true })
   });
 })
 router.post('/deliverProduct', (req, res) => {
   const cartId = req.body.cartId;
   vendorHelpers.changeDeliveredStatus(cartId).then(() => {
-    res.json({deliver:true})
+    res.json({ deliver: true })
   });
 });
+
+router.get('/amount/redeem/:id', (req, res) => {
+  if (req.session.vendor) {
+    let vendor = req.session.vendor
+    let balance = req.params.id
+    vendorHelpers.redeemRequest(vendor._id, vendor.firstName, balance).then(() => {
+      res.redirect('/vendor/dashboard')
+    })
+  } else {
+    res.redirect('/vendor')
+  }
+
+})
 
 router.get('/logout', (req, res) => {
   req.session.vendor = false;

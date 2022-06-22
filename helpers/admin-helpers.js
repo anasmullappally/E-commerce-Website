@@ -84,4 +84,45 @@ module.exports = {
     ]).toArray() 
     resolve(orders) 
   }),
+  redeemRequests: () => {
+    return new Promise(async (resolve, reject) => {
+        let admin = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ role: 'admin' })
+        let redeemRequests = admin.redeemRequests
+        let count=0
+        for (let i of redeemRequests) {
+            if (!i.paymentStatus) {
+                count++
+            }
+        }
+        response={
+            redeemRequests:redeemRequests,
+            count:count
+        }
+        resolve(response)
+    })
+},
+vendorPayment: (vendorId, amount, requestId) => {
+  return new Promise(async (resolve, reject) => {
+      let paymentId = new ObjectId()
+      let paidOn = new Date()
+      await db.get().collection(collection.ADMIN_COLLECTION).updateOne(
+          { 'redeemRequests.requestId': ObjectId(requestId) },
+          { $set: { 'redeemRequests.$.paymentStatus': true, 'redeemRequests.$.paymentId': paymentId, 'redeemRequests.$.paidOn': paidOn } }
+      )
+      await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
+          { _id: ObjectId(vendorId),   redeemRequest: true },
+          {
+              $set: { redeemRequest: false }
+              , $inc: { claimed: Number(amount) }
+          }
+      )
+      resolve()
+  })
+},
+viewVendor: (vendorId) => {
+  return new Promise((resolve) => {
+      let vendor = db.get().collection(collection.VENDOR_COLLECTION).findOne({ _id: ObjectId(vendorId) })
+      resolve(vendor)
+  })
+}
 } 

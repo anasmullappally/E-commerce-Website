@@ -1,9 +1,9 @@
 <div class=" container">
 
-
-    <table id="vendorTable" class="display  table ">
+ <h2 class="text-center text-dark">VENDOR MANAGEMENT </h2>
+    <table id="vendorTable" class="table ">
         <thead>
-            <tr class="table-warning ">
+            <tr >
                 <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
@@ -24,7 +24,8 @@
                 {{else}}
                 <td><a href="/admin/vunblock/{{this._id}}" class="btn btn-success btn-sm">Unblock</a></td>
                 {{/if}}
-                <td><a href="" class="btn btn-primary">Veiw</a></td>
+                <td><a href="/admin/vendor/view/{{this._id}}" class="btn btn-primary">Veiw</a></td>
+               
             </tr>
             {{/each}}
         </tbody>

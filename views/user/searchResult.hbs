@@ -1,0 +1,221 @@
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">Shop</strong><span class="mx-2 mb-0">/</span> <strong
+                    class="text-black">{{device}}</strong></div>
+        </div>
+    </div>
+</div>
+<form id="brandFilter" method="post">
+    <div class="site-section">
+        <div class="container">
+
+            <div class="row mb-5">
+                <div class="col-md-9 order-2">
+
+                    <div class="row">
+                        <div class="col-md-12 mb-5">
+                            <div class="float-md-left mb-4">
+                                <h2 class="text-black h5">Shop All</h2>
+                            </div>
+                            <div class="row">
+                                <div class="float-end">
+                                    <select class="form-select float-end filter " aria-label="Default select example"
+                                        style="width: 20%;" name="sort" id="sortMenu">
+                                        <option selected>Sort</option>
+                                        {{!-- <option value="rating">Customer Rating</option> --}}
+                                        <option value="hl">Price : High To Low</option>
+                                        <option value="lh">Price : Low To High</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="container" id="products">
+                        <div class="row mb-5">
+                            {{#each products}}
+                            {{#if products.deleted}}
+                            {{else}}
+                            <div class="col-sm-6 col-lg-4 mb-4 " data-aos="fade-up">
+
+                                <div class="block-4 text-center border pt-3 h-100 ">
+
+                                    <h6 class="text-end"><button id="wishlist"
+                                            onclick="addtowishlist('{{products._id}}','{{user._id}}')"
+                                            class="btn icon-heart-o pe-3" type="button"></button></h6>
+                                    <figure class="block-4-image ">
+                                        <a href="/shop/view/{{products._id}}"><img
+                                                src="/images/productsImages/{{products._id}}(1).jpg"
+                                                alt="Image placeholder"
+                                                style=" height: 200px !important;object-fit: cover;object-position: center;"></a>
+                                    </figure>
+                                    <div class="block-4-text p-4 ">
+
+                                        <h3><a>{{products.title}}</a></h3>
+                                        {{#if products.mobile}}
+                                        <p class="mb-0">{{products.ram}}/{{products.rom}} </span> </p>
+                                        {{else}}
+                                        <p class="mb-0">{{products.occassion}} </span> </p>
+                                        {{/if}}
+                                        <p class="text-primary font-weight-bold">₹ {{products.price}}</p>
+                                        <p><a href="/shop/{{products._id}}" class="btn btn-light icon-eye me-5"></a>
+                                            {{!-- <a href="/addtocart/{{products._id}}"
+                                                class="btn btn-warning icon-shopping_cart"></a> --}}
+                                            <button class="btn btn-warning icon-shopping_cart" type="button"
+                                                onclick="addtoCart('{{products._id}}')"></button>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            {{/if}}
+                            {{/each}}
+                        </div>
+                    </div>
+
+                    <div class="row" data-aos="fade-up">
+                        <div class="col-md-12 text-center">
+                            <div class="site-block-27">
+                                <ul>
+                                    <li><a href="#">&lt;</a></li>
+                                    <li class="active"><span>1</span></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">&gt;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 order-1 mb-5 mb-md-0">
+                    <div class="border p-4 rounded mb-4">
+                        <div class="mb-4">
+
+                            <h3 class="mb-3 h6 text-uppercase text-black d-block">Brands</h3>
+                            <input class="form-check-input ms-2 filter" type="checkbox" id="flexCheckChecked"
+                                name="brandName" value="" hidden checked>
+
+                            {{#each brands}}
+                            <label for="s_sm" class="d-flex">
+                                <input type="checkbox" id="brands" name="brandName" value="{{this._id.brand}}"
+                                    class="mr-2 mt-1"> <span class="text-black">{{this._id.brand}}
+                                </span>
+                            </label>
+                            {{/each}}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" hidden checked
+                                    value="5000000">
+                            </div>
+                            <h3 class="mb-3 h6 text-uppercase text-black d-block">price</h3>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="10000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.10000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="20000">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Under Rs.20000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="30000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.30000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="40000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.40000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="50000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.50000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="60000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.60000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" id="price" name="price" value="70000">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Under Rs.70000
+                                </label>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $('input[name=brandName]').change(function () {
+
+        $.ajax({
+            url: '/products/filter',
+            method: "post",
+            data: $('#brandFilter').serialize(),
+            success: (isResult) => {
+                if (isResult) {
+                    // window.location.reload()
+                    // $('#products').load('/products/filter');
+                    $('#products').load(location.href + " #products");
+                }
+            }
+        })
+
+    });
+
+
+
+    $('#sortMenu').on('change', function () {
+        // alert( this.value );
+        $.ajax({
+            url: '/products/filter',
+            method: "post",
+            data: $('#brandFilter').serialize(),
+            success: (isResult) => {
+                if (isResult) {
+                    // window.location.reload()
+                    // $('#products').load('/products/filter');
+                    $('#products').load(location.href + " #products");
+                }
+            }
+        })
+    });
+
+
+    $('input[name=price]').change(function () {
+        $.ajax({
+            url: '/products/filter',
+            method: "post",
+            data: $('#brandFilter').serialize(),
+            success: (isResult) => {
+                if (isResult) {
+                    // window.location.reload()
+                    // $('#products').load('/products/filter');
+                    $('#products').load(location.href + " #products");
+                }
+            }
+        })
+    })
+
+</script>

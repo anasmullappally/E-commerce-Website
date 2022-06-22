@@ -7,7 +7,7 @@ const orderhelpers = require('../helpers/order-helpers');
 const router = express.Router();
 
 let cartTotal; let orderid; let device; let
-  filteredProduct;
+  filteredProduct; let searchkey
 
 /* GET users listing. */
 router.get('/', (req, res) => {
@@ -83,9 +83,7 @@ router.get('/shop', (req, res) => {
   if (req.session.user) {
     user = req.session.user;
     userHelpers.getAllBrands(device).then((brands) => {
-      res.render('user/shop', {
-        products: filteredProduct, brands, device, user,
-      });
+      res.render('user/shop', { products: filteredProduct, brands, device, user });
     });
   } else {
     userHelpers.getAllBrands(device).then((brands) => {
@@ -286,7 +284,7 @@ router.post('/varifyPayment', (req, res) => {
 router.get('/vieworder/:id', (req, res) => {
   const orderId = req.params.id;
   orderhelpers.viewSingleOrder(orderId).then((orderDetails) => {
-    
+
     res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user });
   });
 });
@@ -367,17 +365,57 @@ router.post('/cancelOrder', (req, res) => {
     // })
   });
 });
+router.get('/searchResult', (req, res) => {
+  if (req.session.user) {
+    let user = req.session.user
+    userHelpers.getAllBrands1().then((brands) => {
+      res.render('user/searchResult', { products: filteredProduct, brands, device, user });
+    })
+  } else {
+    userHelpers.getAllBrands1().then((brands) => {
+      res.render('user/searchResult', { products: filteredProduct, brands, device });
+    })
+  }
+
+})
 router.post('/searchproducts', (req, res) => {
-  const { search } = req.body;
-  console.log(search);
+  if (req.body.search) {
+    searchkey = req.body.search
+    userHelpers.search(searchkey).then((searchResult) => {
+      filteredProduct = searchResult
+      res.redirect('/searchResult')
+    })
+  } else {
+    const deatil = req.body;
+    const price = parseInt(deatil.price);
+    const filter = [];
+    for (const i of deatil.brandName) {
+      filter.push({ 'products.brand': i });
+    }
+    userHelpers.filterProducts(filter, gender, price, searchkey).then((response) => {
+      filteredProduct = response
+      if (req.body.sort == 'Sort') {
+        res.json({ status: true });
+      }
+      if (req.body.sort == 'lh') {
+        filteredProduct.sort((a, b) => a.products.price - b.products.price);
+        res.json({ status: true });
+      }
+      if (req.body.sort == 'hl') {
+        filteredProduct.sort((a, b) => b.products.price - a.products.price);
+        res.json({ status: true });
+      }
+    })
+  }
 });
+
 router.post('/review/:id', (req, res) => {
   // console.log(req.params.id);
   // console.log(req.body);
 });
 router.post('/addtoCart', (req, res) => {
   if (req.session.user) {
-  let  productId = req.body.productId
+    let productId = req.body.productId
     const { user } = req.session;
     cartHelpers.addToCart(productId, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {

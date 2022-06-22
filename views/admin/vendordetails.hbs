@@ -1,0 +1,79 @@
+<p class="fs-5">VENDOR DETAILS</p>
+<div class="col-md-10 card shadow mx-auto p-5">
+     
+    <table>
+        <tr>
+            <td> 
+                <p >Name</p>
+            </td>
+            <td >
+                <p>{{vendorDetails.firstName}} {{vendorDetails.firstName}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Email</p>
+            </td>
+            <td>
+                <p>{{vendorDetails.email}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Phone Number</p>
+            </td>
+            <td>
+                <p>
+                    <p>{{vendorDetails.phoneNumber}}</p>
+                </p>
+            </td>
+        </tr>
+    </table>
+   
+    <p class="mt-5">Products</p>
+    <div class="container mt-5 ">
+    <table class="table " id="products">
+        {{!-- <caption> users</caption> --}}
+        <thead>
+            <tr>
+                <th scope="col">N0.</th>
+                <th scope="col">Title</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Price</th>
+               
+                <th scope="col">Category</th>
+                 <th scope="'col">Image</th>
+
+                {{!-- <th scope="col">Edit</th> --}}
+                {{!-- <th scope="col">Delete</th>
+                <th scope="col">Action</th> --}}
+
+
+                {{!-- <th scope="col">Description</th> --}}
+            </tr>
+        </thead>    
+        <tbody>
+            {{#each vendorDetails.products}}
+            <tr>
+                <th scope="row">{{@index}}</th>
+                {{!-- <td>{{this.title}}</td> --}}
+                <td> <a href="/admin/seller/product/view/{{this._id}}">{{this.title}}</a></td>
+                <td>{{this.brand}}</td>
+                <td>{{this.price}}</td>
+                
+                <td>{{this.category}}</td>
+
+                 
+                <td><img src="/images/productsImages/{{this._id}}(1).jpg" alt="image" width="100"></td>
+            </tr>
+
+            {{/each}}
+        </tbody>
+
+    </table>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let table = new DataTable('#products');
+    });
+</script>
