@@ -264,6 +264,7 @@ router.get('/orders', (req, res) => {
   if (req.session.user) {
     const userId = req.session.user._id;
     orderhelpers.viewOrders(userId).then((orders) => {
+      orders.sort((a, b) => a.orders.date1 - b.orders.date1);
       res.render('user/orderslist', { user: req.session.user, orders });
     });
   } else {
@@ -284,6 +285,7 @@ router.post('/varifyPayment', (req, res) => {
 router.get('/vieworder/:id', (req, res) => {
   const orderId = req.params.id;
   orderhelpers.viewSingleOrder(orderId).then((orderDetails) => {
+    console.log(orderDetails)
 
     res.render('user/orderDetails', { orderDetails: orderDetails.orders, user: req.session.user });
   });

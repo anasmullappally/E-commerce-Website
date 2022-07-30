@@ -8,29 +8,29 @@
             <div class="card">
 
 
-                {{!-- <div class="site-section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <span class="icon-check_circle display-3 text-success"></span>
-                                <h2 class="display-3 text-black">Thank you!</h2>
-                                <p class="lead mb-5">You order was successfuly Placed</p>
-                                <p><a href="/shop" class="btn btn-sm btn-primary">Back to shop</a></p>
-                                <p><a href="/orders" class="btn btn-sm btn-primary">View Orders</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+
 
 
 
 
                 <div id="invoice" class="invoice p-5">
-
+                    {{#each orderDetails.products}}
+                    {{#if this.delivered}}
+                    <h5>Your order Delivered!</h5>
+                    <span>You order has been Delivered</span>
+                    {{else}}
+                    {{#if this.shipped}}
+                    <h5>Your order Shipped!</h5>
+                    <span>You order has been Shipped and will be delivered Soon</span>
+                    {{else}}
                     <h5>Your order Confirmed!</h5>
-
-                    {{!-- <span class="font-weight-bold d-block mt-4">Hello, Chris</span> --}}
                     <span>You order has been confirmed and will be shipped in next five days!</span>
+                    {{/if}}
+
+                    {{/if}}
+
+                    {{/each}}
+
 
                     <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
 
@@ -56,15 +56,6 @@
                                         </div>
                                     </td>
 
-                                    {{!-- <td>
-                                        <div class="py-2">
-
-                                            <span class="d-block text-muted">Payment</span>
-                                            <span><img src="https://img.icons8.com/color/48/000000/mastercard.png"
-                                                    width="20" /></span>
-
-                                        </div>
-                                    </td> --}}
 
                                     <td>
                                         <div class="py-2">
@@ -96,17 +87,14 @@
                                 {{#each orderDetails.products}}
                                 <tr>
                                     <td width="20%">
-
                                         <img src="/images/productsImages/{{this.productId}}(1).jpg" width="90">
-
                                     </td>
-
                                     <td width="60%">
                                         <span class="font-weight-bold">{{orderDetails.products.brandName}}</span>
                                         <div class="product-qty">
                                             <span>{{this.title}}</span>
                                             <span class="d-block">quantity : {{this.quantity}}</span>
-                                            <span class="d-block">Price    : {{this.price}}</span>
+                                            <span class="d-block">Price : {{this.price}}</span>
 
                                         </div>
                                     </td>
@@ -117,92 +105,14 @@
                                     </td>
                                 </tr>
                                 {{/each}}
-
-
-
                             </tbody>
                         </table>
                     </div>
                     <div class="row d-flex justify-content-end">
-
                         <div class="col-md-5">
-
                             <table class="table table-borderless">
-
                                 <tbody class="totals">
-
-                                    {{!-- <tr>
-                                        <td>
-                                            <div class="text-left">
-
-                                                <span class="text-muted">Subtotal</span>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-right">
-                                                <span>$168.50</span>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
-
-
-                                    {{!-- <tr>
-                                        <td>
-                                            <div class="text-left">
-
-                                                <span class="text-muted">Shipping Fee</span>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-right">
-                                                <span>$22</span>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
-
-
-                                    {{!-- <tr>
-                                        <td>
-                                            <div class="text-left">
-
-                                                <span class="text-muted">Tax Fee</span>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-right">
-                                                <span>$7.65</span>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
-
-
-                                    {{!-- <tr>
-                                        <td>
-                                            <div class="text-left">
-
-                                                <span class="text-muted">Discount</span>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-right">
-                                                <span class="text-success">$168.50</span>
-                                            </div>
-                                        </td>
-                                    </tr> --}}
-
-
                                     <tr class="border-top border-bottom">
-                                        {{!-- <td>
-                                            <div class="text-left">
-
-                                                <span class="font-weight-bold">Subtotal</span>
-
-                                            </div>
-                                        </td> --}}
                                         <td>
                                             <div class="text-right">
                                                 <span class="font-weight-bold">Total :{{orderDetails.total}}</span>
@@ -213,17 +123,32 @@
                             </table>
                         </div>
                     </div>
+                    {{#each orderDetails.products}}
+                    {{#if this.delivered}}
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                    <span>SHOPPI</span>
+                    {{else}}
+                    {{#if this.shipped}}
+                    <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+                    <span>SHOPPI</span>
+                    {{else}}
                     <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
                     <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
-
                     <span>SHOPPI</span>
-                </div>
-                {{!-- <button id="download" class="btn primary"> Download invoice</button> --}}
+                    {{/if}}
 
+                    {{/if}}
+
+                    {{/each}}
+
+
+
+
+                </div>
                 <div class="d-flex justify-content-between footer p-3">
-                    <button id="download" class="btn btn-link btn-sm" > Download invoice</button>
+                    <button id="download" class="btn btn-link btn-sm"> Download invoice</button>
                     <span>Need Help? visit our <a href="#"> help center</a></span>
-                    {{!-- <span>12 June, 2020</span> --}}
+
 
                 </div>
 

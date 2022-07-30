@@ -13,6 +13,7 @@
                     {{!-- <th scope="col"> Price</th> --}}
                     {{!-- <th scope="col"> Quantity</th> --}}
                     <th scope="col"></th>
+                    <th></th>
 
                 </tr>
             </thead>
@@ -22,8 +23,7 @@
                 {{#each orders}}
                 <tr>
                     {{!-- <th scope="row">{{@index}}</th> --}}
-                    <td><a href="/vieworder/{{orders._id}}"><img class="shadow"
-                                src="/images/productsImages/{{orders.products.productId}}(1).jpg" alt=""
+                    <td><a><img class="shadow" src="/images/productsImages/{{orders.products.productId}}(1).jpg" alt=""
                                 width="100"></a>
                     </td>
                     <td>
@@ -83,10 +83,15 @@
                         {{/if}}
 
                     </td>
+                    <td>
+                        {{#if orders.products.cancelled}}
 
+                        {{else}}
+                        <p class="mt-5"> <a href="/vieworder/{{orders._id}}"
+                                class="pt-5 icon-file-text  text-dark fw-bold"></a></p>
+                        {{/if}}
 
-
-
+                    </td>
                 </tr>
 
                 {{/each}}
