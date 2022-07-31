@@ -22,7 +22,8 @@
     "mongodb": "^4.6.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.16",
-    "razorpay": "^2.8.1"
+    "razorpay": "^2.8.1",
+    "twilio": "^3.80.0"
   },
   "devDependencies": {
     "eslint": "^8.16.0",

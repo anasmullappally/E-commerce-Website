@@ -1,0 +1,76 @@
+
+<style>
+    .card {
+        width: 350px;
+        padding: 10px;
+        border-radius: 20px;
+        background: #fff;
+        border: none;
+        height: 350px;
+        position: relative;
+    }
+
+    .container {
+        height: 100vh;
+    }
+
+    body {
+        background: #eee;
+    }
+
+    .mobile-text {
+        color: #989696b8;
+        font-size: 15px;
+    }
+
+    .form-control {
+        margin-right: 12px;
+    }
+
+    .form-control:focus {
+        color: #495057;
+        background-color: #fff;
+        border-color: #ff8880;
+        outline: 0;
+        box-shadow: none;
+    }
+
+    .cursor {
+        cursor: pointer;
+    }
+</style>
+<div class="d-flex justify-content-center align-items-center container">
+    <div class="card py-5 px-3">
+        <form action="/reVerify" method="post">
+            <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the code we just send on your
+                mobile
+                phone
+                <b class="text-danger">{{whole.pNumber}}</b></span>
+            <div class="d-flex flex-row mt-5">
+                <input type="number" maxlength="1" oninput="index" class="form-control a" name="otp" required />
+                <input type="number" maxlength="1" oninput="index" class="form-control a" name="otp" required />
+                <input type="number" maxlength="1" oninput="index" class="form-control a" name="otp" required />
+                <input type="number" maxlength="1" oninput="index" class="form-control a" name="otp" required />
+            </div>
+            <div class="text-center mt-5"><span class="d-block mobile-text">Don't
+                    receive the code?</span><a href="/signup" class="font-weight-bold text-danger cursor">Resend</a>
+            </div>
+            <div class="text-center mt-5">
+                <span><input type="submit" value="submit" class="btn btn-primary" /></span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    let index = 1
+    const inputs = document.getElementsByTagName("input")
+    inputs[0].focus()
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('input', () => {
+            inputs[index++].focus()
+        })
+    }
+
+</script>
