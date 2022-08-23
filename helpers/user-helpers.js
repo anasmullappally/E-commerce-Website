@@ -27,16 +27,13 @@ module.exports = {
     });
   },
   userCheck: (data) => new Promise(async (resolve, reject) => {
-    console.log(data);
       const check = await db.get().collection(collection.USER_COLLECTION)
       .findOne({
         $or: [{ pNumber: data.pNumber }, { email: data.email }],
       });
       if (check) {
-        console.log('checked');
         reject();
       } else {
-        console.log('rejected');
         resolve();
       }
     }),
