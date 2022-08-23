@@ -29,7 +29,6 @@ module.exports = {
         code: otp,
       }).then((verification_check) => {
         resolve(verification_check);
-        console.log(verification_check);
       });
   }),
 };

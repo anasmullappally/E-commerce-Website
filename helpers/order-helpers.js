@@ -89,7 +89,7 @@ module.exports = {
     };
     instance.orders.create(options, (err, order) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
       } else {
         resolve(order);
       }
