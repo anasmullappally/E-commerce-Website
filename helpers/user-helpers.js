@@ -1,5 +1,9 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable camelcase */
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable indent */
+/* eslint-disable no-param-reassign */
 const bcrypt = require('bcrypt');
-const async = require('hbs/lib/async');
 const { ObjectId } = require('mongodb');
 const collection = require('../configration/collection');
 const db = require('../configration/connection');
@@ -10,7 +14,8 @@ module.exports = {
     delete userData.cPassword;
     userData.isActive = true;
     return new Promise(async (resolve, reject) => {
-      const check = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email });
+      const check = await db.get().collection(collection.USER_COLLECTION)
+      .findOne({ email: userData.email });
       if (check) {
         reject();
       } else {
@@ -21,10 +26,24 @@ module.exports = {
       }
     });
   },
+  userCheck: (data) => new Promise(async (resolve, reject) => {
+    console.log(data);
+      const check = await db.get().collection(collection.USER_COLLECTION)
+      .findOne({
+        $or: [{ pNumber: data.pNumber }, { email: data.email }],
+      });
+      if (check) {
+        console.log('checked');
+        reject();
+      } else {
+        console.log('rejected');
+        resolve();
+      }
+    }),
   doLogin: (userData) => new Promise(async (resolve) => {
-    const loginStatus = false;
     const response = {};
-    const user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email });
+    const user = await db.get().collection(collection.USER_COLLECTION)
+    .findOne({ email: userData.email });
     if (user) {
       bcrypt.compare(userData.password, user.password).then((status) => {
         if (status) {

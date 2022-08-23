@@ -1,11 +1,15 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable global-require */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-async-promise-executor */
 const { ObjectId } = require('mongodb');
 const Razorpay = require('razorpay');
 const db = require('../configration/connection');
 const collection = require('../configration/collection');
 const cartHelpers = require('./cart-helpers');
 const vendorHelpers = require('./vendor-helpers');
-const { response } = require('express');
-require('dotenv').config()
+require('dotenv').config();
 
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -40,10 +44,10 @@ module.exports = {
     orders.products = cart;
     orders.total = cart.sum;
     orders.date = (new Date()).toLocaleDateString('en-IN');
-    orders.date1 = new Date()
+    orders.date1 = new Date();
 
     // orders.cancelled = false
-    if (orderdetails.paymentmethod == 'COD') {
+    if (orderdetails.paymentmethod === 'COD') {
       orders.status = 'placed';
 
       await db.get().collection(collection.USER_COLLECTION).updateOne(
@@ -96,7 +100,7 @@ module.exports = {
     let hmac = crypto.createHmac('sha256', '31gjvvX5sb3WfbhMVwrqUqMR');
     hmac.update(`${paymentDetails['payment[razorpay_order_id]']}|${paymentDetails['payment[razorpay_payment_id]']}`);
     hmac = hmac.digest('hex');
-    if (hmac == paymentDetails['payment[razorpay_signature]']) {
+    if (hmac === paymentDetails['payment[razorpay_signature]']) {
       resolve();
     } else {
       reject();

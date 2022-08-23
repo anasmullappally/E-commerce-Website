@@ -1,3 +1,10 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable indent */
+/* eslint-disable no-async-promise-executor */
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const collection = require('../configration/collection');
@@ -6,9 +13,9 @@ const db = require('../configration/connection');
 module.exports = {
 
   doLogin: (vendorData) => new Promise(async (resolve) => {
-    const loginStatus = false;
     const response = {};
-    const vendor = await db.get().collection(collection.VENDOR_COLLECTION).findOne({ email: vendorData.email });
+    const vendor = await db.get().collection(collection.VENDOR_COLLECTION)
+    .findOne({ email: vendorData.email });
     if (vendor) {
       bcrypt.compare(vendorData.password, vendor.password).then((status) => {
         if (status) {
@@ -27,9 +34,10 @@ module.exports = {
     delete vendorData.cPassword;
     vendorData.isActive = true;
     vendorData.totalErnings = 0;
-    vendorData.claimed = 0
+    vendorData.claimed = 0;
     return new Promise(async (resolve, reject) => {
-      const check = await db.get().collection(collection.VENDOR_COLLECTION).findOne({ email: vendorData.email });
+      const check = await db.get().collection(collection.VENDOR_COLLECTION)
+      .findOne({ email: vendorData.email });
       if (check) {
         reject();
       } else {
@@ -44,7 +52,7 @@ module.exports = {
     let products = {
       category: productDetails.category,
     };
-    if (products.category == 'mobile') {
+    if (products.category === 'mobile') {
       products = {
         vendorId: ObjectId(vendorId),
         _id: new ObjectId(),
@@ -120,7 +128,7 @@ module.exports = {
     resolve(data);
   }),
   updateProduct: (productId, productInfo) => {
-    if (productInfo.category == 'mobile') {
+    if (productInfo.category === 'mobile') {
       return new Promise(async (resolve) => {
         await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
           { 'products._id': ObjectId(productId) },
@@ -181,7 +189,7 @@ module.exports = {
     const vendor = await db.get().collection(collection.VENDOR_COLLECTION).findOne(
       { _id: ObjectId(vendorId) },
       { _id: 1, products: 0 },
-    )
+    );
     resolve(vendor);
   }),
   updateVendorProfile: (data, vendorId) => new Promise(async (resolve) => {
@@ -240,49 +248,47 @@ module.exports = {
     );
     resolve();
   }),
-  revenue: (vendorId) => {
-    return new Promise(async (resolve) => {
-      let result = await db.get().collection(collection.USER_COLLECTION).aggregate([
+  revenue: (vendorId) => new Promise(async (resolve) => {
+      const result = await db.get().collection(collection.USER_COLLECTION).aggregate([
         { $unwind: '$orders' },
         { $unwind: '$orders.products' },
         { $match: { 'orders.products.delivered': true } },
         { $match: { 'orders.products.vendorID': ObjectId(vendorId), 'orders.status': 'placed' } },
-        { $project: { 'orders.products': 1, _id: 0 } }
+        { $project: { 'orders.products': 1, _id: 0 } },
 
-      ]).toArray()
-      let response = {}
-      let netRevenue = 0, totalQuantity = 0
-      for (let i of result) {
-        netRevenue += i.orders.products.price
-        totalQuantity += i.orders.products.quantity
+      ]).toArray();
+      const response = {};
+      let netRevenue = 0; let
+totalQuantity = 0;
+      for (const i of result) {
+        netRevenue += i.orders.products.price;
+        totalQuantity += i.orders.products.quantity;
       }
-      netRevenue = netRevenue * 0.9
-      response.netRevenue = netRevenue
-      response.totalQuantity = totalQuantity
-      await db.get().collection(collection.VENDOR_COLLECTION).updateOne({ _id: ObjectId(vendorId) }, { $set: { totalErnings: netRevenue } })
-      resolve(response)
-    })
-  },
-  redeemRequest: (vendorId, vendorName ,balance) => {
-    return new Promise(async (resolve) => {
-        let redeem = {
+      netRevenue *= 0.9;
+      response.netRevenue = netRevenue;
+      response.totalQuantity = totalQuantity;
+      await db.get().collection(collection.VENDOR_COLLECTION)
+      .updateOne({ _id: ObjectId(vendorId) }, { $set: { totalErnings: netRevenue } });
+      resolve(response);
+    }),
+  redeemRequest: (vendorId, vendorName, balance) => new Promise(async (resolve) => {
+        const redeem = {
             requestId: new ObjectId(),
-            requestTime:  (new Date()).toLocaleDateString('en-IN'),
+            requestTime: (new Date()).toLocaleDateString('en-IN'),
             vendorId: ObjectId(vendorId),
             amount: Number(balance),
-            vendorName: vendorName,
-            paymentStatus: false
-        }
+            vendorName,
+            paymentStatus: false,
+        };
         await db.get().collection(collection.ADMIN_COLLECTION).updateOne(
-            { role: "admin" },
-            { $push: { redeemRequests: redeem } }
-        )
+            { role: 'admin' },
+            { $push: { redeemRequests: redeem } },
+        );
         await db.get().collection(collection.VENDOR_COLLECTION).updateOne(
             { _id: ObjectId(vendorId) },
-            { $set: { redeemRequest: true } }
-        )
-        resolve()
-    })
-},
+            { $set: { redeemRequest: true } },
+        );
+        resolve();
+    }),
 
 };

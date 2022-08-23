@@ -1,12 +1,16 @@
+/* eslint-disable no-useless-concat */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-multi-spaces */
+/* eslint-disable no-underscore-dangle */
 const express = require('express');
-const { revenue } = require('../helpers/vendor-helpers');
 const vendorHelpers = require('../helpers/vendor-helpers');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
   if (req.session.vendor) {
-    res.redirect('/vendor/dashboard')
+    res.redirect('/vendor/dashboard');
   } else {
     res.render('vendor/login', { login: true });
   }
@@ -15,15 +19,16 @@ router.get('/dashboard', async (req, res) => {
   if (req.session.vendor) {
     const { vendor } = req.session;
     await vendorHelpers.revenue(vendor._id).then((income)  => {
+      // eslint-disable-next-line indent
        vendorHelpers.VendorProfileDetails(vendor._id).then((vendordetails) => {
-        income.balance = vendordetails.totalErnings - vendordetails.claimed
+        income.balance = vendordetails.totalErnings - vendordetails.claimed;
         res.render('vendor/dashboard', { vendor, income });
-      })
-    })
+      });
+    });
   } else {
     res.render('vendor/login', { login: true });
   }
-})
+});
 
 router.post('/login', (req, res) => {
   vendorHelpers.doLogin(req.body).then((response) => {
@@ -31,11 +36,11 @@ router.post('/login', (req, res) => {
       req.session.vendor = true;
       req.session.vendor = response.vendor;
 
-      if (req.session.vendor.isActive == true) {
+      if (req.session.vendor.isActive === true) {
         res.redirect('/vendor');
       } else {
         req.session.blockedd = true;
-        res.redirect('/vendor/login',);
+        res.redirect('/vendor/login');
       }
     } else {
       req.session.loginError = true;
@@ -63,17 +68,16 @@ router.get('/signup', (req, res) => {
     res.redirect('/vendor');
   } else {
     res.render('vendor/signup', { alreadyexistv: req.session.alreadyexistv, login: true });
-    req.session.alreadyexistv = false
+    req.session.alreadyexistv = false;
   }
 });
 
 router.post('/signup', (req, res) => {
   vendorHelpers.doSignup(req.body).then(() => {
-    res.redirect('/vendor')
+    res.redirect('/vendor');
   }).catch(() => {
     req.session.alreadyexistv = true;
     res.redirect('/vendor/signup');
-
   });
 });
 
@@ -86,16 +90,15 @@ router.post('/signup', (req, res) => {
 // });
 router.post('/redeemRequest', (req, res) => {
   if (req.session.vendor) {
-    let vendor = req.session.vendor
-    let balance = req.body.balance
-    console.log(vendor);
+    const { vendor } = req.session;
+    const { balance } = req.body;
     vendorHelpers.redeemRequest(vendor._id, vendor.firstName, balance).then(() => {
-      res.json({ requested: true })
-    })
+      res.json({ requested: true });
+    });
   } else {
-    res.redirect('/vendor')
+    res.redirect('/vendor');
   }
-})
+});
 
 router.get('/addproducts', (req, res) => {
   if (req.session.vendor) {
@@ -216,30 +219,29 @@ router.post('/updateVendor', (req, res) => {
 });
 
 router.post('/shipProduct', (req, res) => {
-  let cartId = req.body.cartId
+  const { cartId } = req.body;
   vendorHelpers.changeShippingStatus(cartId).then(() => {
-    res.json({ shipped: true })
+    res.json({ shipped: true });
   });
-})
+});
 router.post('/deliverProduct', (req, res) => {
-  const cartId = req.body.cartId;
+  const { cartId } = req.body;
   vendorHelpers.changeDeliveredStatus(cartId).then(() => {
-    res.json({ deliver: true })
+    res.json({ deliver: true });
   });
 });
 
 router.get('/amount/redeem/:id', (req, res) => {
   if (req.session.vendor) {
-    let vendor = req.session.vendor
-    let balance = req.params.id
+    const { vendor } = req.session;
+    const balance = req.params.id;
     vendorHelpers.redeemRequest(vendor._id, vendor.firstName, balance).then(() => {
-      res.redirect('/vendor/dashboard')
-    })
+      res.redirect('/vendor/dashboard');
+    });
   } else {
-    res.redirect('/vendor')
+    res.redirect('/vendor');
   }
-
-})
+});
 
 router.get('/logout', (req, res) => {
   req.session.vendor = false;

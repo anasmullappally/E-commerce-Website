@@ -10,10 +10,9 @@ const vendorHelpers = require('../helpers/vendor-helpers');
 router.get('/', (req, res) => {
   if (req.session.admin) {
     const { admin } = req.session;
-    adminHelpers.totalRevenue().then((income)=>{
-      res.render('admin/dashboard', { admin ,income});
-    })
-    
+    adminHelpers.totalRevenue().then((income) => {
+      res.render('admin/dashboard', { admin, income });
+    });
   } else {
     res.render('admin/login', { login: true });
   }
@@ -23,7 +22,7 @@ router.post('/login', (req, res) => {
   adminHelper.doLogin(req.body).then((response) => {
     if (response.status) {
       req.session.admin = true;
-      res.redirect('/admin')
+      res.redirect('/admin');
     } else {
       req.session.loginerror = true;
       res.redirect('/admin');
@@ -104,40 +103,37 @@ router.get('/orders', (req, res) => {
 router.get('/viewProduct/:id', (req, res) => {
   if (req.session.admin) {
     vendorHelpers.getProductDetails(req.params.id).then((product) => {
-      res.render('admin/viewProduct', { admin: req.session.admin, product })
-    })
+      res.render('admin/viewProduct', { admin: req.session.admin, product });
+    });
   } else {
-    res.redirect('/admin')
+    res.redirect('/admin');
   }
-})
+});
 router.get('/redeems', (req, res) => {
   if (req.session.admin) {
-    let admin=req.session.admin
+    const { admin } = req.session;
     adminHelper.redeemRequests().then((response) => {
-      res.render('admin/redeems', { admin, redeemRequests: response.redeemRequests, count: response.count })
-    })
+      res.render('admin/redeems', { admin, redeemRequests: response.redeemRequests, count: response.count });
+    });
   } else {
-    res.redirect('/admin')
+    res.redirect('/admin');
   }
-
-})
-router.get('/vendor/payment/',(req,res)=>{
-  adminHelper.vendorPayment(req.query.id, req.query.amount, req.query.requestId).then(()=>{
-    res.redirect('/admin/redeems')
-  })
-
-})
-router.get('/vendor/view/:id',(req,res)=>{
-  if(req.session.admin){
-    let admin=req.session.admin
-    adminHelper.viewVendor(req.params.id).then((vendorDetails)=>{
-      res.render('admin/vendordetails',{admin,vendorDetails})
-    })
-  }else{
-    res.redirect('/admin')
+});
+router.get('/vendor/payment/', (req, res) => {
+  adminHelper.vendorPayment(req.query.id, req.query.amount, req.query.requestId).then(() => {
+    res.redirect('/admin/redeems');
+  });
+});
+router.get('/vendor/view/:id', (req, res) => {
+  if (req.session.admin) {
+    const { admin } = req.session;
+    adminHelper.viewVendor(req.params.id).then((vendorDetails) => {
+      res.render('admin/vendordetails', { admin, vendorDetails });
+    });
+  } else {
+    res.redirect('/admin');
   }
-  
-})
+});
 
 router.get('/logout', (req, res) => {
   req.session.admin = false;

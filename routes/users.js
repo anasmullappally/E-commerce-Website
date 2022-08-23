@@ -1,26 +1,32 @@
-const express = require('express')
-const { redirect } = require('express/lib/response')
-const userHelpers = require('../helpers/user-helpers')
-const cartHelpers = require('../helpers/cart-helpers')
-const orderhelpers = require('../helpers/order-helpers')
-const otpHelpers = require('../helpers/otp-Helpers')
+/* eslint-disable space-infix-ops */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable radix */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable camelcase */
+/* eslint-disable no-underscore-dangle */
+const express = require('express');
+const { redirect } = require('express/lib/response');
+const userHelpers = require('../helpers/user-helpers');
+const cartHelpers = require('../helpers/cart-helpers');
+const orderhelpers = require('../helpers/order-helpers');
+const otpHelpers = require('../helpers/otp-Helpers');
 
-const router = express.Router()
+const router = express.Router();
 
 let cartTotal; let orderid; let device; let
-  filteredProduct; let searchkey
+  filteredProduct; let searchkey;
 
-/* GET users listing. */
 router.get('/', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
 
     cartHelpers.getCartCount(user._id).then((count) => {
-      req.session.user.cartCount = count
+      req.session.user.cartCount = count;
     });
-    res.render('user/home', { user })
+    res.render('user/home', { user });
   } else {
-    res.render('user/home')
+    res.render('user/home');
   }
 });
 
@@ -38,28 +44,28 @@ router.get('/login', (req, res) => {
       res.redirect('/');
     } else {
       res.render('user/login', { blockedUser: req.session.blocked });
-      req.session.blocked = false
+      req.session.blocked = false;
     }
   } else {
     res.render('user/login', { loginErr: req.session.loginErr });
-    req.session.loginErr = false
+    req.session.loginErr = false;
   }
 });
 
 router.post('/login', (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.user = true
-      req.session.user = response.user
-      if (req.session.user.isActive == true) {
+      req.session.user = true;
+      req.session.user = response.user;
+      if (req.session.user.isActive === true) {
         res.redirect('/');
       } else {
-        req.session.blocked = true
-        res.redirect('/login')
+        req.session.blocked = true;
+        res.redirect('/login');
       }
     } else {
-      req.session.loginErr = true
-      res.redirect('/login')
+      req.session.loginErr = true;
+      res.redirect('/login');
     }
   });
 });
@@ -68,7 +74,9 @@ router.get('/signup', (req, res) => {
   if (req.session.user) {
     res.redirect('/');
   } else {
-    res.render('user/signup', { alreadyexist: req.session.alreadyexist });
+    res.render('user/signup', { alreadyexist: req.session.alreadyexist, otp: req.session.otpValid });
+    req.session.alreadyexist=false;
+    req.session.otpValid=false;
   }
 });
 
@@ -81,44 +89,49 @@ router.get('/signup', (req, res) => {
 //   });
 // });
 router.post('/signup', (req, res) => {
- 
-  const { email, pNumber } = req.body
-  req.session.number = pNumber
-  req.session.email = email
-  req.session.whole = req.body
-  otpHelpers.make(pNumber).then((verification) => (verification))
-  res.render('user/otpVarification', { whole: req.session.whole  })
-})
+  const { email, pNumber } = req.body;
+  req.session.number = pNumber;
+  req.session.email = email;
+  req.session.whole = req.body;
+  userHelpers.userCheck(req.body).then(() => {
+    res.render('user/otpVerification', { whole: req.session.whole, login: true });
+    otpHelpers.make(pNumber).then((verification) => (verification));
+  }).catch(() => {
+    req.session.alreadyexist = true;
+    res.redirect('/signup');
+  });
+});
 router.post('/verify', (req, res) => {
-  let { otp } = req.body
-  otp = otp.join("")
-  const phone_number = req.session.number
+  let { otp } = req.body;
+  otp = otp.join('');
+  const phone_number = req.session.number;
   otpHelpers.verifyOtp(otp, phone_number).then((verifcation_check) => {
-    if (verifcation_check.status == "approved") {
-      req.session.checkstatus = true
-      userHelpers.doSignup(req.session.whole).then((response) => {
-        res.redirect('/login')
+    if (verifcation_check.status === 'approved') {
+      req.session.checkstatus = true;
+      userHelpers.doSignup(req.session.whole).then(() => {
+        res.redirect('/login');
       }).catch(() => {
-        req.session.alreadyexist = true
-        res.redirect('/signup')
-      })
+        req.session.alreadyexist = true;
+        res.redirect('/signup');
+      });
     } else {
-      // console.log('not approved');
-      res.redirect('/signup')
-
+      req.session.otpValid=true;
+      res.redirect('/signup');
     }
-  })
-})
+  });
+});
 
 router.get('/shop', (req, res) => {
   if (req.session.user) {
-    user = req.session.user;
+    const user = req.session.user;
     userHelpers.getAllBrands(device).then((brands) => {
-      res.render('user/shop', { products: filteredProduct, brands, device, user })
+      res.render('user/shop', {
+        products: filteredProduct, brands, device, user,
+      });
     });
   } else {
     userHelpers.getAllBrands(device).then((brands) => {
-      res.render('user/shop', { products: filteredProduct, brands, device })
+      res.render('user/shop', { products: filteredProduct, brands, device });
     });
   }
 });
@@ -128,7 +141,7 @@ router.get('/shop/:device', (req, res) => {
   // const { user } = req.session;
   userHelpers.viewAllProducts(device).then((response) => {
     filteredProduct = response;
-    res.redirect('/shop')
+    res.redirect('/shop');
   });
   // } else {
   //   userHelpers.viewAllProducts(device).then((response) => {
@@ -147,11 +160,11 @@ router.get('/shop/view/:id', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
     userHelpers.viewSingleProduct(req.params.id).then((product) => {
-      res.render('user/singProductView', { product, user })
+      res.render('user/singProductView', { product, user });
     });
   } else {
     userHelpers.viewSingleProduct(req.params.id).then((product) => {
-      res.render('user/singProductView', { product })
+      res.render('user/singProductView', { product });
     });
   }
 });
@@ -161,13 +174,13 @@ router.post('/addtowishlist', (req, res) => {
     const { user } = req.session;
     userHelpers.addTowishlist(req.body, user._id).then((status) => {
       if (status) {
-        res.json({ added: true })
+        res.json({ added: true });
       } else {
-        res.json({ exist: true })
+        res.json({ exist: true });
       }
     });
   } else {
-    res.json({ login: true })
+    res.json({ login: true });
   }
 });
 
@@ -178,7 +191,7 @@ router.get('/wishlist', (req, res) => {
       res.render('user/wishlist', { user, wishlist });
     });
   } else {
-
+    res.redirect('/login');
   }
 });
 
@@ -243,7 +256,7 @@ router.post('/changeProductQuantity', (req, res) => {
 router.post('/deleteproduct', (req, res) => {
   if (req.session.user) {
     const { user } = req.session;
-    cartHelpers.deleteProduct(req.body).then((response) => {
+    cartHelpers.deleteProduct(req.body).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
         req.session.user.cartCount = count;
         res.json({ status: true });
@@ -268,7 +281,7 @@ router.post('/place-order', (req, res) => {
   const { user } = req.session;
   orderhelpers.placeOder(orderdetails, cartTotal, user).then((orderId) => {
     orderid = orderId;
-    if (orderdetails.paymentmethod == 'COD') {
+    if (orderdetails.paymentmethod === 'COD') {
       res.json({ codSuccess: true });
     } else {
       orderhelpers.generateRazorpay(orderId, cartTotal).then((response) => {
@@ -322,29 +335,29 @@ router.get('/profile', (req, res) => {
     const { user } = req.session;
     userHelpers.profileDetails(user._id).then((profile) => {
       res.render('user/profile', { profile, user });
-    })
+    });
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
-})
+});
 
 router.get('/contact', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
-    res.render('user/contact', { user })
+    const { user } = req.session;
+    res.render('user/contact', { user });
   } else {
-    res.render('user/contact')
+    res.render('user/contact');
   }
-})
+});
 
 router.get('/about', (req, res) => {
   if (req.session.user) {
-    const { user } = req.session
-    res.render('user/about', { user })
+    const { user } = req.session;
+    res.render('user/about', { user });
   } else {
-    res.render('user/about')
+    res.render('user/about');
   }
-})
+});
 
 router.post('/updateUser', (req, res) => {
   const data = {
@@ -352,112 +365,112 @@ router.post('/updateUser', (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     phoneNum: req.body.phoneNum,
-  }
-  const userId = req.session.user._id
+  };
+  const userId = req.session.user._id;
   userHelpers.updateProfile(data, userId).then(() => {
-    res.json({ status: true })
-  })
-})
+    res.json({ status: true });
+  });
+});
 
 router.post('/products/filter', (req, res) => {
-  const deatil = req.body
-  const price = parseInt(deatil.price)
-  const filter = []
+  const deatil = req.body;
+  const price = parseInt(deatil.price);
+  const filter = [];
   for (const i of deatil.brandName) {
-    filter.push({ 'products.brand': i })
+    filter.push({ 'products.brand': i });
   }
   userHelpers.filterProducts(filter, device, price).then((response) => {
-    filteredProduct = response
+    filteredProduct = response;
     // res.json({ status: true })
-    if (req.body.sort == 'Sort') {
-      res.json({ status: true })
+    if (req.body.sort === 'Sort') {
+      res.json({ status: true });
     }
-    if (req.body.sort == 'lh') {
-      filteredProduct.sort((a, b) => a.products.price - b.products.price)
-      res.json({ status: true })
+    if (req.body.sort === 'lh') {
+      filteredProduct.sort((a, b) => a.products.price - b.products.price);
+      res.json({ status: true });
     }
-    if (req.body.sort == 'hl') {
-      filteredProduct.sort((a, b) => b.products.price - a.products.price)
-      res.json({ status: true })
+    if (req.body.sort === 'hl') {
+      filteredProduct.sort((a, b) => b.products.price - a.products.price);
+      res.json({ status: true });
     }
-  })
-})
+  });
+});
 
 router.post('/cancelOrder', (req, res) => {
-  const data = req.body
+  const data = req.body;
   orderhelpers.cancelorder(data).then((response) => {
-
-    res.json(response)
+    res.json(response);
     // orderhelpers.changeProductQuntity(data).then(() => {
-    //     console.log(true) 
+    //     console.log(true)
     // })
-  })
-})
+  });
+});
 router.get('/searchResult', (req, res) => {
   if (req.session.user) {
-    let user = req.session.user
+    const { user } = req.session;
     userHelpers.getAllBrands1().then((brands) => {
-      res.render('user/searchResult', { products: filteredProduct, brands, device, user })
-    })
+      res.render('user/searchResult', {
+        products: filteredProduct, brands, device, user,
+      });
+    });
   } else {
     userHelpers.getAllBrands1().then((brands) => {
-      res.render('user/searchResult', { products: filteredProduct, brands, device })
-    })
+      res.render('user/searchResult', { products: filteredProduct, brands, device });
+    });
   }
-
-})
+});
 router.post('/searchproducts', (req, res) => {
   if (req.body.search) {
-    searchkey = req.body.search
+    searchkey = req.body.search;
     userHelpers.search(searchkey).then((searchResult) => {
-      filteredProduct = searchResult
-      res.redirect('/searchResult')
-    })
+      filteredProduct = searchResult;
+      res.redirect('/searchResult');
+    });
   } else {
-    const deatil = req.body
-    const price = parseInt(deatil.price)
-    const filter = []
+    const deatil = req.body;
+    const price = parseInt(deatil.price);
+    const filter = [];
     for (const i of deatil.brandName) {
-      filter.push({ 'products.brand': i })
+      filter.push({ 'products.brand': i });
     }
-    userHelpers.filterProducts(filter, gender, price, searchkey).then((response) => {
-      filteredProduct = response
-      if (req.body.sort == 'Sort') {
-        res.json({ status: true })
+    userHelpers.filterProducts(filter, price, searchkey).then((response) => {
+      filteredProduct = response;
+      if (req.body.sort === 'Sort') {
+        res.json({ status: true });
       }
-      if (req.body.sort == 'lh') {
-        filteredProduct.sort((a, b) => a.products.price - b.products.price)
-        res.json({ status: true })
+      if (req.body.sort === 'lh') {
+        filteredProduct.sort((a, b) => a.products.price - b.products.price);
+        res.json({ status: true });
       }
-      if (req.body.sort == 'hl') {
-        filteredProduct.sort((a, b) => b.products.price - a.products.price)
-        res.json({ status: true })
+      if (req.body.sort === 'hl') {
+        filteredProduct.sort((a, b) => b.products.price - a.products.price);
+        res.json({ status: true });
       }
-    })
+    });
   }
-})
+});
 
-router.post('/review/:id', (req, res) => {
-  // console.log(req.params.id) 
-  // console.log(req.body) 
-})
+// router.post('/review/:id', (req, res) => {
+// console.log(req.params.id)
+// console.log(req.body)
+// });
 router.post('/addtoCart', (req, res) => {
   if (req.session.user) {
-    let productId = req.body.productId
-    const { user } = req.session
+    const { productId } = req.body;
+    const { user } = req.session;
     cartHelpers.addToCart(productId, user._id).then(() => {
       cartHelpers.getCartCount(user._id).then((count) => {
-        req.session.user.cartCount = count
-        res.json({ status: true })
-      })
-    })
+        req.session.user.cartCount = count;
+        res.json({ status: true });
+      });
+    });
   } else {
-    res.json({ status: false })
+    res.json({ status: false });
   }
-})
+});
 router.get('/logout', (req, res) => {
-  req.session.user = false
-  res.redirect('/')
-})
+  req.session.user = false;
+  res.redirect('/');
+});
 
-module.exports = router 
+module.exports = router;

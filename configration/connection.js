@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable func-names */
 const mongoClient = require('mongodb').MongoClient;
 
 const state = {
